@@ -27,19 +27,30 @@ export default function Home() {
   return (
     <div dir={dir}>
       {/* Hero */}
-      <section className="relative min-h-screen flex items-center overflow-hidden">
+      <section className="relative min-h-screen flex items-center overflow-hidden -mt-20">
+        {/* Animated gradient background image */}
         <motion.div
           className="absolute inset-0"
           initial={{ scale: 1.08 }}
           animate={{ scale: 1 }}
           transition={{ duration: 1.6, ease: [0.22, 1, 0.36, 1] }}
         >
-          <img
-            src="https://media.base44.com/images/public/69c6e2cf0b61fa041c4eb06c/68693ae94_generated_41e4811d.png"
-            alt="Modern boardroom"
+          <motion.img
+            src="https://media.base44.com/images/public/69c6e2cf0b61fa041c4eb06c/ee93949df_Gemini_Generated_Image_ikoo9bikoo9bikoo.png"
+            alt="Hero background"
             className="w-full h-full object-cover"
+            animate={{
+              scale: [1, 1.04, 1.02, 1.05, 1],
+              x: [0, 8, -6, 4, 0],
+              y: [0, -6, 4, -3, 0],
+            }}
+            transition={{
+              duration: 18,
+              repeat: Infinity,
+              ease: "easeInOut",
+            }}
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-secondary/90 via-secondary/70 to-secondary/40" />
+          <div className="absolute inset-0 bg-secondary/30" />
         </motion.div>
         <div className="absolute bottom-10 left-1/2 -translate-x-1/2 z-10">
           <div className="w-px h-16 bg-gradient-to-b from-transparent to-white/30" />
