@@ -1,5 +1,7 @@
 import { Outlet, Link, useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import PageTransition from "./PageTransition";
 import { Menu, X } from "lucide-react";
 import LanguageSwitcher from "./LanguageSwitcher";
 import { useLanguage } from "../lib/useLanguage";
@@ -71,7 +73,10 @@ function Navbar() {
   );
 
   return (
-    <header
+    <motion.header
+      initial={{ y: -80, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
         scrolled
           ? "bg-secondary/95 backdrop-blur-xl border-b border-white/10 shadow-sm py-3"
@@ -87,15 +92,19 @@ function Navbar() {
         {/* Center: Nav links */}
         <nav className="flex items-center gap-6">
           {NAV_LINKS.map((link) => (
-            <Link
-              key={link.to}
-              to={link.to}
-              className={`text-sm font-medium transition-colors hover:text-primary whitespace-nowrap ${
-                location.pathname === link.to ? "text-primary" : "text-white/70"
-              }`}
-            >
-              {link.label}
-            </Link>
+            <motion.div key={link.to} whileHover={{ y: -1 }} whileTap={{ scale: 0.97 }}>
+              <Link
+                to={link.to}
+                className={`text-sm font-medium transition-colors hover:text-primary whitespace-nowrap relative group ${
+                  location.pathname === link.to ? "text-primary" : "text-white/70"
+                }`}
+              >
+                {link.label}
+                <span className={`absolute -bottom-0.5 left-0 h-px bg-primary transition-all duration-300 ${
+                  location.pathname === link.to ? "w-full" : "w-0 group-hover:w-full"
+                }`} />
+              </Link>
+            </motion.div>
           ))}
         </nav>
         {/* Right: Lang+Inquiry (EN) or Logo (AR) */}
@@ -147,7 +156,7 @@ function Navbar() {
           </div>
         </div>
       )}
-    </header>
+    </motion.header>
   );
 }
 
@@ -212,6 +221,7 @@ function Footer() {
 
 export default function Layout() {
   const { lang, isAr } = useLanguage();
+  const location = useLocation();
 
   useEffect(() => {
     document.documentElement.dir = isAr ? "rtl" : "ltr";
@@ -222,7 +232,17 @@ export default function Layout() {
     <div className="min-h-screen bg-background font-inter">
       <Navbar />
       <main>
-        <Outlet />
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={location.pathname}
+            initial={{ opacity: 0, y: 20, scale: 0.99 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: -12, scale: 1.01 }}
+            transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+          >
+            <Outlet />
+          </motion.div>
+        </AnimatePresence>
       </main>
       <Footer />
     </div>

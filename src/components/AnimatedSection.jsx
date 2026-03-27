@@ -1,32 +1,36 @@
-import { useEffect, useRef, useState } from "react";
+import { motion } from "framer-motion";
 
-export default function AnimatedSection({ children, className = "", delay = 0 }) {
-  const ref = useRef(null);
-  const [visible, setVisible] = useState(false);
+const directionVariants = {
+  up:    { hidden: { opacity: 0, y: 40 },    visible: { opacity: 1, y: 0 } },
+  down:  { hidden: { opacity: 0, y: -40 },   visible: { opacity: 1, y: 0 } },
+  left:  { hidden: { opacity: 0, x: -50 },   visible: { opacity: 1, x: 0 } },
+  right: { hidden: { opacity: 0, x: 50 },    visible: { opacity: 1, x: 0 } },
+  scale: { hidden: { opacity: 0, scale: 0.88 }, visible: { opacity: 1, scale: 1 } },
+  fade:  { hidden: { opacity: 0 },           visible: { opacity: 1 } },
+};
 
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setTimeout(() => setVisible(true), delay);
-          observer.unobserve(entry.target);
-        }
-      },
-      { threshold: 0.1 }
-    );
-    if (ref.current) observer.observe(ref.current);
-    return () => observer.disconnect();
-  }, [delay]);
+export default function AnimatedSection({
+  children,
+  className = "",
+  delay = 0,
+  direction = "up",
+}) {
+  const variant = directionVariants[direction] || directionVariants.up;
 
   return (
-    <div
-      ref={ref}
-      className={`transition-all duration-[800ms] ${
-        visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-5"
-      } ${className}`}
-      style={{ transitionTimingFunction: "cubic-bezier(0.16, 1, 0.3, 1)" }}
+    <motion.div
+      className={className}
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, margin: "-60px" }}
+      variants={variant}
+      transition={{
+        duration: 0.75,
+        delay: delay / 1000,
+        ease: [0.16, 1, 0.3, 1],
+      }}
     >
       {children}
-    </div>
+    </motion.div>
   );
 }

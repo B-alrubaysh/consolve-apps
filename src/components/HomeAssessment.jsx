@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import AssessmentStep1 from "./assessment/AssessmentStep1";
 import AssessmentStep2 from "./assessment/AssessmentStep2";
 import AssessmentStep3 from "./assessment/AssessmentStep3";
@@ -53,30 +54,54 @@ export default function HomeAssessment() {
         </AnimatedSection>
 
         {/* Steps */}
-        <div className="transition-all duration-300">
+        <AnimatePresence mode="wait">
           {step === 1 && (
-            <AssessmentStep1
-              lang={lang}
-              onNext={(info) => { setClientInfo(info); setStep(2); }}
-            />
+            <motion.div
+              key="step1"
+              initial={{ opacity: 0, x: -40 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: 40 }}
+              transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+            >
+              <AssessmentStep1
+                lang={lang}
+                onNext={(info) => { setClientInfo(info); setStep(2); }}
+              />
+            </motion.div>
           )}
           {step === 2 && (
-            <AssessmentStep2
-              lang={lang}
-              clientInfo={clientInfo}
-              onNext={(ans) => { setAnswers(ans); setStep(3); }}
-              onBack={() => setStep(1)}
-            />
+            <motion.div
+              key="step2"
+              initial={{ opacity: 0, x: 40 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -40 }}
+              transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+            >
+              <AssessmentStep2
+                lang={lang}
+                clientInfo={clientInfo}
+                onNext={(ans) => { setAnswers(ans); setStep(3); }}
+                onBack={() => setStep(1)}
+              />
+            </motion.div>
           )}
           {step === 3 && (
-            <AssessmentStep3
-              lang={lang}
-              clientInfo={clientInfo}
-              answers={answers}
-              onBack={() => setStep(2)}
-            />
+            <motion.div
+              key="step3"
+              initial={{ opacity: 0, scale: 0.96, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 1.02 }}
+              transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+            >
+              <AssessmentStep3
+                lang={lang}
+                clientInfo={clientInfo}
+                answers={answers}
+                onBack={() => setStep(2)}
+              />
+            </motion.div>
           )}
-        </div>
+        </AnimatePresence>
       </div>
     </section>
   );

@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { ArrowRight, Shield, Brain, Lock, BarChart3 } from "lucide-react";
+import { motion } from "framer-motion";
 import AnimatedSection from "../components/AnimatedSection";
 import HomeAssessment from "../components/HomeAssessment";
 import { useLanguage } from "../lib/useLanguage";
@@ -27,40 +28,19 @@ export default function Home() {
     <div dir={dir}>
       {/* Hero */}
       <section className="relative min-h-screen flex items-center overflow-hidden">
-        <div className="absolute inset-0">
+        <motion.div
+          className="absolute inset-0"
+          initial={{ scale: 1.08 }}
+          animate={{ scale: 1 }}
+          transition={{ duration: 1.6, ease: [0.22, 1, 0.36, 1] }}
+        >
           <img
             src="https://media.base44.com/images/public/69c6e2cf0b61fa041c4eb06c/68693ae94_generated_41e4811d.png"
             alt="Modern boardroom"
             className="w-full h-full object-cover"
           />
           <div className="absolute inset-0 bg-gradient-to-r from-secondary/90 via-secondary/70 to-secondary/40" />
-        </div>
-        <div className="relative z-10 max-w-7xl mx-auto px-6 py-32 md:py-0">
-          <div className="max-w-2xl">
-            <AnimatedSection>
-              <p className="text-primary font-semibold text-sm uppercase tracking-[0.2em] mb-6">{tx.home_label}</p>
-            </AnimatedSection>
-            <AnimatedSection delay={100}>
-              <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white leading-[1.1] tracking-tight mb-6">
-                {tx.home_h1}
-              </h1>
-            </AnimatedSection>
-            <AnimatedSection delay={200}>
-              <p className="text-lg text-white/60 leading-relaxed mb-10 max-w-xl">{tx.home_sub}</p>
-            </AnimatedSection>
-            <AnimatedSection delay={300}>
-              <div className="flex flex-col sm:flex-row gap-4">
-                <Link to="/assessment" className="inline-flex items-center justify-center gap-2 bg-primary text-primary-foreground px-8 py-4 rounded-full font-semibold text-sm hover:opacity-90 transition-opacity">
-                  {tx.home_cta1}
-                  <ArrowRight className="w-4 h-4" />
-                </Link>
-                <Link to="/services" className="inline-flex items-center justify-center gap-2 border border-white/20 text-white px-8 py-4 rounded-full font-semibold text-sm hover:bg-white/10 transition-colors">
-                  {tx.home_cta2}
-                </Link>
-              </div>
-            </AnimatedSection>
-          </div>
-        </div>
+        </motion.div>
         <div className="absolute bottom-10 left-1/2 -translate-x-1/2 z-10">
           <div className="w-px h-16 bg-gradient-to-b from-transparent to-white/30" />
         </div>
@@ -80,13 +60,17 @@ export default function Home() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {WHY_ITEMS.map((item, i) => (
               <AnimatedSection key={i} delay={i * 100}>
-                <div className="group p-8 rounded-2xl border border-border bg-card hover:border-primary/30 hover:shadow-lg transition-all duration-500">
+                <motion.div
+                  whileHover={{ y: -6, boxShadow: "0 20px 40px rgba(0,0,0,0.12)" }}
+                  transition={{ duration: 0.3 }}
+                  className="group p-8 rounded-2xl border border-border bg-card hover:border-primary/30 transition-colors duration-300 cursor-default"
+                >
                   <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-6 group-hover:bg-primary/20 transition-colors">
                     <item.icon className="w-6 h-6 text-primary" />
                   </div>
                   <h3 className="text-lg font-semibold text-foreground mb-2">{item.title}</h3>
                   <p className="text-sm text-muted-foreground leading-relaxed">{item.desc}</p>
-                </div>
+                </motion.div>
               </AnimatedSection>
             ))}
           </div>
