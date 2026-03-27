@@ -9,7 +9,7 @@ function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const location = useLocation();
-  const { lang, dir } = useLanguage();
+  const { lang, dir, isAr } = useLanguage();
   const tx = t[lang];
 
   const NAV_LINKS = [
@@ -28,6 +28,48 @@ function Navbar() {
 
   useEffect(() => setMobileOpen(false), [location]);
 
+  const [quickQuery, setQuickQuery] = useState("");
+  const [querySent, setQuerySent] = useState(false);
+
+  const handleQuery = (e) => {
+    e.preventDefault();
+    if (!quickQuery.trim()) return;
+    setQuerySent(true);
+    setQuickQuery("");
+    setTimeout(() => setQuerySent(false), 3000);
+  };
+
+  const InquiryField = () => (
+    <form onSubmit={handleQuery} className="flex items-center">
+      <div className="flex items-center bg-white/10 border border-white/15 rounded-full overflow-hidden hover:bg-white/15 transition-colors">
+        <input
+          value={quickQuery}
+          onChange={(e) => setQuickQuery(e.target.value)}
+          placeholder={querySent ? (lang === "ar" ? "تم الإرسال ✓" : "Sent ✓") : (lang === "ar" ? "لديك استفسار…" : "Ask a Question…")}
+          className="bg-transparent text-white/80 placeholder:text-white/40 text-xs px-4 py-2 w-36 md:w-44 outline-none"
+        />
+        <button type="submit" className="px-3 py-2 text-white/50 hover:text-primary transition-colors">
+          <svg xmlns="http://www.w3.org/2000/svg" className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M22 2L11 13M22 2L15 22l-4-9-9-4 20-7z" />
+          </svg>
+        </button>
+      </div>
+    </form>
+  );
+
+  const LogoEl = () => (
+    <Link to="/" className="flex items-center shrink-0">
+      <img src="https://media.base44.com/images/public/69c6e2cf0b61fa041c4eb06c/a90b3e265_image.png" alt="Consolve" className="h-9 w-auto" style={{mixBlendMode: 'screen'}} />
+    </Link>
+  );
+
+  const RightSide = () => (
+    <div className="flex items-center gap-3 shrink-0">
+      <LanguageSwitcher variant="dark" />
+      <InquiryField />
+    </div>
+  );
+
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
@@ -36,60 +78,73 @@ function Navbar() {
           : "bg-transparent py-5"
       }`}
     >
-      <div className="max-w-7xl mx-auto px-6 flex items-center justify-between" dir={dir}>
-        <Link to="/" className="flex items-center">
-          <img src="https://media.base44.com/images/public/69c6e2cf0b61fa041c4eb06c/a90b3e265_image.png" alt="Consolve" className="h-9 w-auto" style={{mixBlendMode: 'screen'}} />
-        </Link>
-
-        <nav className="hidden md:flex items-center gap-6">
+      {/* Desktop */}
+      <div className="hidden md:grid max-w-7xl mx-auto px-6" style={{gridTemplateColumns: '1fr auto 1fr'}}>
+        {/* Left: Logo (EN) or Lang+Inquiry (AR) */}
+        <div className="flex items-center">
+          {isAr ? <RightSide /> : <LogoEl />}
+        </div>
+        {/* Center: Nav links */}
+        <nav className="flex items-center gap-6">
           {NAV_LINKS.map((link) => (
             <Link
               key={link.to}
               to={link.to}
-              className={`text-sm font-medium transition-colors hover:text-primary ${
+              className={`text-sm font-medium transition-colors hover:text-primary whitespace-nowrap ${
                 location.pathname === link.to ? "text-primary" : "text-white/70"
               }`}
             >
               {link.label}
             </Link>
           ))}
-          <LanguageSwitcher variant="dark" />
-          <Link
-            to="/assessment"
-            className="bg-primary text-primary-foreground px-5 py-2.5 rounded-full text-sm font-semibold hover:opacity-90 transition-opacity"
-          >
-            {tx.nav_cta}
-          </Link>
         </nav>
-
-        <div className="flex items-center gap-3 md:hidden">
-          <LanguageSwitcher />
-          <button onClick={() => setMobileOpen(!mobileOpen)} className="text-secondary">
-            {mobileOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-          </button>
+        {/* Right: Lang+Inquiry (EN) or Logo (AR) */}
+        <div className="flex items-center justify-end">
+          {isAr ? <LogoEl /> : <RightSide />}
         </div>
       </div>
 
+      {/* Mobile */}
+      <div className="flex md:hidden items-center justify-between max-w-7xl mx-auto px-6">
+        {isAr ? <RightSide /> : <LogoEl />}
+        <div className="flex items-center gap-3">
+          <LanguageSwitcher variant="dark" />
+          <button onClick={() => setMobileOpen(!mobileOpen)} className="text-white">
+            {mobileOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+          </button>
+        </div>
+        {isAr ? <LogoEl /> : null}
+      </div>
+
       {mobileOpen && (
-        <div className="md:hidden bg-white/95 backdrop-blur-xl border-t border-border">
+        <div className="md:hidden bg-secondary/98 backdrop-blur-xl border-t border-white/10">
           <div className="px-6 py-6 flex flex-col gap-4" dir={dir}>
             {NAV_LINKS.map((link) => (
               <Link
                 key={link.to}
                 to={link.to}
                 className={`text-base font-medium ${
-                  location.pathname === link.to ? "text-primary" : "text-muted-foreground"
+                  location.pathname === link.to ? "text-primary" : "text-white/70"
                 }`}
               >
                 {link.label}
               </Link>
             ))}
-            <Link
-              to="/assessment"
-              className="bg-primary text-primary-foreground px-5 py-3 rounded-full text-sm font-semibold text-center mt-2"
-            >
-              {tx.nav_cta}
-            </Link>
+            <form onSubmit={handleQuery} className="flex items-center mt-2">
+              <div className="flex items-center bg-white/10 border border-white/15 rounded-full overflow-hidden w-full">
+                <input
+                  value={quickQuery}
+                  onChange={(e) => setQuickQuery(e.target.value)}
+                  placeholder={lang === "ar" ? "لديك استفسار…" : "Ask a Question…"}
+                  className="bg-transparent text-white/80 placeholder:text-white/40 text-sm px-4 py-2.5 flex-1 outline-none"
+                />
+                <button type="submit" className="px-4 py-2.5 text-white/50 hover:text-primary transition-colors">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M22 2L11 13M22 2L15 22l-4-9-9-4 20-7z" />
+                  </svg>
+                </button>
+              </div>
+            </form>
           </div>
         </div>
       )}
