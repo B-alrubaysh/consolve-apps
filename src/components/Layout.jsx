@@ -1,6 +1,7 @@
 import { Outlet, Link, useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { Menu, X } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 import LanguageSwitcher from "./LanguageSwitcher";
 import { useLanguage } from "../lib/useLanguage";
 import t from "../lib/translations";
@@ -13,11 +14,11 @@ function Navbar() {
   const tx = t[lang];
 
   const NAV_LINKS = [
-    { to: "/", label: tx.nav_home },
-    { to: "/about", label: tx.nav_about },
-    { to: "/services", label: tx.nav_services },
-    { to: "/clients", label: tx.nav_clients },
-    { to: "/contact", label: tx.nav_contact },
+    { to: "/", label: tx.nav_home, emoji: "🏠" },
+    { to: "/about", label: tx.nav_about, emoji: "👥" },
+    { to: "/services", label: tx.nav_services, emoji: "🛠️" },
+    { to: "/clients", label: tx.nav_clients, emoji: "💼" },
+    { to: "/contact", label: tx.nav_contact, emoji: "📞" },
   ];
 
   useEffect(() => {
@@ -90,10 +91,11 @@ function Navbar() {
             <Link
               key={link.to}
               to={link.to}
-              className={`text-sm font-medium transition-colors hover:text-primary whitespace-nowrap ${
+              className={`text-sm font-medium transition-all hover:text-primary hover:scale-105 whitespace-nowrap flex items-center gap-1.5 ${
                 location.pathname === link.to ? "text-primary" : "text-white/70"
               }`}
             >
+              <span className="text-base leading-none">{link.emoji}</span>
               {link.label}
             </Link>
           ))}
@@ -123,10 +125,11 @@ function Navbar() {
               <Link
                 key={link.to}
                 to={link.to}
-                className={`text-base font-medium ${
+                className={`text-base font-medium flex items-center gap-2 ${
                   location.pathname === link.to ? "text-primary" : "text-white/70"
                 }`}
               >
+                <span>{link.emoji}</span>
                 {link.label}
               </Link>
             ))}
@@ -211,8 +214,15 @@ function Footer() {
   );
 }
 
+const pageVariants = {
+  initial: { opacity: 0, y: 16 },
+  animate: { opacity: 1, y: 0, transition: { duration: 0.35, ease: [0.16, 1, 0.3, 1] } },
+  exit: { opacity: 0, y: -8, transition: { duration: 0.2 } },
+};
+
 export default function Layout() {
   const { lang, isAr } = useLanguage();
+  const location = useLocation();
 
   useEffect(() => {
     document.documentElement.dir = isAr ? "rtl" : "ltr";
@@ -223,7 +233,17 @@ export default function Layout() {
     <div className="min-h-screen bg-background font-inter">
       <Navbar />
       <main>
-        <Outlet />
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={location.pathname}
+            variants={pageVariants}
+            initial="initial"
+            animate="animate"
+            exit="exit"
+          >
+            <Outlet />
+          </motion.div>
+        </AnimatePresence>
       </main>
       <Footer />
     </div>
