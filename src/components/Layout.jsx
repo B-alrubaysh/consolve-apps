@@ -15,12 +15,12 @@ function Navbar() {
   const tx = t[lang];
 
   const NAV_LINKS = [
-    { to: "/", label: tx.nav_home },
-    { to: "/about", label: tx.nav_about },
-    { to: "/services", label: tx.nav_services },
-    { to: "/clients", label: tx.nav_clients },
-    { to: "/contact", label: tx.nav_contact },
-  ];
+  { to: "/", label: tx.nav_home },
+  { to: "/about", label: tx.nav_about },
+  { to: "/services", label: tx.nav_services },
+  { to: "/clients", label: tx.nav_clients },
+  { to: "/contact", label: tx.nav_contact }];
+
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
@@ -39,42 +39,42 @@ function Navbar() {
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
         className={`w-full max-w-6xl transition-all duration-500 rounded-[14px] ${
-          scrolled
-            ? "bg-secondary/95 backdrop-blur-xl shadow-lg border border-white/10 py-3"
-            : "bg-secondary/80 backdrop-blur-md shadow-md border border-white/10 py-3"
-        }`}
-      >
+        scrolled ?
+        "bg-secondary/95 backdrop-blur-xl shadow-lg border border-white/10 py-3" :
+        "bg-secondary/80 backdrop-blur-md shadow-md border border-white/10 py-3"}`
+        }>
+        
         {/* Desktop */}
         <div className="hidden md:grid px-6" style={{ gridTemplateColumns: '1fr auto 1fr' }}>
           {/* Left: Logo */}
           <div className="flex items-center">
             <Link to="/" className="flex items-center shrink-0">
-              <img
-                src="https://media.base44.com/images/public/69c6e2cf0b61fa041c4eb06c/a90b3e265_image.png"
-                alt="Consolve"
-                className="h-8 w-auto"
-                style={{ mixBlendMode: 'screen' }}
-              />
+              <img src="https://media.base44.com/images/public/69c6e2cf0b61fa041c4eb06c/4ce61e340_Untitled_design__2_.png"
+
+              alt="Consolve" className="h-8 w-auto"
+
+              style={{ mixBlendMode: 'screen' }} />
+              
             </Link>
           </div>
 
           {/* Center: Nav links */}
           <nav className="flex items-center gap-6" dir={dir}>
-            {NAV_LINKS.map((link) => (
-              <motion.div key={link.to} whileHover={{ y: -1 }} whileTap={{ scale: 0.97 }}>
+            {NAV_LINKS.map((link) =>
+            <motion.div key={link.to} whileHover={{ y: -1 }} whileTap={{ scale: 0.97 }}>
                 <Link
-                  to={link.to}
-                  className={`text-sm font-medium transition-colors hover:text-primary whitespace-nowrap relative group ${
-                    location.pathname === link.to ? "text-primary" : "text-white/70"
-                  }`}
-                >
+                to={link.to}
+                className={`text-sm font-medium transition-colors hover:text-primary whitespace-nowrap relative group ${
+                location.pathname === link.to ? "text-primary" : "text-white/70"}`
+                }>
+                
                   {link.label}
                   <span className={`absolute -bottom-0.5 left-0 h-px bg-primary transition-all duration-300 ${
-                    location.pathname === link.to ? "w-full" : "w-0 group-hover:w-full"
-                  }`} />
+                location.pathname === link.to ? "w-full" : "w-0 group-hover:w-full"}`
+                } />
                 </Link>
               </motion.div>
-            ))}
+            )}
           </nav>
 
           {/* Right: Language + CTA */}
@@ -82,8 +82,8 @@ function Navbar() {
             <LanguageSwitcher variant="dark" />
             <Link
               to="/assessment"
-              className="inline-flex items-center gap-1.5 bg-primary text-primary-foreground text-xs font-semibold px-4 py-2 rounded-full hover:opacity-90 transition-opacity whitespace-nowrap"
-            >
+              className="inline-flex items-center gap-1.5 bg-primary text-primary-foreground text-xs font-semibold px-4 py-2 rounded-full hover:opacity-90 transition-opacity whitespace-nowrap">
+              
               {lang === "ar" ? "ابدأ التقييم" : "Start Assessment"}
             </Link>
           </div>
@@ -96,8 +96,8 @@ function Navbar() {
               src="https://media.base44.com/images/public/69c6e2cf0b61fa041c4eb06c/a90b3e265_image.png"
               alt="Consolve"
               className="h-8 w-auto"
-              style={{ mixBlendMode: 'screen' }}
-            />
+              style={{ mixBlendMode: 'screen' }} />
+            
           </Link>
           <div className="flex items-center gap-3">
             <LanguageSwitcher variant="dark" />
@@ -108,30 +108,30 @@ function Navbar() {
         </div>
 
         {/* Mobile menu */}
-        {mobileOpen && (
-          <div className="md:hidden border-t border-white/10 mt-3 px-5 py-4 flex flex-col gap-3" dir={dir}>
-            {NAV_LINKS.map((link) => (
-              <Link
-                key={link.to}
-                to={link.to}
-                className={`text-sm font-medium ${
-                  location.pathname === link.to ? "text-primary" : "text-white/70"
-                }`}
-              >
+        {mobileOpen &&
+        <div className="md:hidden border-t border-white/10 mt-3 px-5 py-4 flex flex-col gap-3" dir={dir}>
+            {NAV_LINKS.map((link) =>
+          <Link
+            key={link.to}
+            to={link.to}
+            className={`text-sm font-medium ${
+            location.pathname === link.to ? "text-primary" : "text-white/70"}`
+            }>
+            
                 {link.label}
               </Link>
-            ))}
+          )}
             <Link
-              to="/assessment"
-              className="inline-flex items-center justify-center bg-primary text-primary-foreground text-xs font-semibold px-4 py-2.5 rounded-full hover:opacity-90 transition-opacity mt-1"
-            >
+            to="/assessment"
+            className="inline-flex items-center justify-center bg-primary text-primary-foreground text-xs font-semibold px-4 py-2.5 rounded-full hover:opacity-90 transition-opacity mt-1">
+            
               {lang === "ar" ? "ابدأ التقييم" : "Start Assessment"}
             </Link>
           </div>
-        )}
+        }
       </motion.header>
-    </div>
-  );
+    </div>);
+
 }
 
 function Footer() {
