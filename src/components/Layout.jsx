@@ -108,7 +108,6 @@ function Navbar() {
       <div className="flex md:hidden items-center justify-between max-w-7xl mx-auto px-6">
         {isAr ? <RightSide /> : <LogoEl />}
         <div className="flex items-center gap-3">
-          <LanguageSwitcher variant="dark" />
           <button onClick={() => setMobileOpen(!mobileOpen)} className="text-white">
             {mobileOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
           </button>

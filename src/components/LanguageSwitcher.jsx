@@ -3,37 +3,20 @@ import { useLanguage } from "../lib/useLanguage";
 export default function LanguageSwitcher({ variant = "light" }) {
   const { lang, setLang } = useLanguage();
 
+  const next = lang === "en" ? "ar" : "en";
+  const label = lang === "en" ? "عر" : "EN";
+
   const base =
     variant === "dark"
-      ? "border-white/20 text-white/70 hover:border-white/50"
-      : "border-border text-muted-foreground hover:border-foreground";
+      ? "border-white/20 text-white/70 hover:border-white/50 hover:text-white"
+      : "border-border text-muted-foreground hover:border-foreground hover:text-foreground";
 
   return (
-    <div className={`flex items-center rounded-full border overflow-hidden text-xs font-semibold ${base}`}>
-      <button
-        onClick={() => setLang("en")}
-        className={`px-3 py-1.5 transition-colors ${
-          lang === "en"
-            ? variant === "dark"
-              ? "bg-primary text-white"
-              : "bg-primary text-white"
-            : "hover:bg-muted"
-        }`}
-      >
-        EN
-      </button>
-      <button
-        onClick={() => setLang("ar")}
-        className={`px-3 py-1.5 transition-colors ${
-          lang === "ar"
-            ? variant === "dark"
-              ? "bg-primary text-white"
-              : "bg-primary text-white"
-            : "hover:bg-muted"
-        }`}
-      >
-        عر
-      </button>
-    </div>
+    <button
+      onClick={() => setLang(next)}
+      className={`px-3 py-1.5 rounded-full border text-xs font-semibold transition-colors ${base}`}
+    >
+      {label}
+    </button>
   );
 }
