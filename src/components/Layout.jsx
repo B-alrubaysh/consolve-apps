@@ -37,12 +37,12 @@ function Navbar() {
       <motion.header
         initial={{ y: -80, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-        className={`w-full max-w-6xl transition-all duration-500 rounded-[14px] ${
-        scrolled ?
-        "bg-secondary/95 backdrop-blur-xl shadow-lg border border-white/10 py-3" :
-        "bg-secondary/80 backdrop-blur-md shadow-md border border-white/10 py-3"}`
-        }>
+        transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }} className="bg-secondary/80 py-3 opacity-75 rounded-[14px] w-full max-w-6xl transition-all duration-500 backdrop-blur-md shadow-md border border-white/10">
+
+
+
+
+        
         
         {/* Desktop */}
         <div className="hidden md:grid px-6" style={{ gridTemplateColumns: '1fr auto 1fr' }}>
