@@ -28,7 +28,9 @@ export default function SubmissionCard({ submission, onClick, onUpdateStatus }) 
             <span className={`text-xs font-medium px-2.5 py-1 rounded-full ${STATUS_COLORS[s.status] || STATUS_COLORS.New}`}>
               {s.status || "New"}
             </span>
-          </div>
+            {s.language === "ar" && (
+              <span className="text-xs font-medium px-2.5 py-1 rounded-full bg-purple-500/20 text-purple-400">عربي</span>
+            )}
           <div className="flex flex-wrap gap-4 text-xs text-white/40">
             <span>{s.contact_name}</span>
             <span>{s.industry}</span>

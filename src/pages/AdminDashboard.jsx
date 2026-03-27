@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { base44 } from "@/api/base44Client";
 import { Loader2, Search, FileText } from "lucide-react";
+import LanguageSwitcher from "../components/LanguageSwitcher";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
@@ -65,6 +66,7 @@ export default function AdminDashboard() {
             <h1 className="text-3xl font-bold text-white tracking-tight">Admin Dashboard</h1>
             <p className="text-white/40 text-sm mt-1">Manage assessment submissions</p>
           </div>
+          <LanguageSwitcher variant="dark" />
         </div>
 
         {/* Stats */}
