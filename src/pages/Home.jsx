@@ -51,6 +51,14 @@ export default function Home() {
             }}
           />
           <div className="absolute inset-0 bg-secondary/30" />
+          {/* Large logo watermark at bottom */}
+          <div className="absolute bottom-0 left-0 right-0 z-10">
+            <img
+              src="https://media.base44.com/images/public/69c6e2cf0b61fa041c4eb06c/887914dc3_Gemini_Generated_Image_u28zhnu28zhnu28z.png"
+              alt="Consolve"
+              className="w-full object-contain"
+            />
+          </div>
         </motion.div>
         <div className="absolute bottom-10 left-1/2 -translate-x-1/2 z-10">
           <div className="w-px h-16 bg-gradient-to-b from-transparent to-white/30" />
