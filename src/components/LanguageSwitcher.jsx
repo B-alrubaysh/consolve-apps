@@ -4,7 +4,7 @@ export default function LanguageSwitcher({ variant = "light" }) {
   const { lang, setLang } = useLanguage();
 
   const next = lang === "en" ? "ar" : "en";
-  const label = lang === "en" ? "عر" : "EN";
+  const label = lang === "en" ? "AR" : "EN";
 
   const base =
     variant === "dark"
