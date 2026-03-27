@@ -15,12 +15,12 @@ function Navbar() {
   const tx = t[lang];
 
   const NAV_LINKS = [
-    { to: "/", label: tx.nav_home },
-    { to: "/about", label: tx.nav_about },
-    { to: "/services", label: tx.nav_services },
-    { to: "/clients", label: tx.nav_clients },
-    { to: "/contact", label: tx.nav_contact },
-  ];
+  { to: "/", label: tx.nav_home },
+  { to: "/about", label: tx.nav_about },
+  { to: "/services", label: tx.nav_services },
+  { to: "/clients", label: tx.nav_clients },
+  { to: "/contact", label: tx.nav_contact }];
+
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40);
@@ -41,36 +41,36 @@ function Navbar() {
     setTimeout(() => setQuerySent(false), 3000);
   };
 
-  const InquiryField = () => (
-    <form onSubmit={handleQuery} className="flex items-center">
+  const InquiryField = () =>
+  <form onSubmit={handleQuery} className="flex items-center">
       <div className="flex items-center bg-white/10 border border-white/15 rounded-full overflow-hidden hover:bg-white/15 transition-colors">
         <input
-          value={quickQuery}
-          onChange={(e) => setQuickQuery(e.target.value)}
-          placeholder={querySent ? (lang === "ar" ? "تم الإرسال ✓" : "Sent ✓") : (lang === "ar" ? "لديك استفسار…" : "Ask a Question…")}
-          className="bg-transparent text-white/80 placeholder:text-white/40 text-xs px-4 py-2 w-36 md:w-44 outline-none"
-        />
+        value={quickQuery}
+        onChange={(e) => setQuickQuery(e.target.value)}
+        placeholder={querySent ? lang === "ar" ? "تم الإرسال ✓" : "Sent ✓" : lang === "ar" ? "لديك استفسار…" : "Ask a Question…"}
+        className="bg-transparent text-white/80 placeholder:text-white/40 text-xs px-4 py-2 w-36 md:w-44 outline-none" />
+      
         <button type="submit" className="px-3 py-2 text-white/50 hover:text-primary transition-colors">
           <svg xmlns="http://www.w3.org/2000/svg" className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M22 2L11 13M22 2L15 22l-4-9-9-4 20-7z" />
           </svg>
         </button>
       </div>
-    </form>
-  );
+    </form>;
 
-  const LogoEl = () => (
-    <Link to="/" className="flex items-center shrink-0">
-      <img src="https://media.base44.com/images/public/69c6e2cf0b61fa041c4eb06c/a90b3e265_image.png" alt="Consolve" className="h-9 w-auto" style={{mixBlendMode: 'screen'}} />
-    </Link>
-  );
 
-  const RightSide = () => (
-    <div className="flex items-center gap-3 shrink-0">
-      <LanguageSwitcher variant="dark" />
-      <InquiryField />
-    </div>
-  );
+  const LogoEl = () =>
+  <Link to="/" className="flex items-center shrink-0">
+      <img src="https://media.base44.com/images/public/69c6e2cf0b61fa041c4eb06c/a90b3e265_image.png" alt="Consolve" className="h-9 w-auto" style={{ mixBlendMode: 'screen' }} />
+    </Link>;
+
+
+  const RightSide = () => null;
+
+
+
+
+
 
   return (
     <motion.header
@@ -78,34 +78,34 @@ function Navbar() {
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-        scrolled
-          ? "bg-secondary/95 backdrop-blur-xl border-b border-white/10 shadow-sm py-3"
-          : "bg-transparent py-5"
-      }`}
-    >
+      scrolled ?
+      "bg-secondary/95 backdrop-blur-xl border-b border-white/10 shadow-sm py-3" :
+      "bg-transparent py-5"}`
+      }>
+      
       {/* Desktop */}
-      <div className="hidden md:grid max-w-7xl mx-auto px-6" style={{gridTemplateColumns: '1fr auto 1fr'}}>
+      <div className="hidden md:grid max-w-7xl mx-auto px-6" style={{ gridTemplateColumns: '1fr auto 1fr' }}>
         {/* Left: Logo (EN) or Lang+Inquiry (AR) */}
         <div className="flex items-center">
           {isAr ? <RightSide /> : <LogoEl />}
         </div>
         {/* Center: Nav links */}
         <nav className="flex items-center gap-6">
-          {NAV_LINKS.map((link) => (
-            <motion.div key={link.to} whileHover={{ y: -1 }} whileTap={{ scale: 0.97 }}>
+          {NAV_LINKS.map((link) =>
+          <motion.div key={link.to} whileHover={{ y: -1 }} whileTap={{ scale: 0.97 }}>
               <Link
-                to={link.to}
-                className={`text-sm font-medium transition-colors hover:text-primary whitespace-nowrap relative group ${
-                  location.pathname === link.to ? "text-primary" : "text-white/70"
-                }`}
-              >
+              to={link.to}
+              className={`text-sm font-medium transition-colors hover:text-primary whitespace-nowrap relative group ${
+              location.pathname === link.to ? "text-primary" : "text-white/70"}`
+              }>
+              
                 {link.label}
                 <span className={`absolute -bottom-0.5 left-0 h-px bg-primary transition-all duration-300 ${
-                  location.pathname === link.to ? "w-full" : "w-0 group-hover:w-full"
-                }`} />
+              location.pathname === link.to ? "w-full" : "w-0 group-hover:w-full"}`
+              } />
               </Link>
             </motion.div>
-          ))}
+          )}
         </nav>
         {/* Right: Lang+Inquiry (EN) or Logo (AR) */}
         <div className="flex items-center justify-end">
@@ -124,28 +124,28 @@ function Navbar() {
         {isAr ? <LogoEl /> : null}
       </div>
 
-      {mobileOpen && (
-        <div className="md:hidden bg-secondary/98 backdrop-blur-xl border-t border-white/10">
+      {mobileOpen &&
+      <div className="md:hidden bg-secondary/98 backdrop-blur-xl border-t border-white/10">
           <div className="px-6 py-6 flex flex-col gap-4" dir={dir}>
-            {NAV_LINKS.map((link) => (
-              <Link
-                key={link.to}
-                to={link.to}
-                className={`text-base font-medium ${
-                  location.pathname === link.to ? "text-primary" : "text-white/70"
-                }`}
-              >
+            {NAV_LINKS.map((link) =>
+          <Link
+            key={link.to}
+            to={link.to}
+            className={`text-base font-medium ${
+            location.pathname === link.to ? "text-primary" : "text-white/70"}`
+            }>
+            
                 {link.label}
               </Link>
-            ))}
+          )}
             <form onSubmit={handleQuery} className="flex items-center mt-2">
               <div className="flex items-center bg-white/10 border border-white/15 rounded-full overflow-hidden w-full">
                 <input
-                  value={quickQuery}
-                  onChange={(e) => setQuickQuery(e.target.value)}
-                  placeholder={lang === "ar" ? "لديك استفسار…" : "Ask a Question…"}
-                  className="bg-transparent text-white/80 placeholder:text-white/40 text-sm px-4 py-2.5 flex-1 outline-none"
-                />
+                value={quickQuery}
+                onChange={(e) => setQuickQuery(e.target.value)}
+                placeholder={lang === "ar" ? "لديك استفسار…" : "Ask a Question…"}
+                className="bg-transparent text-white/80 placeholder:text-white/40 text-sm px-4 py-2.5 flex-1 outline-none" />
+              
                 <button type="submit" className="px-4 py-2.5 text-white/50 hover:text-primary transition-colors">
                   <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M22 2L11 13M22 2L15 22l-4-9-9-4 20-7z" />
@@ -155,9 +155,9 @@ function Navbar() {
             </form>
           </div>
         </div>
-      )}
-    </motion.header>
-  );
+      }
+    </motion.header>);
+
 }
 
 function Footer() {
@@ -165,12 +165,12 @@ function Footer() {
   const tx = t[lang];
 
   const NAV_LINKS = [
-    { to: "/", label: tx.nav_home },
-    { to: "/about", label: tx.nav_about },
-    { to: "/services", label: tx.nav_services },
-    { to: "/clients", label: tx.nav_clients },
-    { to: "/contact", label: tx.nav_contact },
-  ];
+  { to: "/", label: tx.nav_home },
+  { to: "/about", label: tx.nav_about },
+  { to: "/services", label: tx.nav_services },
+  { to: "/clients", label: tx.nav_clients },
+  { to: "/contact", label: tx.nav_contact }];
+
 
   return (
     <footer className="bg-secondary text-secondary-foreground" dir={dir}>
@@ -178,7 +178,7 @@ function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
           <div className="md:col-span-2">
             <div className="mb-4">
-              <img src="https://media.base44.com/images/public/69c6e2cf0b61fa041c4eb06c/a90b3e265_image.png" alt="Consolve" className="h-9 w-auto" style={{mixBlendMode: 'screen'}} />
+              <img src="https://media.base44.com/images/public/69c6e2cf0b61fa041c4eb06c/a90b3e265_image.png" alt="Consolve" className="h-9 w-auto" style={{ mixBlendMode: 'screen' }} />
             </div>
             <p className="text-secondary-foreground/60 text-sm leading-relaxed max-w-sm">
               {tx.footer_tagline}
@@ -189,11 +189,11 @@ function Footer() {
               {tx.footer_navigate}
             </h4>
             <div className="flex flex-col gap-3">
-              {NAV_LINKS.map((link) => (
-                <Link key={link.to} to={link.to} className="text-sm text-secondary-foreground/60 hover:text-primary transition-colors">
+              {NAV_LINKS.map((link) =>
+              <Link key={link.to} to={link.to} className="text-sm text-secondary-foreground/60 hover:text-primary transition-colors">
                   {link.label}
                 </Link>
-              ))}
+              )}
             </div>
           </div>
           <div>
@@ -215,8 +215,8 @@ function Footer() {
         </div>
       </div>
 
-    </footer>
-  );
+    </footer>);
+
 }
 
 export default function Layout() {
@@ -238,13 +238,13 @@ export default function Layout() {
             initial={{ opacity: 0, y: 20, scale: 0.99 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -12, scale: 1.01 }}
-            transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-          >
+            transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}>
+            
             <Outlet />
           </motion.div>
         </AnimatePresence>
       </main>
       <Footer />
-    </div>
-  );
+    </div>);
+
 }
