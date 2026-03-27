@@ -1,7 +1,6 @@
 import { Outlet, Link, useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { Menu, X } from "lucide-react";
-import ConsolveIcon from "./ConsolveIcon";
 import LanguageSwitcher from "./LanguageSwitcher";
 import { useLanguage } from "../lib/useLanguage";
 import t from "../lib/translations";
@@ -38,11 +37,8 @@ function Navbar() {
       }`}
     >
       <div className="max-w-7xl mx-auto px-6 flex items-center justify-between" dir={dir}>
-        <Link to="/" className="flex items-center gap-2.5">
-          <ConsolveIcon className="w-8 h-8" color="hsl(190, 43%, 10%)" />
-          <span className="text-xl font-semibold tracking-tight text-secondary font-inter">
-            consolve
-          </span>
+        <Link to="/" className="flex items-center">
+          <img src="https://media.base44.com/images/public/69c6e2cf0b61fa041c4eb06c/a90b3e265_image.png" alt="Consolve" className="h-9 w-auto" />
         </Link>
 
         <nav className="hidden md:flex items-center gap-6">
@@ -118,9 +114,8 @@ function Footer() {
       <div className="max-w-7xl mx-auto px-6 py-20">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
           <div className="md:col-span-2">
-            <div className="flex items-center gap-2.5 mb-4">
-              <ConsolveIcon className="w-8 h-8" color="hsl(14, 70%, 62%)" />
-              <span className="text-xl font-semibold tracking-tight text-white font-inter">consolve</span>
+            <div className="mb-4">
+              <img src="https://media.base44.com/images/public/69c6e2cf0b61fa041c4eb06c/a90b3e265_image.png" alt="Consolve" className="h-9 w-auto" />
             </div>
             <p className="text-secondary-foreground/60 text-sm leading-relaxed max-w-sm">
               {tx.footer_tagline}
@@ -156,16 +151,7 @@ function Footer() {
           </div>
         </div>
       </div>
-      <div className="overflow-hidden pb-8">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="flex items-center justify-center opacity-10">
-            <ConsolveIcon className="w-24 h-24" color="hsl(14, 70%, 62%)" />
-            <span className="text-8xl md:text-[10rem] font-bold tracking-tighter text-primary font-inter leading-none">
-              consolve
-            </span>
-          </div>
-        </div>
-      </div>
+
     </footer>
   );
 }
