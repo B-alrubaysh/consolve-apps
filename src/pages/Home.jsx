@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { ArrowRight, Shield, Brain, Lock, BarChart3 } from "lucide-react";
 import AnimatedSection from "../components/AnimatedSection";
+import HomeAssessment from "../components/HomeAssessment";
 import { useLanguage } from "../lib/useLanguage";
 import t from "../lib/translations";
 
@@ -64,6 +65,9 @@ export default function Home() {
           <div className="w-px h-16 bg-gradient-to-b from-transparent to-white/30" />
         </div>
       </section>
+
+      {/* Embedded Assessment */}
+      <HomeAssessment />
 
       {/* Why Consolve */}
       <section className="py-28 md:py-40">

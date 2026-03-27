@@ -31,6 +31,7 @@ export default function SubmissionCard({ submission, onClick, onUpdateStatus }) 
             {s.language === "ar" && (
               <span className="text-xs font-medium px-2.5 py-1 rounded-full bg-purple-500/20 text-purple-400">عربي</span>
             )}
+          </div>
           <div className="flex flex-wrap gap-4 text-xs text-white/40">
             <span>{s.contact_name}</span>
             <span>{s.industry}</span>
