@@ -73,7 +73,7 @@ export default function Services() {
           <AnimatedSection>
             <div className="rounded-2xl overflow-hidden">
               <img
-                src="/__generating__/img_b6d9812d931a.png"
+                src="https://media.base44.com/images/public/69c6e2cf0b61fa041c4eb06c/3db6d8dc6_generated_3c67c7a0.png"
                 alt="Precision mechanical watch movement representing operational excellence"
                 className="w-full h-48 md:h-72 object-cover"
               />

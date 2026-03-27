@@ -41,7 +41,7 @@ export default function About() {
           <AnimatedSection>
             <div className="rounded-2xl overflow-hidden">
               <img
-                src="/__generating__/img_ac51cbbb8fc7.png"
+                src="https://media.base44.com/images/public/69c6e2cf0b61fa041c4eb06c/1986b039b_generated_cca2089a.png"
                 alt="Minimalist modern library space for thought"
                 className="w-full h-64 md:h-96 object-cover"
               />

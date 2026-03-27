@@ -23,7 +23,7 @@ export default function Home() {
       <section className="relative min-h-screen flex items-center overflow-hidden">
         <div className="absolute inset-0">
           <img
-            src="/__generating__/img_69eaea9b8021.png"
+            src="https://media.base44.com/images/public/69c6e2cf0b61fa041c4eb06c/68693ae94_generated_41e4811d.png"
             alt="Modern boardroom overlooking city at dawn"
             className="w-full h-full object-cover"
           />
