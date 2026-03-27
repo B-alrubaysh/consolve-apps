@@ -1,0 +1,111 @@
+{
+  "name": "Assessment",
+  "type": "object",
+  "properties": {
+    "company_name": {
+      "type": "string",
+      "title": "Company Name"
+    },
+    "industry": {
+      "type": "string",
+      "title": "Industry"
+    },
+    "company_size": {
+      "type": "string",
+      "title": "Company Size",
+      "enum": [
+        "1-10",
+        "11-50",
+        "51-200",
+        "201-500",
+        "500+"
+      ]
+    },
+    "main_activity": {
+      "type": "string",
+      "title": "Main Activity"
+    },
+    "key_challenges": {
+      "type": "string",
+      "title": "Key Challenges"
+    },
+    "questionnaire_answers": {
+      "type": "string",
+      "title": "Questionnaire Answers (JSON)"
+    },
+    "diagnosis": {
+      "type": "string",
+      "title": "AI Diagnosis (JSON)"
+    },
+    "business_snapshot": {
+      "type": "string",
+      "title": "Business Snapshot"
+    },
+    "identified_problems": {
+      "type": "string",
+      "title": "Identified Problems"
+    },
+    "risk_level": {
+      "type": "string",
+      "title": "Risk Level",
+      "enum": [
+        "Low",
+        "Medium",
+        "High"
+      ]
+    },
+    "maturity_level": {
+      "type": "string",
+      "title": "Business Maturity",
+      "enum": [
+        "Early Stage",
+        "Growing",
+        "Structured",
+        "Advanced"
+      ]
+    },
+    "suggested_services": {
+      "type": "string",
+      "title": "Suggested Services"
+    },
+    "operational_score": {
+      "type": "number",
+      "title": "Operational Score"
+    },
+    "financial_score": {
+      "type": "number",
+      "title": "Financial Score"
+    },
+    "marketing_score": {
+      "type": "number",
+      "title": "Marketing Score"
+    },
+    "status": {
+      "type": "string",
+      "title": "Status",
+      "enum": [
+        "New",
+        "In Progress",
+        "Contacted"
+      ],
+      "default": "New"
+    },
+    "contact_name": {
+      "type": "string",
+      "title": "Contact Name"
+    },
+    "contact_email": {
+      "type": "string",
+      "title": "Contact Email"
+    },
+    "contact_phone": {
+      "type": "string",
+      "title": "Contact Phone"
+    }
+  },
+  "required": [
+    "company_name",
+    "industry",
+    "company_size"
+  ]
+}
