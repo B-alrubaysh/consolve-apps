@@ -1,6 +1,6 @@
 import { Outlet, Link, useLocation } from "react-router-dom";
-import { useState, useEffect, useRef } from "react";
-import { Menu, X, Send } from "lucide-react";
+import { useState, useEffect } from "react";
+import { Menu, X } from "lucide-react";
 import LanguageSwitcher from "./LanguageSwitcher";
 import { useLanguage } from "../lib/useLanguage";
 import t from "../lib/translations";
@@ -8,9 +8,8 @@ import t from "../lib/translations";
 function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [inquiry, setInquiry] = useState("");
   const location = useLocation();
-  const { lang, dir, isAr } = useLanguage();
+  const { lang, dir } = useLanguage();
   const tx = t[lang];
 
   const NAV_LINKS = [
@@ -29,34 +28,20 @@ function Navbar() {
 
   useEffect(() => setMobileOpen(false), [location]);
 
-  const handleInquiry = (e) => {
-    e.preventDefault();
-    if (!inquiry.trim()) return;
-    window.location.href = `/contact?q=${encodeURIComponent(inquiry)}`;
-  };
-
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
         scrolled
-          ? "bg-white/80 backdrop-blur-xl border-b border-border shadow-sm py-3"
+          ? "bg-white/70 backdrop-blur-xl border-b border-border shadow-sm py-3"
           : "bg-transparent py-5"
       }`}
     >
-      {/* Desktop: 3-column grid — logo | nav | actions */}
-      <div className="max-w-7xl mx-auto px-6 hidden md:grid grid-cols-[auto_1fr_auto] items-center gap-6" dir={dir}>
-        {/* Logo — left for EN, right for AR (grid order handles it via dir) */}
+      <div className="max-w-7xl mx-auto px-6 flex items-center justify-between" dir={dir}>
         <Link to="/" className="flex items-center">
-          <img
-            src="https://media.base44.com/images/public/69c6e2cf0b61fa041c4eb06c/a90b3e265_image.png"
-            alt="Consolve"
-            className="h-9 w-auto"
-            style={{ mixBlendMode: "multiply" }}
-          />
+          <img src="https://media.base44.com/images/public/69c6e2cf0b61fa041c4eb06c/a90b3e265_image.png" alt="Consolve" className="h-9 w-auto" />
         </Link>
 
-        {/* Centered nav */}
-        <nav className="flex items-center justify-center gap-6">
+        <nav className="hidden md:flex items-center gap-6">
           {NAV_LINKS.map((link) => (
             <Link
               key={link.to}
@@ -68,39 +53,16 @@ function Navbar() {
               {link.label}
             </Link>
           ))}
+          <LanguageSwitcher />
+          <Link
+            to="/assessment"
+            className="bg-primary text-primary-foreground px-5 py-2.5 rounded-full text-sm font-semibold hover:opacity-90 transition-opacity"
+          >
+            {tx.nav_cta}
+          </Link>
         </nav>
 
-        {/* Actions — lang + inquiry — opposite side of logo */}
-        <div className="flex items-center gap-3">
-          <LanguageSwitcher />
-          <form onSubmit={handleInquiry} className="flex items-center">
-            <div className="flex items-center border border-border rounded-full overflow-hidden bg-white/60 backdrop-blur-sm hover:border-primary/40 transition-colors">
-              <input
-                value={inquiry}
-                onChange={(e) => setInquiry(e.target.value)}
-                placeholder={isAr ? "لديك استفسار…" : "Ask a Question…"}
-                className="text-xs bg-transparent px-4 py-2 outline-none w-36 text-foreground placeholder:text-muted-foreground"
-                dir={dir}
-              />
-              <button type="submit" className="px-3 py-2 text-muted-foreground hover:text-primary transition-colors">
-                <Send className="w-3.5 h-3.5" />
-              </button>
-            </div>
-          </form>
-        </div>
-      </div>
-
-      {/* Mobile */}
-      <div className="max-w-7xl mx-auto px-6 flex items-center justify-between md:hidden" dir={dir}>
-        <Link to="/" className="flex items-center">
-          <img
-            src="https://media.base44.com/images/public/69c6e2cf0b61fa041c4eb06c/a90b3e265_image.png"
-            alt="Consolve"
-            className="h-8 w-auto"
-            style={{ mixBlendMode: "multiply" }}
-          />
-        </Link>
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-3 md:hidden">
           <LanguageSwitcher />
           <button onClick={() => setMobileOpen(!mobileOpen)} className="text-secondary">
             {mobileOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
@@ -122,18 +84,12 @@ function Navbar() {
                 {link.label}
               </Link>
             ))}
-            <form onSubmit={handleInquiry} className="flex items-center border border-border rounded-full overflow-hidden bg-white">
-              <input
-                value={inquiry}
-                onChange={(e) => setInquiry(e.target.value)}
-                placeholder={isAr ? "لديك استفسار…" : "Ask a Question…"}
-                className="text-sm bg-transparent px-4 py-2.5 outline-none flex-1 text-foreground placeholder:text-muted-foreground"
-                dir={dir}
-              />
-              <button type="submit" className="px-3 py-2.5 text-muted-foreground hover:text-primary">
-                <Send className="w-4 h-4" />
-              </button>
-            </form>
+            <Link
+              to="/assessment"
+              className="bg-primary text-primary-foreground px-5 py-3 rounded-full text-sm font-semibold text-center mt-2"
+            >
+              {tx.nav_cta}
+            </Link>
           </div>
         </div>
       )}
@@ -159,7 +115,7 @@ function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
           <div className="md:col-span-2">
             <div className="mb-4">
-              <img src="https://media.base44.com/images/public/69c6e2cf0b61fa041c4eb06c/a90b3e265_image.png" alt="Consolve" className="h-9 w-auto" style={{mixBlendMode: 'screen'}} />
+              <img src="https://media.base44.com/images/public/69c6e2cf0b61fa041c4eb06c/a90b3e265_image.png" alt="Consolve" className="h-9 w-auto" />
             </div>
             <p className="text-secondary-foreground/60 text-sm leading-relaxed max-w-sm">
               {tx.footer_tagline}
