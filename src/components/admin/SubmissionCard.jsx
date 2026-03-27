@@ -36,7 +36,9 @@ export default function SubmissionCard({ submission, onClick, onUpdateStatus }) 
             <span>{s.contact_name}</span>
             <span>{s.industry}</span>
             <span>{s.company_size} employees</span>
-            {s.risk_level && <span className={RISK_COLORS[s.risk_level]}>Risk: {s.risk_level}</span>}
+            {s.risk_level && (
+              <span className={RISK_COLORS[s.risk_level]}>Risk: {s.risk_level}</span>
+            )}
             <span>{moment(s.created_date).fromNow()}</span>
           </div>
         </div>
