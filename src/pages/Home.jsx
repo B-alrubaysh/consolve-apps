@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import AnimatedSection from "../components/AnimatedSection";
 import HomeAssessment from "../components/HomeAssessment";
 import HeroStatement from "../components/HeroStatement";
+import ServiceCatalogue from "../components/ServiceCatalogue";
 import { useLanguage } from "../lib/useLanguage";
 import t from "../lib/translations";
 
@@ -68,6 +69,9 @@ export default function Home() {
 
       {/* Hero Statement + Metrics */}
       <HeroStatement />
+
+      {/* Service Catalogue */}
+      <ServiceCatalogue />
 
       {/* Embedded Assessment */}
       <HomeAssessment />
