@@ -80,12 +80,12 @@ function Navbar() {
           {/* Right: Language + CTA */}
           <div className="flex items-center justify-end gap-3">
             <LanguageSwitcher variant="dark" />
-            <Link
-              to="/assessment"
-              className="inline-flex items-center gap-1.5 bg-primary text-primary-foreground text-xs font-semibold px-4 py-2 rounded-full hover:opacity-90 transition-opacity whitespace-nowrap">
-              
-              {lang === "ar" ? "ابدأ التقييم" : "Start Assessment"}
-            </Link>
+            
+
+
+
+
+            
           </div>
         </div>
 
