@@ -49,7 +49,7 @@ function Navbar() {
           {/* Left: Logo */}
           <div className="flex items-center">
             <Link to="/" className="flex items-center shrink-0">
-              <img src="https://media.base44.com/images/public/69c6e2cf0b61fa041c4eb06c/4ce61e340_Untitled_design__2_.png"
+              <img src="https://media.base44.com/images/public/69c6e2cf0b61fa041c4eb06c/3371d6b9b_image-Photoroom.png"
 
               alt="Consolve" className="h-8 w-auto"
 
