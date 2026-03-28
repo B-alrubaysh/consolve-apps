@@ -105,55 +105,55 @@ export default function Home() {
       
 
       {/* How It Works */}
-      <section className="py-28 md:py-40 bg-secondary">
-        <div className="max-w-7xl mx-auto px-6">
-          <AnimatedSection>
-            <p className="text-primary font-semibold text-xs uppercase tracking-[0.2em] mb-4">{tx.how_label}</p>
-            <h2 className="text-3xl md:text-5xl font-bold text-white tracking-tight mb-16 max-w-2xl">{tx.how_h2}</h2>
-          </AnimatedSection>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {STEPS.map((step, i) =>
-            <AnimatedSection key={i} delay={i * 100}>
-                <div className="relative">
-                  <span className="text-6xl font-bold text-white/5 absolute -top-4 -left-2">{step.num}</span>
-                  <div className="relative pt-8">
-                    <div className="w-8 h-0.5 bg-primary mb-6" />
-                    <h3 className="text-lg font-semibold text-white mb-3">{step.title}</h3>
-                    <p className="text-sm text-white/50 leading-relaxed">{step.desc}</p>
-                  </div>
-                </div>
-              </AnimatedSection>
-            )}
-          </div>
-          <AnimatedSection delay={400}>
-            <div className="mt-16 text-center">
-              <Link to="/assessment" className="inline-flex items-center gap-2 bg-primary text-primary-foreground px-8 py-4 rounded-full font-semibold text-sm hover:opacity-90 transition-opacity">
-                {tx.how_cta}
-                <ArrowRight className="w-4 h-4" />
-              </Link>
-            </div>
-          </AnimatedSection>
-        </div>
-      </section>
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      
 
       {/* CTA */}
-      <section className="py-28 md:py-40">
-        <div className="max-w-7xl mx-auto px-6 text-center">
-          <AnimatedSection>
-            <h2 className="text-3xl md:text-5xl font-bold text-foreground tracking-tight mb-6 max-w-3xl mx-auto">{tx.cta_h2}</h2>
-            <p className="text-lg text-muted-foreground mb-10 max-w-xl mx-auto">{tx.cta_sub}</p>
-            <div className="flex flex-col sm:flex-row justify-center gap-4">
-              <Link to="/assessment" className="inline-flex items-center justify-center gap-2 bg-primary text-primary-foreground px-8 py-4 rounded-full font-semibold text-sm hover:opacity-90 transition-opacity">
-                {tx.cta_btn1}
-                <ArrowRight className="w-4 h-4" />
-              </Link>
-              <Link to="/contact" className="inline-flex items-center justify-center gap-2 border border-border text-foreground px-8 py-4 rounded-full font-semibold text-sm hover:bg-muted transition-colors">
-                {tx.cta_btn2}
-              </Link>
-            </div>
-          </AnimatedSection>
-        </div>
-      </section>
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      
     </div>);
 
 }
