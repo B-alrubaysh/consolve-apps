@@ -3,6 +3,7 @@ import { ArrowRight, Shield, Brain, Lock, BarChart3 } from "lucide-react";
 import { motion } from "framer-motion";
 import AnimatedSection from "../components/AnimatedSection";
 import HomeAssessment from "../components/HomeAssessment";
+import HeroStatement from "../components/HeroStatement";
 import { useLanguage } from "../lib/useLanguage";
 import t from "../lib/translations";
 
@@ -64,6 +65,9 @@ export default function Home() {
           <div className="w-px h-16 bg-gradient-to-b from-transparent to-white/30" />
         </div>
       </section>
+
+      {/* Hero Statement + Metrics */}
+      <HeroStatement />
 
       {/* Embedded Assessment */}
       <HomeAssessment />
