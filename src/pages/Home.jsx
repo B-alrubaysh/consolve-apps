@@ -52,50 +52,13 @@ export default function Home() {
           />
           <div className="absolute inset-0 bg-secondary/30" />
         </motion.div>
-        {/* Large logo watermark at bottom — SVG text for crisp rendering */}
+        {/* Large logo watermark at bottom */}
         <div className="absolute bottom-0 left-0 right-0 z-10">
-          <svg
-            viewBox="0 0 1400 220"
-            xmlns="http://www.w3.org/2000/svg"
-            className="w-full"
-            aria-label="Consolve"
-          >
-            <defs>
-              <style>{`@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300&display=swap');`}</style>
-            </defs>
-            {/* Thick glow / outline layer */}
-            <text
-              x="50%"
-              y="190"
-              textAnchor="middle"
-              fontFamily="'Inter', sans-serif"
-              fontWeight="300"
-              fontSize="200"
-              fill="none"
-              stroke="white"
-              strokeWidth="1.5"
-              strokeOpacity="0.15"
-              letterSpacing="-4"
-            >
-              ✦ consolve
-            </text>
-            {/* Crisp thin outline */}
-            <text
-              x="50%"
-              y="190"
-              textAnchor="middle"
-              fontFamily="'Inter', sans-serif"
-              fontWeight="300"
-              fontSize="200"
-              fill="none"
-              stroke="white"
-              strokeWidth="0.5"
-              strokeOpacity="0.25"
-              letterSpacing="-4"
-            >
-              ✦ consolve
-            </text>
-          </svg>
+          <img
+            src="https://media.base44.com/images/public/69c6e2cf0b61fa041c4eb06c/3371d6b9b_image-Photoroom.png"
+            alt="Consolve"
+            className="w-full object-contain"
+          />
         </div>
         <div className="absolute bottom-10 left-1/2 -translate-x-1/2 z-10">
           <div className="w-px h-16 bg-gradient-to-b from-transparent to-white/30" />
