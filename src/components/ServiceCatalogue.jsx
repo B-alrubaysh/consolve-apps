@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { ChevronDown } from "lucide-react";
 import { useLanguage } from "../lib/useLanguage";
 
 const SERVICES = [
@@ -243,6 +244,7 @@ const SERVICES = [
 export default function ServiceCatalogue() {
   const { lang, dir, isAr } = useLanguage();
   const [activeId, setActiveId] = useState("strategy");
+  const [open, setOpen] = useState(false);
 
   const active = SERVICES.find((s) => s.id === activeId);
   const subs = isAr ? active.subAr : active.subEn;
@@ -270,29 +272,73 @@ export default function ServiceCatalogue() {
         <div className={`flex flex-col ${isAr ? "md:flex-row-reverse" : "md:flex-row"} gap-6 md:gap-10`}>
 
           {/* Selector — 40% */}
-          <div className="md:w-[40%] flex flex-col gap-1">
-            {SERVICES.map((s) => {
-              const isActive = s.id === activeId;
-              return (
-                <button
-                  key={s.id}
-                  onClick={() => setActiveId(s.id)}
-                  className={`group w-full text-left px-5 py-4 rounded-xl border transition-all duration-150 ${
-                    isActive
-                      ? "bg-secondary text-secondary-foreground border-secondary"
-                      : "bg-transparent text-foreground border-transparent hover:border-border hover:bg-muted/50"
-                  }`}
-                  dir={dir}
-                >
-                  <p className={`text-sm font-semibold leading-snug ${isActive ? "text-white" : "text-foreground"}`}>
-                    {isAr ? s.nameAr : s.nameEn}
-                  </p>
-                  <p className={`text-xs mt-0.5 ${isActive ? "text-white/60" : "text-muted-foreground"}`}>
-                    {isAr ? s.goalAr : s.goalEn}
-                  </p>
-                </button>
-              );
-            })}
+          <div className="md:w-[40%]">
+            <div className="relative">
+              {/* Trigger button — styled like the old active item */}
+              <button
+                onClick={() => setOpen((o) => !o)}
+                className={`w-full px-5 py-4 rounded-xl border bg-secondary text-secondary-foreground border-secondary transition-all duration-150 ${isAr ? "text-right" : "text-left"}`}
+                dir={dir}
+              >
+                <div className={`flex items-center gap-3 ${isAr ? "flex-row-reverse" : ""}`}>
+                  <div className="flex-1 min-w-0">
+                    <p className="text-sm font-semibold leading-snug text-white truncate">
+                      {isAr ? active.nameAr : active.nameEn}
+                    </p>
+                    <p className="text-xs mt-0.5 text-white/60 truncate">
+                      {isAr ? active.goalAr : active.goalEn}
+                    </p>
+                  </div>
+                  <ChevronDown
+                    className={`w-4 h-4 text-white/70 shrink-0 transition-transform duration-200 ${open ? "rotate-180" : ""}`}
+                  />
+                </div>
+              </button>
+
+              {/* Dropdown list */}
+              <AnimatePresence>
+                {open && (
+                  <motion.div
+                    initial={{ opacity: 0, y: -6, scaleY: 0.95 }}
+                    animate={{ opacity: 1, y: 0, scaleY: 1 }}
+                    exit={{ opacity: 0, y: -6, scaleY: 0.95 }}
+                    transition={{ duration: 0.15, ease: "easeOut" }}
+                    style={{ transformOrigin: "top" }}
+                    className="absolute z-20 top-full mt-1.5 w-full bg-card border border-border rounded-xl shadow-xl overflow-hidden"
+                    dir={dir}
+                  >
+                    {SERVICES.map((s) => {
+                      const isActive = s.id === activeId;
+                      return (
+                        <button
+                          key={s.id}
+                          onClick={() => { setActiveId(s.id); setOpen(false); }}
+                          className={`w-full px-5 py-3.5 transition-all duration-100 ${isAr ? "text-right" : "text-left"} ${
+                            isActive
+                              ? "bg-secondary text-secondary-foreground"
+                              : "bg-transparent hover:bg-muted/60"
+                          }`}
+                        >
+                          <div className={`flex items-center gap-3 ${isAr ? "flex-row-reverse" : ""}`}>
+                            <div className="flex-1 min-w-0">
+                              <p className={`text-sm font-semibold leading-snug truncate ${isActive ? "text-white" : "text-foreground"}`}>
+                                {isAr ? s.nameAr : s.nameEn}
+                              </p>
+                              <p className={`text-xs mt-0.5 truncate ${isActive ? "text-white/60" : "text-muted-foreground"}`}>
+                                {isAr ? s.goalAr : s.goalEn}
+                              </p>
+                            </div>
+                            {isActive && (
+                              <span className="w-1.5 h-1.5 rounded-full bg-primary shrink-0" />
+                            )}
+                          </div>
+                        </button>
+                      );
+                    })}
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
           </div>
 
           {/* Content panel — 60% */}
