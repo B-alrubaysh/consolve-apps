@@ -13,18 +13,18 @@ export default function Home() {
   const tx = t[lang];
 
   const WHY_ITEMS = [
-    { icon: Brain, title: tx.why_1_title, desc: tx.why_1_desc },
-    { icon: BarChart3, title: tx.why_2_title, desc: tx.why_2_desc },
-    { icon: Lock, title: tx.why_3_title, desc: tx.why_3_desc },
-    { icon: Shield, title: tx.why_4_title, desc: tx.why_4_desc },
-  ];
+  { icon: Brain, title: tx.why_1_title, desc: tx.why_1_desc },
+  { icon: BarChart3, title: tx.why_2_title, desc: tx.why_2_desc },
+  { icon: Lock, title: tx.why_3_title, desc: tx.why_3_desc },
+  { icon: Shield, title: tx.why_4_title, desc: tx.why_4_desc }];
+
 
   const STEPS = [
-    { num: tx.how_1_num, title: tx.how_1_title, desc: tx.how_1_desc },
-    { num: tx.how_2_num, title: tx.how_2_title, desc: tx.how_2_desc },
-    { num: tx.how_3_num, title: tx.how_3_title, desc: tx.how_3_desc },
-    { num: tx.how_4_num, title: tx.how_4_title, desc: tx.how_4_desc },
-  ];
+  { num: tx.how_1_num, title: tx.how_1_title, desc: tx.how_1_desc },
+  { num: tx.how_2_num, title: tx.how_2_title, desc: tx.how_2_desc },
+  { num: tx.how_3_num, title: tx.how_3_title, desc: tx.how_3_desc },
+  { num: tx.how_4_num, title: tx.how_4_title, desc: tx.how_4_desc }];
+
 
   return (
     <div dir={dir}>
@@ -35,8 +35,8 @@ export default function Home() {
           className="absolute inset-0"
           initial={{ scale: 1.08 }}
           animate={{ scale: 1 }}
-          transition={{ duration: 1.6, ease: [0.22, 1, 0.36, 1] }}
-        >
+          transition={{ duration: 1.6, ease: [0.22, 1, 0.36, 1] }}>
+          
           <motion.img
             src="https://media.base44.com/images/public/69c6e2cf0b61fa041c4eb06c/ee93949df_Gemini_Generated_Image_ikoo9bikoo9bikoo.png"
             alt="Hero background"
@@ -44,14 +44,14 @@ export default function Home() {
             animate={{
               scale: [1, 1.04, 1.02, 1.05, 1],
               x: [0, 8, -6, 4, 0],
-              y: [0, -6, 4, -3, 0],
+              y: [0, -6, 4, -3, 0]
             }}
             transition={{
               duration: 18,
               repeat: Infinity,
-              ease: "easeInOut",
-            }}
-          />
+              ease: "easeInOut"
+            }} />
+          
           <div className="absolute inset-0 bg-secondary/30" />
         </motion.div>
         {/* Large logo watermark at bottom */}
@@ -59,8 +59,8 @@ export default function Home() {
           <img
             src="https://media.base44.com/images/public/69c6e2cf0b61fa041c4eb06c/3371d6b9b_image-Photoroom.png"
             alt="Consolve"
-            className="w-full object-contain"
-          />
+            className="w-full object-contain" />
+          
         </div>
         <div className="absolute bottom-10 left-1/2 -translate-x-1/2 z-10">
           <div className="w-px h-16 bg-gradient-to-b from-transparent to-white/30" />
@@ -77,32 +77,32 @@ export default function Home() {
       <HomeAssessment />
 
       {/* Why Consolve */}
-      <section className="py-28 md:py-40">
-        <div className="max-w-7xl mx-auto px-6">
-          <AnimatedSection>
-            <p className="text-primary font-semibold text-xs uppercase tracking-[0.2em] mb-4">{tx.why_label}</p>
-            <h2 className="text-3xl md:text-5xl font-bold text-foreground tracking-tight mb-4 max-w-2xl">{tx.why_h2}</h2>
-            <p className="text-muted-foreground text-lg max-w-xl mb-16">{tx.why_sub}</p>
-          </AnimatedSection>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {WHY_ITEMS.map((item, i) => (
-              <AnimatedSection key={i} delay={i * 100}>
-                <motion.div
-                  whileHover={{ y: -6, boxShadow: "0 20px 40px rgba(0,0,0,0.12)" }}
-                  transition={{ duration: 0.3 }}
-                  className="group p-8 rounded-2xl border border-border bg-card hover:border-primary/30 transition-colors duration-300 cursor-default"
-                >
-                  <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-6 group-hover:bg-primary/20 transition-colors">
-                    <item.icon className="w-6 h-6 text-primary" />
-                  </div>
-                  <h3 className="text-lg font-semibold text-foreground mb-2">{item.title}</h3>
-                  <p className="text-sm text-muted-foreground leading-relaxed">{item.desc}</p>
-                </motion.div>
-              </AnimatedSection>
-            ))}
-          </div>
-        </div>
-      </section>
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      
 
       {/* How It Works */}
       <section className="py-28 md:py-40 bg-secondary">
@@ -112,8 +112,8 @@ export default function Home() {
             <h2 className="text-3xl md:text-5xl font-bold text-white tracking-tight mb-16 max-w-2xl">{tx.how_h2}</h2>
           </AnimatedSection>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {STEPS.map((step, i) => (
-              <AnimatedSection key={i} delay={i * 100}>
+            {STEPS.map((step, i) =>
+            <AnimatedSection key={i} delay={i * 100}>
                 <div className="relative">
                   <span className="text-6xl font-bold text-white/5 absolute -top-4 -left-2">{step.num}</span>
                   <div className="relative pt-8">
@@ -123,7 +123,7 @@ export default function Home() {
                   </div>
                 </div>
               </AnimatedSection>
-            ))}
+            )}
           </div>
           <AnimatedSection delay={400}>
             <div className="mt-16 text-center">
@@ -154,6 +154,6 @@ export default function Home() {
           </AnimatedSection>
         </div>
       </section>
-    </div>
-  );
+    </div>);
+
 }
