@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { motion, useInView } from "framer-motion";
 import { useLanguage } from "../lib/useLanguage";
 
-function CountUp({ target, duration = 1800 }) {
+function CountUp({ target, duration = 900 }) {
   const [count, setCount] = useState(0);
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-80px" });
