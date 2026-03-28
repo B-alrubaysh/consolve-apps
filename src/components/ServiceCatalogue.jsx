@@ -253,26 +253,29 @@ export default function ServiceCatalogue() {
     <section className="py-24 md:py-36 bg-card border-b border-border" dir={dir}>
       <div className="max-w-7xl mx-auto px-6">
 
-        {/* Header */}
-        <div className="mb-14">
-          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-primary mb-4">
-            {isAr ? "خدماتنا" : "Services"}
-          </p>
-          <h2 className="text-3xl md:text-5xl font-bold text-foreground tracking-tight mb-4 max-w-2xl leading-tight">
-            {isAr ? "استكشف مجالاتنا الاستشارية" : "Explore Our Service Capabilities"}
-          </h2>
-          <p className="text-muted-foreground text-base md:text-lg max-w-xl">
-            {isAr
-              ? "اختر المجال الاستشاري لعرض الخدمات التفصيلية"
-              : "Select a service area to view its detailed capabilities and offerings"}
-          </p>
-        </div>
-
         {/* Main split layout */}
-        <div className={`flex flex-col ${isAr ? "md:flex-row-reverse" : "md:flex-row"} gap-6 md:gap-10`}>
+        <div className={`flex flex-col ${isAr ? "md:flex-row-reverse" : "md:flex-row"} gap-6 md:gap-10 md:items-start`}>
 
-          {/* Selector — 40% */}
-          <div className="md:w-[40%]">
+          {/* Left column — header + selector */}
+          <div className="md:w-[40%] flex flex-col gap-8">
+
+            {/* Header block (moved inside left column) */}
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-primary mb-4">
+                {isAr ? "خدماتنا" : "Services"}
+              </p>
+              <h2 className="text-3xl md:text-5xl font-bold text-foreground tracking-tight mb-4 leading-tight">
+                {isAr ? "استكشف مجالاتنا الاستشارية" : "Explore Our Service Capabilities"}
+              </h2>
+              <p className="text-muted-foreground text-base md:text-lg">
+                {isAr
+                  ? "اختر المجال الاستشاري لعرض الخدمات التفصيلية"
+                  : "Select a service area to view its detailed capabilities and offerings"}
+              </p>
+            </div>
+
+          {/* Selector */}
+          <div className="md:w-full">
             <div className="relative">
               {/* Trigger button — styled like the old active item */}
               <button
@@ -339,6 +342,7 @@ export default function ServiceCatalogue() {
                 )}
               </AnimatePresence>
             </div>
+          </div>
           </div>
 
           {/* Content panel — 60% */}
