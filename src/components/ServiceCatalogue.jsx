@@ -293,7 +293,7 @@ export default function ServiceCatalogue() {
                     </p>
                   </div>
                   <ChevronDown
-                    className={`w-4 h-4 text-white/70 shrink-0 transition-transform duration-200 ${open ? "rotate-180" : ""}`}
+                    className={`w-6 h-6 text-white/90 shrink-0 transition-transform duration-200 ${open ? "rotate-180" : ""}`}
                   />
                 </div>
               </button>
