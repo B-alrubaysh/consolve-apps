@@ -100,8 +100,8 @@ export default function HeroStatement() {
             </p>
             <p className="text-muted-foreground text-base md:text-lg leading-[1.8]">
               {isAr
-                ? "نساعد المؤسسات على تحويل الاستراتيجيات إلى نتائج ملموسة. من خلال نهج متكامل يشمل الاستراتيجية، العمليات، الحوكمة، والابتكار، نعمل مع الشركات لحل التحديات المعقدة، وتحسين الأداء، وتحقيق نمو مستدام. بدءًا من صياغة الرؤية وإعادة الهيكلة، وصولًا إلى تحسين العمليات، وإدارة المخاطر، والتوسع في الأسواق — نقدم حلولًا عملية تحقق أثرًا حقيقيًا."
-                : "We help organizations transform strategy into measurable results. Through an integrated approach across strategy, operations, governance, and innovation, we partner with businesses to solve complex challenges, optimize performance, and unlock sustainable growth. From defining vision and restructuring organizations to improving operations, managing risk, and driving market expansion — we deliver practical solutions that create real impact."}
+                ? "نساعد المؤسسات على تحويل الاستراتيجيات إلى نتائج ملموسة. من خلال نهج متكامل يشمل الاستراتيجية، العمليات، الحوكمة، والابتكار، نعمل مع الشركات لحل التحديات المعقدة، وتحسين الأداء، وتحقيق نمو مستدام. بدءًا من صياغة الرؤية وإعادة الهيكلة، وصولًا إلى تحسين العمليات، وإدارة المخاطر، والتوسع في الأسواق. نقدم حلولًا عملية تحقق أثرًا حقيقيًا."
+                : "We help organizations transform strategy into measurable results. Through an integrated approach across strategy, operations, governance, and innovation, we partner with businesses to solve complex challenges, optimize performance, and unlock sustainable growth. From defining vision and restructuring organizations to improving operations, managing risk, and driving market expansion. we deliver practical solutions that create real impact."}
             </p>
           </motion.div>
         </div>
