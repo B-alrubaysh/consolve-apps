@@ -38,7 +38,7 @@ export default function Home() {
           transition={{ duration: 1.6, ease: [0.22, 1, 0.36, 1] }}>
           
           <motion.img
-            src="https://media.base44.com/images/public/69c6e2cf0b61fa041c4eb06c/ee93949df_Gemini_Generated_Image_ikoo9bikoo9bikoo.png"
+            src="https://media.base44.com/images/public/69c6e2cf0b61fa041c4eb06c/df2296388_Cover1.png"
             alt="Hero background"
             className="w-full h-full object-cover"
             animate={{
