@@ -52,7 +52,7 @@ export default function Home() {
               ease: "easeInOut"
             }} />
           
-          <div className="absolute inset-0 bg-secondary/30" />
+          <div className="bg-secondary/30 rounded absolute inset-0" />
         </motion.div>
         {/* Large logo watermark at bottom */}
         <div className="absolute bottom-0 left-0 right-0 z-10">
