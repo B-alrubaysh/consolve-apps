@@ -1,9 +1,10 @@
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { createClient } from '@base44/sdk';
 
 const TestPage = () => (
-  <div style={{padding:'80px',fontSize:'24px',color:'white',background:'blue',minHeight:'100vh'}}>
-    <h1>NO base44 import test - {Date.now()}</h1>
-    <p>This should render if the issue is base44 SDK</p>
+  <div style={{padding:'80px',fontSize:'24px',color:'white',background:'orange',minHeight:'100vh'}}>
+    <h1>Direct SDK import test</h1>
+    <p>createClient exists: {typeof createClient}</p>
   </div>
 );
 
