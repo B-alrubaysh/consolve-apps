@@ -1,10 +1,9 @@
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import { base44 } from '@/api/base44Client';
 
 const TestPage = () => (
-  <div style={{padding:'80px',fontSize:'24px',color:'white',background:'purple',minHeight:'100vh'}}>
-    <h1>base44 direct import test - {Date.now()}</h1>
-    <p>base44 imported: {base44 ? 'YES' : 'NO'}</p>
+  <div style={{padding:'80px',fontSize:'24px',color:'white',background:'blue',minHeight:'100vh'}}>
+    <h1>NO base44 import test - {Date.now()}</h1>
+    <p>This should render if the issue is base44 SDK</p>
   </div>
 );
 
