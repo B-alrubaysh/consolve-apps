@@ -73,58 +73,37 @@ const OPENINGS = [
 ];
 
 function JobCard({ job, isAr, onApply }) {
-  const [expanded, setExpanded] = useState(false);
   return (
-    <div className="border border-border rounded-2xl bg-card overflow-hidden">
-      <button
-        className={`w-full px-6 py-5 flex items-center gap-4 text-left ${isAr ? "flex-row-reverse text-right" : ""}`}
-        onClick={() => setExpanded((e) => !e)}
-      >
-        <div className="flex-1 min-w-0">
-          <h3 className="font-bold text-foreground text-lg leading-snug">
-            {isAr ? job.titleAr : job.titleEn}
-          </h3>
-          <div className={`flex items-center gap-4 mt-1.5 flex-wrap ${isAr ? "flex-row-reverse" : ""}`}>
-            <span className="flex items-center gap-1 text-xs text-muted-foreground">
-              <Briefcase className="w-3.5 h-3.5" />
-              {isAr ? job.departmentAr : job.departmentEn}
-            </span>
-            <span className="flex items-center gap-1 text-xs text-muted-foreground">
-              <MapPin className="w-3.5 h-3.5" />
-              {isAr ? job.locationAr : job.locationEn}
-            </span>
-            <span className="flex items-center gap-1 text-xs text-muted-foreground">
-              <Clock className="w-3.5 h-3.5" />
-              {isAr ? job.typeAr : job.typeEn}
-            </span>
-          </div>
+    <div className="flex flex-col justify-between bg-card border border-border rounded-2xl p-6 hover:border-primary/40 hover:shadow-md transition-all duration-200">
+      <div>
+        <div className={`flex items-center gap-2 mb-3 ${isAr ? 'flex-row-reverse' : ''}`}>
+          <span className="text-xs font-semibold uppercase tracking-widest text-primary bg-primary/10 px-2.5 py-1 rounded-full">
+            {isAr ? job.departmentAr : job.departmentEn}
+          </span>
         </div>
-        <ChevronDown className={`w-5 h-5 text-muted-foreground shrink-0 transition-transform duration-200 ${expanded ? "rotate-180" : ""}`} />
+        <h3 className="font-bold text-foreground text-lg leading-snug mb-3">
+          {isAr ? job.titleAr : job.titleEn}
+        </h3>
+        <div className={`flex flex-col gap-1.5 mb-4 ${isAr ? 'items-end' : ''}`}>
+          <span className="flex items-center gap-1.5 text-xs text-muted-foreground">
+            <MapPin className="w-3.5 h-3.5 shrink-0" />
+            {isAr ? job.locationAr : job.locationEn}
+          </span>
+          <span className="flex items-center gap-1.5 text-xs text-muted-foreground">
+            <Clock className="w-3.5 h-3.5 shrink-0" />
+            {isAr ? job.typeAr : job.typeEn}
+          </span>
+        </div>
+        <p className="text-sm text-muted-foreground leading-relaxed">
+          {isAr ? job.descAr : job.descEn}
+        </p>
+      </div>
+      <button
+        onClick={() => onApply(job)}
+        className="mt-6 w-full bg-primary text-primary-foreground text-sm font-bold py-2.5 rounded-xl hover:opacity-90 transition-opacity tracking-wide uppercase"
+      >
+        {isAr ? 'تقدم الآن' : 'Apply Now'}
       </button>
-
-      <AnimatePresence>
-        {expanded && (
-          <motion.div
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: "auto", opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.22, ease: "easeOut" }}
-            className="overflow-hidden"
-          >
-            <div className={`px-6 pb-6 border-t border-border pt-4 ${isAr ? "text-right" : ""}`}>
-              <p className="text-sm text-muted-foreground leading-relaxed mb-5">
-                {isAr ? job.descAr : job.descEn}
-              </p>
-              <button
-                onClick={() => onApply(job)}
-                className="bg-primary text-primary-foreground text-sm font-semibold px-6 py-2.5 rounded-full hover:opacity-90 transition-opacity"
-              >
-                {isAr ? "تقدم الآن" : "Apply Now"}
-              </button>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
     </div>
   );
 }
@@ -229,6 +208,124 @@ function ApplicationForm({ job, isAr, dir, onClose, onSuccess }) {
   );
 }
 
+function GeneralForm({ isAr, dir }) {
+  const [form, setForm] = useState({ name: '', email: '', phone: '', message: '' });
+  const [file, setFile] = useState(null);
+  const [fileError, setFileError] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
+
+  const handleFile = (e) => {
+    const f = e.target.files[0];
+    if (!f) return;
+    if (f.size > 10 * 1024 * 1024) {
+      setFileError(isAr ? 'الحجم الأقصى للملف هو 10 ميغابايت' : 'File size must be under 10MB');
+      setFile(null);
+      return;
+    }
+    setFileError('');
+    setFile(f);
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    let fileNote = '';
+    if (file) {
+      const { file_url } = await base44.integrations.Core.UploadFile({ file });
+      fileNote = `\nResume: ${file_url}`;
+    }
+    await base44.entities.ContactInquiry.create({
+      name: form.name,
+      email: form.email,
+      phone: form.phone,
+      company: isAr ? 'طلب توظيف عام' : 'General Job Application',
+      message: form.message + fileNote,
+      status: 'New',
+    });
+    setLoading(false);
+    setSubmitted(true);
+  };
+
+  if (submitted) {
+    return (
+      <div className={`text-center py-12 ${isAr ? 'text-right' : ''}`} dir={dir}>
+        <div className="text-4xl mb-3">✅</div>
+        <h4 className="text-lg font-bold text-foreground mb-1">{isAr ? 'تم الإرسال!' : 'Application Sent!'}</h4>
+        <p className="text-sm text-muted-foreground">{isAr ? 'سنتواصل معك عند توفر فرصة مناسبة.' : "We'll be in touch when a matching role opens up."}</p>
+      </div>
+    );
+  }
+
+  const fields = isAr
+    ? [
+        { key: 'name', label: 'الاسم الكامل', placeholder: 'أدخل اسمك', type: 'text', required: true },
+        { key: 'email', label: 'البريد الإلكتروني', placeholder: 'example@email.com', type: 'email', required: true },
+        { key: 'phone', label: 'رقم الهاتف', placeholder: '+966 xx xxx xxxx', type: 'tel', required: false },
+      ]
+    : [
+        { key: 'name', label: 'Full Name', placeholder: 'Your full name', type: 'text', required: true },
+        { key: 'email', label: 'Email Address', placeholder: 'example@email.com', type: 'email', required: true },
+        { key: 'phone', label: 'Phone Number', placeholder: '+1 (555) 000-0000', type: 'tel', required: false },
+      ];
+
+  return (
+    <form onSubmit={handleSubmit} className="flex flex-col gap-4" dir={dir}>
+      {fields.map((f) => (
+        <div key={f.key}>
+          <label className={`block text-xs font-semibold text-muted-foreground mb-1.5 ${isAr ? 'text-right' : ''}`}>{f.label}</label>
+          <input
+            type={f.type}
+            required={f.required}
+            placeholder={f.placeholder}
+            value={form[f.key]}
+            onChange={(e) => setForm((p) => ({ ...p, [f.key]: e.target.value }))}
+            className={`w-full px-4 py-2.5 rounded-xl border border-border bg-background text-foreground text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/40 ${isAr ? 'text-right' : ''}`}
+          />
+        </div>
+      ))}
+      <div>
+        <label className={`block text-xs font-semibold text-muted-foreground mb-1.5 ${isAr ? 'text-right' : ''}`}>
+          {isAr ? 'رسالة (اختياري)' : 'Message (optional)'}
+        </label>
+        <textarea
+          rows={3}
+          placeholder={isAr ? 'أخبرنا عن خبراتك ومجال اهتمامك...' : 'Tell us about your background and areas of interest...'}
+          value={form.message}
+          onChange={(e) => setForm((p) => ({ ...p, message: e.target.value }))}
+          className={`w-full px-4 py-2.5 rounded-xl border border-border bg-background text-foreground text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/40 resize-none ${isAr ? 'text-right' : ''}`}
+        />
+      </div>
+      {/* File Upload */}
+      <div>
+        <label className={`block text-xs font-semibold text-muted-foreground mb-1.5 ${isAr ? 'text-right' : ''}`}>
+          {isAr ? 'السيرة الذاتية (PDF أو Word — بحد أقصى 10MB)' : 'Resume / CV (PDF or Word — max 10MB)'}
+        </label>
+        <label className={`flex items-center gap-3 px-4 py-3 rounded-xl border-2 border-dashed border-border hover:border-primary/50 bg-background cursor-pointer transition-colors ${isAr ? 'flex-row-reverse' : ''}`}>
+          <Briefcase className="w-4 h-4 text-muted-foreground shrink-0" />
+          <span className="text-sm text-muted-foreground truncate">
+            {file ? file.name : (isAr ? 'انقر لرفع الملف' : 'Click to upload file')}
+          </span>
+          <input type="file" accept=".pdf,.doc,.docx" className="hidden" onChange={handleFile} />
+        </label>
+        {fileError && <p className="text-xs text-destructive mt-1">{fileError}</p>}
+        {file && !fileError && (
+          <p className="text-xs text-primary mt-1">
+            {file.name} — {(file.size / 1024 / 1024).toFixed(2)} MB
+          </p>
+        )}
+      </div>
+      <button
+        type="submit"
+        disabled={loading}
+        className="mt-2 bg-secondary text-secondary-foreground text-sm font-bold px-6 py-3 rounded-full hover:opacity-90 transition-opacity disabled:opacity-60 uppercase tracking-wide"
+      >
+        {loading ? (isAr ? 'جارٍ الإرسال...' : 'Submitting...') : (isAr ? 'إرسال الطلب' : 'Submit Application')}
+      </button>
+    </form>
+  );
+}
+
 export default function Careers() {
   const { lang, dir, isAr } = useLanguage();
   const [selectedJob, setSelectedJob] = useState(null);
@@ -260,11 +357,11 @@ export default function Careers() {
 
       {/* Job Listings */}
       <section className="py-20 md:py-28">
-        <div className="max-w-4xl mx-auto px-6">
+        <div className="max-w-7xl mx-auto px-6">
           <h2 className="text-2xl font-bold text-foreground mb-8">
             {isAr ? `الوظائف المتاحة (${OPENINGS.length})` : `Open Positions (${OPENINGS.length})`}
           </h2>
-          <div className="flex flex-col gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
             {OPENINGS.map((job, i) => (
               <motion.div
                 key={job.id}
@@ -277,6 +374,31 @@ export default function Careers() {
               </motion.div>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* General Application Form */}
+      <section className="py-20 border-t border-border bg-card">
+        <div className="max-w-2xl mx-auto px-6">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+          >
+            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-primary mb-3">
+              {isAr ? 'لم تجد وظيفتك المناسبة؟' : "Didn't find the right role?"}
+            </p>
+            <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-2">
+              {isAr ? 'تقدم بطلب عام' : 'Submit a General Application'}
+            </h2>
+            <p className="text-muted-foreground text-sm mb-8 leading-relaxed">
+              {isAr
+                ? 'أرسل ملفك الشخصي وسنتواصل معك عند توفر فرصة تناسب مؤهلاتك.'
+                : "Send us your profile and we'll reach out when a matching opportunity arises."}
+            </p>
+            <GeneralForm isAr={isAr} dir={dir} />
+          </motion.div>
         </div>
       </section>
 
