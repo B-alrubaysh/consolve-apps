@@ -94,9 +94,7 @@ function JobCard({ job, isAr, onApply }) {
             {isAr ? job.typeAr : job.typeEn}
           </span>
         </div>
-        <p className="text-sm text-muted-foreground leading-relaxed">
-          {isAr ? job.descAr : job.descEn}
-        </p>
+
       </div>
       <button
         onClick={() => onApply(job)}
