@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ChevronDown, Briefcase, MapPin, Clock } from "lucide-react";
+import { Briefcase, MapPin, Clock } from "lucide-react";
 import { base44 } from "@/api/base44Client";
 import { useLanguage } from "../lib/useLanguage";
 
@@ -296,7 +296,6 @@ function GeneralForm({ isAr, dir }) {
           className={`w-full px-4 py-2.5 rounded-xl border border-border bg-background text-foreground text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/40 resize-none ${isAr ? 'text-right' : ''}`}
         />
       </div>
-      {/* File Upload */}
       <div>
         <label className={`block text-xs font-semibold text-muted-foreground mb-1.5 ${isAr ? 'text-right' : ''}`}>
           {isAr ? 'السيرة الذاتية (PDF أو Word — بحد أقصى 10MB)' : 'Resume / CV (PDF or Word — max 10MB)'}
@@ -332,7 +331,6 @@ export default function Careers() {
 
   return (
     <div dir={dir} className="min-h-screen bg-background">
-      {/* Hero */}
       <section className="py-24 md:py-36 bg-secondary text-secondary-foreground">
         <div className="max-w-7xl mx-auto px-6">
           <motion.div
@@ -355,7 +353,6 @@ export default function Careers() {
         </div>
       </section>
 
-      {/* Job Listings */}
       <section className="py-20 md:py-28">
         <div className="max-w-7xl mx-auto px-6">
           <h2 className="text-2xl font-bold text-foreground mb-8">
@@ -377,7 +374,6 @@ export default function Careers() {
         </div>
       </section>
 
-      {/* General Application Form */}
       <section className="py-20 border-t border-border bg-card">
         <div className="max-w-2xl mx-auto px-6">
           <motion.div
@@ -402,7 +398,6 @@ export default function Careers() {
         </div>
       </section>
 
-      {/* Application Modal */}
       <AnimatePresence>
         {selectedJob && (
           <ApplicationForm
