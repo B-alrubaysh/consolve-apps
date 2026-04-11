@@ -152,7 +152,7 @@ function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
           <div className="md:col-span-2">
             <div className="mb-4">
-              <img src="https://media.base44.com/images/public/69c6e2cf0b61fa041c4eb06c/a90b3e265_image.png" alt="Consolve" className="h-9 w-auto" style={{ mixBlendMode: 'screen' }} />
+              <img src="https://media.base44.com/images/public/69c6e2cf0b61fa041c4eb06c/4c25434d1_Consolve_identity_compressed_HQai.png" alt="Consolve" className="h-9 w-auto" style={{ mixBlendMode: 'screen' }} />
             </div>
             <p className="text-secondary-foreground/60 text-sm leading-relaxed max-w-sm">
               {tx.footer_tagline}
