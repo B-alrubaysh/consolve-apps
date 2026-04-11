@@ -11,7 +11,7 @@ import {
   Loader2,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { canAccessModule } from "../../lib/adminAuth";
+import { canAccessModule } from "@/lib/adminAuth";
 
 function StatCard({ icon: Icon, label, value, loading, linkTo }) {
   const content = (

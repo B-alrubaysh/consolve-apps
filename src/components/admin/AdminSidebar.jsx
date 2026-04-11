@@ -12,7 +12,7 @@ import {
   Menu,
 } from "lucide-react";
 import { useState } from "react";
-import { canAccessModule, clearAdminSession, ROLE_LABELS } from "../../lib/adminAuth";
+import { canAccessModule, clearAdminSession, ROLE_LABELS } from "@/lib/adminAuth";
 
 const NAV_ITEMS = [
   { to: "/csaccess/dashboard", icon: LayoutDashboard, label: "Dashboard", module: "dashboard" },

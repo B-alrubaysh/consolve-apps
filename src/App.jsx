@@ -1,3 +1,4 @@
+// App Router
 import { Toaster } from "@/components/ui/toaster"
 import { QueryClientProvider } from '@tanstack/react-query'
 import { queryClientInstance } from '@/lib/query-client'
@@ -13,19 +14,10 @@ import Clients from './pages/Clients';
 import Contact from './pages/Contact';
 import Assessment from './pages/Assessment';
 import Careers from './pages/Careers';
-import AdminLogin from './pages/admin/AdminLogin';
-import AdminLayout from './components/admin/AdminLayout';
-import AdminDashboardPage from './pages/admin/AdminDashboardPage';
-import AdminUsers from './pages/admin/AdminUsers';
-import AdminLogs from './pages/admin/AdminLogs';
-import AdminSettings from './pages/admin/AdminSettings';
-import AdminForms from './pages/admin/AdminForms';
-import AdminCareers from './pages/admin/AdminCareers';
 
 const AuthenticatedApp = () => {
   const { isLoadingAuth, isLoadingPublicSettings, authError, navigateToLogin } = useAuth();
 
-  // Show loading spinner while checking app public settings or auth
   if (isLoadingPublicSettings || isLoadingAuth) {
     return (
       <div className="fixed inset-0 flex items-center justify-center">
@@ -34,18 +26,15 @@ const AuthenticatedApp = () => {
     );
   }
 
-  // Handle authentication errors
   if (authError) {
     if (authError.type === 'user_not_registered') {
       return <UserNotRegisteredError />;
     } else if (authError.type === 'auth_required') {
-      // Redirect to login automatically
       navigateToLogin();
       return null;
     }
   }
 
-  // Render the main app
   return (
     <Routes>
       <Route element={<Layout />}>
@@ -57,23 +46,12 @@ const AuthenticatedApp = () => {
         <Route path="/assessment" element={<Assessment />} />
         <Route path="/careers" element={<Careers />} />
       </Route>
-      <Route path="/csaccess" element={<AdminLogin />} />
-      <Route element={<AdminLayout />}>
-        <Route path="/csaccess/dashboard" element={<AdminDashboardPage />} />
-        <Route path="/csaccess/users" element={<AdminUsers />} />
-        <Route path="/csaccess/logs" element={<AdminLogs />} />
-        <Route path="/csaccess/settings" element={<AdminSettings />} />
-        <Route path="/csaccess/forms" element={<AdminForms />} />
-        <Route path="/csaccess/careers-admin" element={<AdminCareers />} />
-      </Route>
       <Route path="*" element={<PageNotFound />} />
     </Routes>
   );
 };
 
-
 function App() {
-
   return (
     <AuthProvider>
       <QueryClientProvider client={queryClientInstance}>

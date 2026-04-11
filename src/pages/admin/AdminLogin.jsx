@@ -4,7 +4,7 @@ import { base44 } from "@/api/base44Client";
 import { Loader2, Eye, EyeOff, ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { getAdminSession, setAdminSession } from "../../lib/adminAuth";
+import { getAdminSession, setAdminSession } from "@/lib/adminAuth";
 
 export default function AdminLogin() {
   const navigate = useNavigate();

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ChevronDown, Briefcase, MapPin, Clock } from "lucide-react";
+import { Briefcase, MapPin, Clock } from "lucide-react";
 import { base44 } from "@/api/base44Client";
 import { useLanguage } from "../lib/useLanguage";
 
@@ -15,8 +15,6 @@ const OPENINGS = [
     locationAr: "الرياض، المملكة العربية السعودية",
     typeEn: "Full-time",
     typeAr: "دوام كامل",
-    descEn: "Drive strategic engagements for top-tier clients across various industries. You'll lead analysis, develop frameworks, and present insights to C-suite executives.",
-    descAr: "قيادة المشاركات الاستراتيجية لكبار العملاء عبر مختلف القطاعات. ستقود التحليل وتطوير الأطر وتقديم الرؤى لكبار المسؤولين التنفيذيين.",
   },
   {
     id: 2,
@@ -28,8 +26,6 @@ const OPENINGS = [
     locationAr: "الرياض، المملكة العربية السعودية",
     typeEn: "Full-time",
     typeAr: "دوام كامل",
-    descEn: "Support financial modeling, feasibility studies, and M&A transactions. Work alongside senior advisors on complex deals across the region.",
-    descAr: "دعم النمذجة المالية ودراسات الجدوى وصفقات الاندماج والاستحواذ. العمل جنبًا إلى جنب مع كبار المستشارين في الصفقات المعقدة.",
   },
   {
     id: 3,
@@ -41,8 +37,6 @@ const OPENINGS = [
     locationAr: "الرياض، المملكة العربية السعودية",
     typeEn: "Full-time",
     typeAr: "دوام كامل",
-    descEn: "Help clients optimize their operating models, reengineer processes, and reduce costs through lean methodologies and data-driven insights.",
-    descAr: "مساعدة العملاء على تحسين نماذج التشغيل وإعادة هندسة العمليات وتقليل التكاليف من خلال منهجيات لين والرؤى المستندة إلى البيانات.",
   },
   {
     id: 4,
@@ -54,8 +48,6 @@ const OPENINGS = [
     locationAr: "الرياض، المملكة العربية السعودية",
     typeEn: "Full-time",
     typeAr: "دوام كامل",
-    descEn: "Design governance frameworks, risk management programs, and compliance structures for clients across regulated industries.",
-    descAr: "تصميم أطر الحوكمة وبرامج إدارة المخاطر وهياكل الامتثال للعملاء في القطاعات الخاضعة للتنظيم.",
   },
   {
     id: 5,
@@ -67,8 +59,6 @@ const OPENINGS = [
     locationAr: "الرياض، المملكة العربية السعودية",
     typeEn: "Full-time",
     typeAr: "دوام كامل",
-    descEn: "Identify and pursue new business opportunities, manage client relationships, and support proposal development across Consolve's service lines.",
-    descAr: "تحديد الفرص التجارية الجديدة ومتابعتها وإدارة علاقات العملاء ودعم تطوير العروض عبر خطوط خدمات كونسولف.",
   },
 ];
 
@@ -94,7 +84,6 @@ function JobCard({ job, isAr, onApply }) {
             {isAr ? job.typeAr : job.typeEn}
           </span>
         </div>
-
       </div>
       <button
         onClick={() => onApply(job)}
@@ -294,7 +283,6 @@ function GeneralForm({ isAr, dir }) {
           className={`w-full px-4 py-2.5 rounded-xl border border-border bg-background text-foreground text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/40 resize-none ${isAr ? 'text-right' : ''}`}
         />
       </div>
-      {/* File Upload */}
       <div>
         <label className={`block text-xs font-semibold text-muted-foreground mb-1.5 ${isAr ? 'text-right' : ''}`}>
           {isAr ? 'السيرة الذاتية (PDF أو Word — بحد أقصى 10MB)' : 'Resume / CV (PDF or Word — max 10MB)'}
@@ -330,7 +318,6 @@ export default function Careers() {
 
   return (
     <div dir={dir} className="min-h-screen bg-background">
-      {/* Hero */}
       <section className="py-24 md:py-36 bg-secondary text-secondary-foreground">
         <div className="max-w-7xl mx-auto px-6">
           <motion.div
@@ -353,7 +340,6 @@ export default function Careers() {
         </div>
       </section>
 
-      {/* Job Listings */}
       <section className="py-20 md:py-28">
         <div className="max-w-7xl mx-auto px-6">
           <h2 className="text-2xl font-bold text-foreground mb-8">
@@ -375,7 +361,6 @@ export default function Careers() {
         </div>
       </section>
 
-      {/* General Application Form */}
       <section className="py-20 border-t border-border bg-card">
         <div className="max-w-2xl mx-auto px-6">
           <motion.div
@@ -400,7 +385,6 @@ export default function Careers() {
         </div>
       </section>
 
-      {/* Application Modal */}
       <AnimatePresence>
         {selectedJob && (
           <ApplicationForm

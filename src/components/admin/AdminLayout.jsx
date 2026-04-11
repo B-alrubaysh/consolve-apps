@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { base44 } from "@/api/base44Client";
 import { Loader2 } from "lucide-react";
 import AdminSidebar from "./AdminSidebar";
-import { getAdminSession, clearAdminSession } from "../../lib/adminAuth";
+import { getAdminSession, clearAdminSession } from "@/lib/adminAuth";
 
 export default function AdminLayout() {
   const [user, setUser] = useState(null);
