@@ -143,7 +143,8 @@ function Footer() {
   { to: "/about", label: tx.nav_about },
   { to: "/services", label: tx.nav_services },
   { to: "/clients", label: tx.nav_clients },
-  { to: "/contact", label: tx.nav_contact }];
+  { to: "/contact", label: tx.nav_contact },
+  { to: "/careers", label: lang === "ar" ? "الوظائف" : "Careers" }];
 
 
   return (

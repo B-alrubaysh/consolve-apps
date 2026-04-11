@@ -13,6 +13,7 @@ import Clients from './pages/Clients';
 import Contact from './pages/Contact';
 import Assessment from './pages/Assessment';
 import AdminDashboard from './pages/AdminDashboard';
+import Careers from './pages/Careers';
 
 const AuthenticatedApp = () => {
   const { isLoadingAuth, isLoadingPublicSettings, authError, navigateToLogin } = useAuth();
@@ -47,6 +48,7 @@ const AuthenticatedApp = () => {
         <Route path="/clients" element={<Clients />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/assessment" element={<Assessment />} />
+        <Route path="/careers" element={<Careers />} />
       </Route>
       <Route path="/admin" element={<AdminDashboard />} />
       <Route path="*" element={<PageNotFound />} />
