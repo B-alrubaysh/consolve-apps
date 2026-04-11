@@ -1,0 +1,43 @@
+{
+  "name": "ActivityLog",
+  "type": "object",
+  "properties": {
+    "admin_user_id": {
+      "type": "string",
+      "title": "Admin User ID"
+    },
+    "admin_user_name": {
+      "type": "string",
+      "title": "Admin User Name"
+    },
+    "admin_user_email": {
+      "type": "string",
+      "title": "Admin User Email"
+    },
+    "action": {
+      "type": "string",
+      "title": "Action"
+    },
+    "details": {
+      "type": "string",
+      "title": "Details"
+    },
+    "module": {
+      "type": "string",
+      "title": "Module",
+      "enum": [
+        "auth",
+        "users",
+        "cms",
+        "careers",
+        "forms",
+        "clients",
+        "settings"
+      ]
+    }
+  },
+  "required": [
+    "action",
+    "module"
+  ]
+}

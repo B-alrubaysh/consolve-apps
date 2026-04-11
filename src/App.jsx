@@ -12,8 +12,15 @@ import Services from './pages/Services';
 import Clients from './pages/Clients';
 import Contact from './pages/Contact';
 import Assessment from './pages/Assessment';
-import AdminDashboard from './pages/AdminDashboard';
 import Careers from './pages/Careers';
+import AdminLogin from './pages/admin/AdminLogin';
+import AdminLayout from './components/admin/AdminLayout';
+import AdminDashboardPage from './pages/admin/AdminDashboardPage';
+import AdminUsers from './pages/admin/AdminUsers';
+import AdminLogs from './pages/admin/AdminLogs';
+import AdminSettings from './pages/admin/AdminSettings';
+import AdminForms from './pages/admin/AdminForms';
+import AdminCareers from './pages/admin/AdminCareers';
 
 const AuthenticatedApp = () => {
   const { isLoadingAuth, isLoadingPublicSettings, authError, navigateToLogin } = useAuth();
@@ -50,7 +57,15 @@ const AuthenticatedApp = () => {
         <Route path="/assessment" element={<Assessment />} />
         <Route path="/careers" element={<Careers />} />
       </Route>
-      <Route path="/admin" element={<AdminDashboard />} />
+      <Route path="/csaccess" element={<AdminLogin />} />
+      <Route element={<AdminLayout />}>
+        <Route path="/csaccess/dashboard" element={<AdminDashboardPage />} />
+        <Route path="/csaccess/users" element={<AdminUsers />} />
+        <Route path="/csaccess/logs" element={<AdminLogs />} />
+        <Route path="/csaccess/settings" element={<AdminSettings />} />
+        <Route path="/csaccess/forms" element={<AdminForms />} />
+        <Route path="/csaccess/careers-admin" element={<AdminCareers />} />
+      </Route>
       <Route path="*" element={<PageNotFound />} />
     </Routes>
   );

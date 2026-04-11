@@ -1,0 +1,60 @@
+{
+  "name": "AdminUser",
+  "type": "object",
+  "properties": {
+    "full_name": {
+      "type": "string",
+      "title": "Full Name"
+    },
+    "email": {
+      "type": "string",
+      "title": "Email"
+    },
+    "password_hash": {
+      "type": "string",
+      "title": "Password Hash"
+    },
+    "role": {
+      "type": "string",
+      "title": "Role",
+      "enum": [
+        "owner",
+        "admin",
+        "cms_manager",
+        "hr"
+      ]
+    },
+    "is_super_admin": {
+      "type": "boolean",
+      "title": "Super Admin Flag",
+      "default": false
+    },
+    "status": {
+      "type": "string",
+      "title": "Status",
+      "enum": [
+        "active",
+        "inactive"
+      ],
+      "default": "active"
+    },
+    "reset_token": {
+      "type": "string",
+      "title": "Password Reset Token"
+    },
+    "reset_token_expires": {
+      "type": "string",
+      "title": "Reset Token Expiry"
+    },
+    "last_login": {
+      "type": "string",
+      "title": "Last Login"
+    }
+  },
+  "required": [
+    "full_name",
+    "email",
+    "password_hash",
+    "role"
+  ]
+}
