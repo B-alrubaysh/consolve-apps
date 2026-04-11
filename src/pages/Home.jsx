@@ -57,7 +57,7 @@ export default function Home() {
         {/* Large logo watermark at bottom */}
         <div className="absolute bottom-0 left-0 right-0 z-10">
           <img
-            src="https://media.base44.com/images/public/69c6e2cf0b61fa041c4eb06c/3371d6b9b_image-Photoroom.png"
+            src="https://media.base44.com/images/public/69c6e2cf0b61fa041c4eb06c/4c25434d1_Consolve_identity_compressed_HQai.png"
             alt="Consolve"
             className="w-full object-contain" />
           
