@@ -1,19 +1,25 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, createContext, useContext } from "react";
 import { Outlet, Navigate, Link, useLocation } from "react-router-dom";
-import { Loader2, LayoutDashboard, FileText, Users, Briefcase, Inbox, Settings, BookOpen, LogOut } from "lucide-react";
+import { Loader2, LayoutDashboard, FileText, Users, Briefcase, Inbox, Settings, BookOpen, FilePlus2, LogOut } from "lucide-react";
 import { base44 } from "@/api/base44Client";
 import { useLanguage } from "../../lib/useLanguage";
+import { ALL_ADMIN_ROLES, canSeeNavItem } from "../../lib/rbac";
 
 const NAV = [
-  { to: "/admin/dashboard", label: "Dashboard", icon: LayoutDashboard },
-  { to: "/admin/assessments", label: "Assessments", icon: FileText },
-  { to: "/admin/clients", label: "Clients", icon: Users },
-  { to: "/admin/blog", label: "Blog", icon: BookOpen },
-  { to: "/admin/careers", label: "Careers", icon: Briefcase },
-  { to: "/admin/submissions", label: "Submissions", icon: Inbox },
-  { to: "/admin/users", label: "Users", icon: Users },
-  { to: "/admin/settings", label: "Settings", icon: Settings },
+  { key: "dashboard", to: "/admin/dashboard", label: "Dashboard", icon: LayoutDashboard },
+  { key: "blog", to: "/admin/blog", label: "Blog", icon: BookOpen },
+  { key: "templates", to: "/admin/blog/templates", label: "Templates", icon: FilePlus2 },
+  { key: "clients", to: "/admin/clients", label: "Clients", icon: Users },
+  { key: "careers", to: "/admin/careers", label: "Careers", icon: Briefcase },
+  { key: "submissions", to: "/admin/submissions", label: "Submissions", icon: Inbox },
+  { key: "assessments", to: "/admin/assessments", label: "Assessments", icon: FileText },
+  { key: "users", to: "/admin/users", label: "Users", icon: Users },
+  { key: "settings", to: "/admin/settings", label: "Settings", icon: Settings },
 ];
+
+// Context exposes the resolved admin user (User entity record) to admin pages.
+const AdminUserContext = createContext(null);
+export const useAdminUser = () => useContext(AdminUserContext);
 
 function CenteredSpinner({ text }) {
   return (
@@ -40,6 +46,8 @@ function StatusScreen({ title, message }) {
 
 function AdminSidebar({ user, onLogout }) {
   const location = useLocation();
+  const visibleItems = NAV.filter((item) => canSeeNavItem(user.role, item.key));
+
   return (
     <aside className="w-64 shrink-0 border-r border-white/10 bg-secondary text-white min-h-screen flex flex-col">
       <div className="px-6 py-6 border-b border-white/10">
@@ -47,11 +55,12 @@ function AdminSidebar({ user, onLogout }) {
           Consolve Admin
         </Link>
         <p className="text-xs text-white/40 mt-2 truncate">{user?.email}</p>
+        <p className="text-[10px] uppercase tracking-widest text-primary/70 mt-1">{user.role}</p>
       </div>
       <nav className="flex-1 px-3 py-4 flex flex-col gap-1">
-        {NAV.map((item) => {
+        {visibleItems.map((item) => {
           const Icon = item.icon;
-          const active = location.pathname.startsWith(item.to);
+          const active = location.pathname === item.to || (item.to !== "/admin" && location.pathname.startsWith(item.to));
           return (
             <Link
               key={item.to}
@@ -83,7 +92,6 @@ export default function ProtectedAdminLayout() {
   const [state, setState] = useState({ status: "loading", user: null });
 
   useEffect(() => {
-    // Preserve language settings — admin can be RTL or LTR.
     document.documentElement.dir = isAr ? "rtl" : "ltr";
     document.documentElement.lang = lang;
   }, [lang, isAr]);
@@ -91,25 +99,49 @@ export default function ProtectedAdminLayout() {
   useEffect(() => {
     let cancelled = false;
     (async () => {
+      // Step 1 — platform auth.
+      let me;
       try {
-        const user = await base44.auth.me();
-        if (cancelled) return;
-        if (!user) {
-          setState({ status: "unauthenticated", user: null });
-          return;
-        }
-        if (user.is_suspended) {
-          setState({ status: "suspended", user });
-          return;
-        }
-        if (user.role !== "admin") {
-          setState({ status: "denied", user });
-          return;
-        }
-        setState({ status: "ok", user });
+        me = await base44.auth.me();
       } catch {
         if (!cancelled) setState({ status: "unauthenticated", user: null });
+        return;
       }
+      if (cancelled) return;
+      if (!me) { setState({ status: "unauthenticated", user: null }); return; }
+
+      // Step 2 — fetch the matching User entity record by email.
+      const records = await base44.entities.User.filter({ email: me.email });
+      const record = records[0];
+
+      if (cancelled) return;
+
+      if (!record) {
+        // No app-level record — treat as denied.
+        setState({ status: "denied", user: me });
+        return;
+      }
+
+      // Invited users with a valid token go through the invite flow.
+      if (record.status === "invited" && record.invite_token) {
+        setState({ status: "invited", user: record });
+        return;
+      }
+
+      if (record.status === "suspended") {
+        setState({ status: "suspended", user: record });
+        return;
+      }
+
+      if (record.status !== "active" || !ALL_ADMIN_ROLES.includes(record.role)) {
+        setState({ status: "denied", user: record });
+        return;
+      }
+
+      // Update last_login_at (best-effort, don't block).
+      base44.entities.User.update(record.id, { last_login_at: new Date().toISOString() }).catch(() => {});
+
+      setState({ status: "ok", user: record });
     })();
     return () => { cancelled = true; };
   }, []);
@@ -118,12 +150,12 @@ export default function ProtectedAdminLayout() {
     base44.auth.logout(window.location.origin + "/admin/login");
   };
 
-  if (state.status === "loading") {
-    return <CenteredSpinner text="Verifying admin access…" />;
-  }
+  if (state.status === "loading") return <CenteredSpinner text="Verifying admin access…" />;
 
-  if (state.status === "unauthenticated") {
-    return <Navigate to="/admin/login" replace />;
+  if (state.status === "unauthenticated") return <Navigate to="/admin/login" replace />;
+
+  if (state.status === "invited") {
+    return <Navigate to={`/admin/invite/${state.user.invite_token}`} replace />;
   }
 
   if (state.status === "suspended") {
@@ -135,11 +167,13 @@ export default function ProtectedAdminLayout() {
   }
 
   return (
-    <div className="min-h-screen bg-secondary text-white flex">
-      <AdminSidebar user={state.user} onLogout={handleLogout} />
-      <main className="flex-1 min-w-0">
-        <Outlet />
-      </main>
-    </div>
+    <AdminUserContext.Provider value={state.user}>
+      <div className="min-h-screen bg-secondary text-white flex">
+        <AdminSidebar user={state.user} onLogout={handleLogout} />
+        <main className="flex-1 min-w-0">
+          <Outlet />
+        </main>
+      </div>
+    </AdminUserContext.Provider>
   );
 }

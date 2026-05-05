@@ -18,6 +18,8 @@ import Careers from './pages/Careers';
 // Admin
 import ProtectedAdminLayout from './components/admin/ProtectedAdminLayout';
 import AdminLoginPage from './pages/admin/AdminLoginPage';
+import AdminInvitePage from './pages/admin/AdminInvitePage';
+import AdminUsersPage from './pages/admin/AdminUsersPage';
 import AdminDashboard from './pages/AdminDashboard';
 import AdminPlaceholder from './pages/admin/AdminPlaceholder';
 
@@ -39,6 +41,7 @@ function App() {
               <Route path="/careers/:slug" element={<Careers />} />
               <Route path="/blog" element={<AdminPlaceholder title="Blog" />} />
               <Route path="/blog/:slug" element={<AdminPlaceholder title="Blog Post" />} />
+              <Route path="/admin/invite/:token" element={<AdminInvitePage />} />
             </Route>
 
             {/* Admin login — standalone, no layout */}
@@ -54,7 +57,7 @@ function App() {
               <Route path="blog/templates" element={<AdminPlaceholder title="Blog Templates" />} />
               <Route path="careers" element={<AdminPlaceholder title="Careers" />} />
               <Route path="submissions" element={<AdminPlaceholder title="Submissions" />} />
-              <Route path="users" element={<AdminPlaceholder title="Users" />} />
+              <Route path="users" element={<AdminUsersPage />} />
               <Route path="settings" element={<AdminPlaceholder title="Settings" />} />
             </Route>
 
