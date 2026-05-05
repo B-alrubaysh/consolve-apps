@@ -18,6 +18,7 @@ export default function AssessmentStep3({ clientInfo, answers, onBack, lang }) {
   const [editMode, setEditMode] = useState(false);
   const [editedSnapshot, setEditedSnapshot] = useState("");
   const [editedProblems, setEditedProblems] = useState("");
+  const [submitError, setSubmitError] = useState("");
 
   useEffect(() => { generateDiagnosis(); }, []);
 
@@ -70,36 +71,47 @@ Provide a thorough, specific, and actionable diagnosis.`;
 
   const handleSubmit = async () => {
     setSaving(true);
-    await base44.entities.Assessment.create({
-      ...clientInfo,
-      questionnaire_answers: JSON.stringify(answers),
-      diagnosis: JSON.stringify(diagnosis),
-      business_snapshot: editMode ? editedSnapshot : diagnosis.business_snapshot,
-      identified_problems: editMode ? editedProblems : diagnosis.identified_problems,
-      risk_level: diagnosis.risk_level,
-      maturity_level: diagnosis.maturity_level,
-      suggested_services: (diagnosis.suggested_services || []).join(", "),
-      operational_score: diagnosis.operational_score,
-      financial_score: diagnosis.financial_score,
-      marketing_score: diagnosis.marketing_score,
-      status: "New",
-      language: lang,
-    });
-
-    // Best-effort confirmation email via our Resend-backed function. Don't block submit on email failure.
+    setSubmitError("");
     try {
-      await base44.functions.invoke("sendAssessmentConfirmation", {
-        to: clientInfo.contact_email,
-        contact_name: clientInfo.contact_name,
-        company_name: clientInfo.company_name,
-        lang,
+      await base44.entities.Assessment.create({
+        ...clientInfo,
+        questionnaire_answers: JSON.stringify(answers),
+        diagnosis: JSON.stringify(diagnosis),
+        business_snapshot: editMode ? editedSnapshot : diagnosis.business_snapshot,
+        identified_problems: editMode ? editedProblems : diagnosis.identified_problems,
+        risk_level: diagnosis.risk_level,
+        maturity_level: diagnosis.maturity_level,
+        suggested_services: (diagnosis.suggested_services || []).join(", "),
+        operational_score: diagnosis.operational_score,
+        financial_score: diagnosis.financial_score,
+        marketing_score: diagnosis.marketing_score,
+        status: "New",
+        language: lang,
       });
-    } catch (e) {
-      console.warn("Confirmation email failed:", e);
-    }
 
-    setSaved(true);
-    setSaving(false);
+      // Best-effort confirmation email — never block submit on email failure.
+      try {
+        await base44.functions.invoke("sendAssessmentConfirmation", {
+          to: clientInfo.contact_email,
+          contact_name: clientInfo.contact_name,
+          company_name: clientInfo.company_name,
+          lang,
+        });
+      } catch (e) {
+        console.warn("Confirmation email failed:", e);
+      }
+
+      setSaved(true);
+    } catch (err) {
+      console.error("Assessment submit failed:", err);
+      setSubmitError(
+        err?.response?.data?.message ||
+          err?.message ||
+          (lang === "ar" ? "تعذّر إرسال التقييم. حاول مرة أخرى." : "Could not submit your assessment. Please try again.")
+      );
+    } finally {
+      setSaving(false);
+    }
   };
 
   if (loading) {
@@ -233,6 +245,12 @@ Provide a thorough, specific, and actionable diagnosis.`;
           </div>
         )}
       </div>
+
+      {submitError && (
+        <div className="mb-4 px-4 py-3 rounded-lg bg-destructive/10 border border-destructive/30 text-destructive text-sm">
+          {submitError}
+        </div>
+      )}
 
       <div className="flex justify-between items-center pt-4 pb-8">
         <Button variant="ghost" onClick={onBack} className="text-muted-foreground">{tx.assess_back}</Button>
