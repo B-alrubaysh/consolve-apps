@@ -7,7 +7,10 @@ const QUILL_MODULES = {
   toolbar: [
     [{ header: [1, 2, 3, false] }],
     ["bold", "italic", "underline"],
-    [{ color: [] }, { background: [] }],
+    [
+      { color: ["#000000", "#374151", "#6b7280", "#dc2626", "#f97316", "#16a34a", "#0ea5e9", "#7c3aed", "#db2777", "#ffffff"] },
+      { background: ["#fef3c7", "#fee2e2", "#dcfce7", "#dbeafe", "#fce7f3", "transparent"] },
+    ],
     ["link", "image", "video"],
     ["blockquote"],
     [{ list: "ordered" }, { list: "bullet" }],
