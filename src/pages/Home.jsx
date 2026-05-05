@@ -6,6 +6,7 @@ import HomeAssessment from "../components/HomeAssessment";
 import HeroStatement from "../components/HeroStatement";
 import ServiceCatalogue from "../components/ServiceCatalogue";
 import ClientLogoCarousel from "../components/ClientLogoCarousel";
+import RecentBlogs from "../components/RecentBlogs";
 import { useLanguage } from "../lib/useLanguage";
 import t from "../lib/translations";
 
@@ -79,6 +80,9 @@ export default function Home() {
 
       {/* Embedded Assessment */}
       <HomeAssessment />
+
+      {/* Recent Blogs */}
+      <RecentBlogs />
 
       {/* Why Consolve */}
       
