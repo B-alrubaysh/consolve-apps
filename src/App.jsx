@@ -29,6 +29,7 @@ import AdminSubmissionsPage from './pages/admin/AdminSubmissionsPage';
 import AdminBlogPage from './pages/admin/AdminBlogPage';
 import AdminBlogEditorPage from './pages/admin/AdminBlogEditorPage';
 import AdminBlogTemplatesPage from './pages/admin/AdminBlogTemplatesPage';
+import AdminDashboardPage from './pages/admin/AdminDashboardPage';
 import AdminPlaceholder from './pages/admin/AdminPlaceholder';
 
 function App() {
@@ -58,7 +59,7 @@ function App() {
             {/* Admin — gated */}
             <Route path="/admin" element={<ProtectedAdminLayout />}>
               <Route index element={<Navigate to="/admin/dashboard" replace />} />
-              <Route path="dashboard" element={<AdminPlaceholder title="Dashboard" />} />
+              <Route path="dashboard" element={<AdminDashboardPage />} />
               <Route path="assessments" element={<AssessmentsList />} />
               <Route path="clients" element={<AdminClientsPage />} />
               <Route path="blog" element={<AdminBlogPage />} />
