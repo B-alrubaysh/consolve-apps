@@ -36,7 +36,7 @@ export default function BlogPostRow({ post, authorName, onEdit, onPreview, onPub
       <div className="col-span-12 md:col-span-5 lg:col-span-4 xl:col-span-3 min-w-0">
         <p className="text-white font-medium truncate">{post.title_en || post.title_ar || "—"}</p>
         {post.title_ar && post.title_en && (
-          <p className="text-white/50 text-xs truncate" dir="rtl">{post.title_ar}</p>
+          <p className="text-white/50 text-xs truncate text-left" dir="ltr">{post.title_ar}</p>
         )}
       </div>
       <div className="col-span-3 md:col-span-2 lg:col-span-1 flex items-center gap-1 min-w-0">
