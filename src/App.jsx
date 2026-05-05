@@ -21,6 +21,7 @@ import AdminLoginPage from './pages/admin/AdminLoginPage';
 import AdminInvitePage from './pages/admin/AdminInvitePage';
 import AdminUsersPage from './pages/admin/AdminUsersPage';
 import AssessmentsList from './pages/admin/AssessmentsList';
+import AdminClientsPage from './pages/admin/AdminClientsPage';
 import AdminPlaceholder from './pages/admin/AdminPlaceholder';
 
 function App() {
@@ -52,7 +53,7 @@ function App() {
               <Route index element={<Navigate to="/admin/dashboard" replace />} />
               <Route path="dashboard" element={<AdminPlaceholder title="Dashboard" />} />
               <Route path="assessments" element={<AssessmentsList />} />
-              <Route path="clients" element={<AdminPlaceholder title="Clients" />} />
+              <Route path="clients" element={<AdminClientsPage />} />
               <Route path="blog" element={<AdminPlaceholder title="Blog" />} />
               <Route path="blog/templates" element={<AdminPlaceholder title="Blog Templates" />} />
               <Route path="careers" element={<AdminPlaceholder title="Careers" />} />
