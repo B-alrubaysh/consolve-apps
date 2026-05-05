@@ -4,57 +4,38 @@ import { appParams } from '@/lib/app-params';
 
 const AuthContext = createContext();
 
+/**
+ * AuthProvider — silent provider.
+ *
+ * IMPORTANT: This provider does NOT block initial render and does NOT
+ * redirect anywhere globally. Public routes must render with zero
+ * dependency on auth. Auth gating is the sole responsibility of
+ * ProtectedAdminLayout.
+ */
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isLoadingAuth, setIsLoadingAuth] = useState(false);
-  const [isLoadingPublicSettings, setIsLoadingPublicSettings] = useState(true);
-  const [authError, setAuthError] = useState(null);
-  const [appPublicSettings, setAppPublicSettings] = useState(null);
   const didInit = useRef(false);
 
   useEffect(() => {
     if (didInit.current) return;
     didInit.current = true;
-    checkAppState();
-  }, []);
-
-  const checkAppState = async () => {
-    try {
-      const res = await fetch(`/api/apps/public/prod/public-settings/by-id/${appParams.appId}`, {
-        headers: {
-          'X-App-Id': appParams.appId,
-          ...(appParams.token ? { 'Authorization': `Bearer ${appParams.token}` } : {})
-        }
-      });
-
-      if (res.ok) {
-        const data = await res.json();
-        setAppPublicSettings(data);
-      } else if (res.status === 403) {
-        const data = await res.json().catch(() => ({}));
-        if (data?.extra_data?.reason === 'user_not_registered') {
-          setAuthError({ type: 'user_not_registered', message: 'User not registered' });
-        }
-      }
-    } catch (error) {
-      console.error('Public settings fetch failed:', error);
-    }
-
-    setIsLoadingPublicSettings(false);
-
+    // Best-effort, non-blocking: if a token is present, hydrate user in background.
     if (appParams.token) {
-      setIsLoadingAuth(true);
-      try {
-        const currentUser = await base44.auth.me();
-        setUser(currentUser);
-        setIsAuthenticated(true);
-      } catch {
-        setIsAuthenticated(false);
-      }
-      setIsLoadingAuth(false);
+      (async () => {
+        setIsLoadingAuth(true);
+        try {
+          const currentUser = await base44.auth.me();
+          setUser(currentUser);
+          setIsAuthenticated(true);
+        } catch {
+          setIsAuthenticated(false);
+        }
+        setIsLoadingAuth(false);
+      })();
     }
-  };
+  }, []);
 
   const logout = (shouldRedirect = true) => {
     setUser(null);
@@ -72,8 +53,8 @@ export const AuthProvider = ({ children }) => {
 
   return (
     <AuthContext.Provider value={{
-      user, isAuthenticated, isLoadingAuth, isLoadingPublicSettings,
-      authError, appPublicSettings, logout, navigateToLogin, checkAppState
+      user, isAuthenticated, isLoadingAuth,
+      logout, navigateToLogin, setUser, setIsAuthenticated
     }}>
       {children}
     </AuthContext.Provider>
