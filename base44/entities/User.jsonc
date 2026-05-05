@@ -1,0 +1,46 @@
+{
+  "name": "User",
+  "type": "object",
+  "properties": {
+    "role": {
+      "type": "string",
+      "enum": [
+        "owner",
+        "admin",
+        "writer",
+        "hr",
+        "user"
+      ],
+      "default": "user",
+      "description": "User role for RBAC"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "invited",
+        "active",
+        "suspended"
+      ],
+      "default": "active",
+      "description": "Account lifecycle status"
+    },
+    "invited_by": {
+      "type": "string",
+      "description": "Email of the user who sent the invite"
+    },
+    "invite_token": {
+      "type": "string",
+      "description": "Token used to accept an invite"
+    },
+    "invite_expires_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When the invite token expires"
+    },
+    "last_login_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Last successful login timestamp"
+    }
+  }
+}
