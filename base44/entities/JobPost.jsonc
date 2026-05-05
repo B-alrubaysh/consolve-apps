@@ -108,6 +108,63 @@
     "title_en"
   ],
   "rls": {
-    "read": true
+    "create": {
+      "$or": [
+        {
+          "user_condition": {
+            "role": "hr"
+          }
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        },
+        {
+          "user_condition": {
+            "role": "owner"
+          }
+        }
+      ]
+    },
+    "read": true,
+    "update": {
+      "$or": [
+        {
+          "user_condition": {
+            "role": "hr"
+          }
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        },
+        {
+          "user_condition": {
+            "role": "owner"
+          }
+        }
+      ]
+    },
+    "delete": {
+      "$or": [
+        {
+          "user_condition": {
+            "role": "hr"
+          }
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        },
+        {
+          "user_condition": {
+            "role": "owner"
+          }
+        }
+      ]
+    }
   }
 }
