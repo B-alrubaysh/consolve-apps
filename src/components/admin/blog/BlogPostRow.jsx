@@ -33,27 +33,27 @@ export default function BlogPostRow({ post, authorName, onEdit, onPreview, onPub
 
   return (
     <div className="grid grid-cols-12 items-center gap-4 px-4 py-3 border-t border-white/5 hover:bg-white/5 transition-colors text-sm">
-      <div className="col-span-3 min-w-0">
+      <div className="col-span-12 md:col-span-5 lg:col-span-4 xl:col-span-3 min-w-0">
         <p className="text-white font-medium truncate">{post.title_en || post.title_ar || "—"}</p>
         {post.title_ar && post.title_en && (
           <p className="text-white/50 text-xs truncate" dir="rtl">{post.title_ar}</p>
         )}
       </div>
-      <div className="col-span-1 hidden md:flex items-center gap-1">
+      <div className="col-span-3 md:col-span-2 lg:col-span-1 flex items-center gap-1 min-w-0">
         <Chip on={hasEn} label="EN" />
         <Chip on={hasAr} label="AR" />
       </div>
-      <div className="col-span-1 text-white/60 text-xs hidden lg:block truncate">{post.category || "—"}</div>
-      <div className="col-span-2 text-white/60 text-xs hidden lg:block truncate">{authorName || "—"}</div>
-      <div className="col-span-1">
+      <div className="hidden lg:block lg:col-span-1 text-white/60 text-xs truncate">{post.category || "—"}</div>
+      <div className="hidden lg:block lg:col-span-2 text-white/60 text-xs truncate">{authorName || "—"}</div>
+      <div className="col-span-3 md:col-span-2 lg:col-span-1 min-w-0">
         <span className={`inline-block px-2 py-0.5 rounded-md text-[10px] font-semibold uppercase tracking-widest ${STATUS_STYLES[post.status] || STATUS_STYLES.draft}`}>
           {post.status || "draft"}
         </span>
       </div>
-      <div className="col-span-1 text-white/40 text-xs hidden xl:block">{fmt(post.created_date)}</div>
-      <div className="col-span-1 text-white/40 text-xs hidden xl:block">{fmt(post.publish_date)}</div>
-      <div className="col-span-1 text-white/40 text-xs hidden xl:block">{fmt(post.updated_date)}</div>
-      <div className="col-span-12 md:col-span-6 lg:col-span-3 xl:col-span-1 flex items-center justify-end gap-1">
+      <div className="hidden xl:block xl:col-span-1 text-white/40 text-xs truncate">{fmt(post.created_date)}</div>
+      <div className="hidden xl:block xl:col-span-1 text-white/40 text-xs truncate">{fmt(post.publish_date)}</div>
+      <div className="hidden xl:block xl:col-span-1 text-white/40 text-xs truncate">{fmt(post.updated_date)}</div>
+      <div className="col-span-6 md:col-span-3 lg:col-span-2 xl:col-span-1 flex items-center justify-end gap-1">
         <button onClick={() => onEdit(post)} title="Edit"
           className="p-2 rounded-lg text-white/60 hover:bg-white/10 hover:text-white transition-colors">
           <Pencil className="w-4 h-4" />

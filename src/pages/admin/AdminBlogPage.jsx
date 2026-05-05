@@ -189,16 +189,16 @@ export default function AdminBlogPage() {
         </div>
       ) : (
         <div className="bg-white/5 border border-white/10 rounded-xl overflow-hidden">
-          <div className="grid grid-cols-12 items-center gap-4 px-4 py-3 text-xs uppercase tracking-widest text-white/40 bg-white/5">
-            <span className="col-span-3">Title</span>
-            <span className="col-span-1 hidden md:block">Lang</span>
-            <span className="col-span-1 hidden lg:block">Category</span>
-            <span className="col-span-2 hidden lg:block">Author</span>
-            <span className="col-span-1">Status</span>
-            <span className="col-span-1 hidden xl:block">Created</span>
-            <span className="col-span-1 hidden xl:block">Published</span>
-            <span className="col-span-1 hidden xl:block">Updated</span>
-            <span className="col-span-12 md:col-span-6 lg:col-span-3 xl:col-span-1 text-right">Actions</span>
+          <div className="hidden md:grid grid-cols-12 items-center gap-4 px-4 py-3 text-xs uppercase tracking-widest text-white/40 bg-white/5">
+            <span className="col-span-5 lg:col-span-4 xl:col-span-3">Title</span>
+            <span className="col-span-2 lg:col-span-1">Lang</span>
+            <span className="hidden lg:block lg:col-span-1">Category</span>
+            <span className="hidden lg:block lg:col-span-2">Author</span>
+            <span className="col-span-2 lg:col-span-1">Status</span>
+            <span className="hidden xl:block xl:col-span-1">Created</span>
+            <span className="hidden xl:block xl:col-span-1">Published</span>
+            <span className="hidden xl:block xl:col-span-1">Updated</span>
+            <span className="col-span-3 lg:col-span-2 xl:col-span-1 text-right">Actions</span>
           </div>
           {filtered.map((post) => {
             const u = post.author_id ? userMap.get(post.author_id) : null;
