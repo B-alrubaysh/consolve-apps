@@ -224,13 +224,14 @@ export default function BlogDetail() {
       )}
 
       <style>{`
-        .blog-content h1, .blog-content h2 { font-weight: 700; color: hsl(var(--foreground)); margin-top: 1.5em; margin-bottom: 0.5em; line-height: 1.25; }
+        .blog-content { color: hsl(var(--foreground)); }
+        .blog-content h1, .blog-content h2 { font-weight: 700; margin-top: 1.5em; margin-bottom: 0.5em; line-height: 1.25; }
         .blog-content h1 { font-size: 1.875rem; }
         .blog-content h2 { font-size: 1.5rem; }
-        .blog-content h3 { font-size: 1.25rem; font-weight: 600; color: hsl(var(--foreground)); margin-top: 1.25em; margin-bottom: 0.4em; }
-        .blog-content p { color: hsl(var(--foreground)); margin: 0.9em 0; line-height: 1.75; }
+        .blog-content h3 { font-size: 1.25rem; font-weight: 600; margin-top: 1.25em; margin-bottom: 0.4em; }
+        .blog-content p { margin: 0.9em 0; line-height: 1.75; }
         .blog-content a { color: hsl(var(--primary)); text-decoration: underline; }
-        .blog-content ul, .blog-content ol { margin: 0.9em 0; padding-${isAr ? "right" : "left"}: 1.5rem; color: hsl(var(--foreground)); }
+        .blog-content ul, .blog-content ol { margin: 0.9em 0; padding-${isAr ? "right" : "left"}: 1.5rem; }
         .blog-content ul { list-style: disc; }
         .blog-content ol { list-style: decimal; }
         .blog-content li { margin: 0.4em 0; line-height: 1.7; }

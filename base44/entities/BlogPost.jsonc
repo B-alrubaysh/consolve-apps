@@ -109,38 +109,20 @@
     "slug"
   ],
   "rls": {
+    "read": true,
     "create": {
       "user_condition": {
-        "role": {
-          "$in": [
-            "owner",
-            "admin",
-            "writer"
-          ]
-        }
+        "role": "admin"
       }
     },
-    "read": true,
     "update": {
       "user_condition": {
-        "role": {
-          "$in": [
-            "owner",
-            "admin",
-            "writer"
-          ]
-        }
+        "role": "admin"
       }
     },
     "delete": {
       "user_condition": {
-        "role": {
-          "$in": [
-            "owner",
-            "admin",
-            "writer"
-          ]
-        }
+        "role": "admin"
       }
     }
   }
