@@ -22,6 +22,8 @@ import AdminInvitePage from './pages/admin/AdminInvitePage';
 import AdminUsersPage from './pages/admin/AdminUsersPage';
 import AssessmentsList from './pages/admin/AssessmentsList';
 import AdminClientsPage from './pages/admin/AdminClientsPage';
+import AdminCareersPage from './pages/admin/AdminCareersPage';
+import AdminSubmissionsPage from './pages/admin/AdminSubmissionsPage';
 import AdminPlaceholder from './pages/admin/AdminPlaceholder';
 
 function App() {
@@ -56,8 +58,8 @@ function App() {
               <Route path="clients" element={<AdminClientsPage />} />
               <Route path="blog" element={<AdminPlaceholder title="Blog" />} />
               <Route path="blog/templates" element={<AdminPlaceholder title="Blog Templates" />} />
-              <Route path="careers" element={<AdminPlaceholder title="Careers" />} />
-              <Route path="submissions" element={<AdminPlaceholder title="Submissions" />} />
+              <Route path="careers" element={<AdminCareersPage />} />
+              <Route path="submissions" element={<AdminSubmissionsPage />} />
               <Route path="users" element={<AdminUsersPage />} />
               <Route path="settings" element={<AdminPlaceholder title="Settings" />} />
             </Route>
