@@ -134,26 +134,56 @@ function Navbar() {
 
 }
 
+const DEFAULT_LOGO = "https://media.base44.com/images/public/69c6e2cf0b61fa041c4eb06c/4c25434d1_Consolve_identity_compressed_HQai.png";
+
 function Footer() {
-  const { lang, dir } = useLanguage();
+  const { lang, dir, isAr } = useLanguage();
   const tx = t[lang];
   const [settings, setSettings] = useState(null);
+  const [footerLinks, setFooterLinks] = useState([]);
 
   useEffect(() => {
     let cancelled = false;
-    base44.entities.SiteSettings.list("-created_date", 1)
-      .then((list) => { if (!cancelled) setSettings((list || [])[0] || null); })
-      .catch(() => {});
+    Promise.all([
+      base44.entities.SiteSettings.list("-created_date", 1).catch(() => null),
+      base44.entities.FooterNavLink.list("display_order", 100).catch(() => []),
+    ]).then(([sList, links]) => {
+      if (cancelled) return;
+      setSettings((sList || [])[0] || null);
+      setFooterLinks(links || []);
+    });
     return () => { cancelled = true; };
   }, []);
 
-  const NAV_LINKS = [
-  { to: "/", label: tx.nav_home },
-  { to: "/about", label: tx.nav_about },
-  { to: "/services", label: tx.nav_services },
-  { to: "/clients", label: tx.nav_clients },
-  { to: "/contact", label: tx.nav_contact },
-  { to: "/careers", label: lang === "ar" ? "الوظائف" : "Careers" }];
+  const FALLBACK_NAV_LINKS = [
+    { to: "/", label: tx.nav_home, external: false },
+    { to: "/about", label: tx.nav_about, external: false },
+    { to: "/services", label: tx.nav_services, external: false },
+    { to: "/clients", label: tx.nav_clients, external: false },
+    { to: "/contact", label: tx.nav_contact, external: false },
+    { to: "/careers", label: lang === "ar" ? "الوظائف" : "Careers", external: false },
+  ];
+
+  const activeLinks = footerLinks.filter((l) => l.is_active === true);
+  const navLinks = activeLinks.length > 0
+    ? activeLinks.map((l) => ({
+        to: l.url,
+        label: (isAr ? l.label_ar : l.label_en) || l.label_en || l.label_ar || l.url,
+        external: !!l.is_external,
+        id: l.id,
+      }))
+    : FALLBACK_NAV_LINKS;
+
+  const logoSrc = settings?.logo_url || DEFAULT_LOGO;
+  const tagline = (isAr ? settings?.footer_tagline_ar : settings?.footer_tagline_en) || tx.footer_tagline;
+  const navHeader = (isAr ? settings?.footer_nav_header_ar : settings?.footer_nav_header_en) || tx.footer_navigate;
+  const contactHeader = (isAr ? settings?.footer_contact_header_ar : settings?.footer_contact_header_en) || tx.footer_contact;
+  const copyrightRaw = (isAr ? settings?.footer_copyright_ar : settings?.footer_copyright_en);
+  const copyright = copyrightRaw
+    ? copyrightRaw.replace(/\{\{year\}\}/g, String(new Date().getFullYear()))
+    : tx.footer_rights(new Date().getFullYear());
+  const privacyLabel = (isAr ? settings?.footer_privacy_label_ar : settings?.footer_privacy_label_en) || tx.footer_privacy;
+  const termsLabel = (isAr ? settings?.footer_terms_label_ar : settings?.footer_terms_label_en) || tx.footer_terms;
 
   const email = settings?.contact_email || "info@consolve.com";
   const phone = settings?.contact_phone || "+1 (800) 555-0199";
@@ -169,27 +199,35 @@ function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
           <div className="md:col-span-2">
             <div className="mb-4">
-              <img src="https://media.base44.com/images/public/69c6e2cf0b61fa041c4eb06c/4c25434d1_Consolve_identity_compressed_HQai.png" alt="Consolve" className="h-9 w-auto" style={{ mixBlendMode: 'screen' }} />
+              <img src={logoSrc} alt="Logo" className="h-9 w-auto" style={{ mixBlendMode: 'screen' }} />
             </div>
             <p className="text-secondary-foreground/60 text-sm leading-relaxed max-w-sm">
-              {tx.footer_tagline}
+              {tagline}
             </p>
           </div>
           <div>
             <h4 className="text-xs font-semibold uppercase tracking-widest text-secondary-foreground/40 mb-4">
-              {tx.footer_navigate}
+              {navHeader}
             </h4>
             <div className="flex flex-col gap-3">
-              {NAV_LINKS.map((link) =>
-              <Link key={link.to} to={link.to} className="text-sm text-secondary-foreground/60 hover:text-primary transition-colors">
-                  {link.label}
-                </Link>
-              )}
+              {navLinks.map((link, i) => (
+                link.external ? (
+                  <a key={link.id || `${link.to}-${i}`} href={link.to} target="_blank" rel="noopener noreferrer"
+                    className="text-sm text-secondary-foreground/60 hover:text-primary transition-colors">
+                    {link.label}
+                  </a>
+                ) : (
+                  <Link key={link.id || `${link.to}-${i}`} to={link.to}
+                    className="text-sm text-secondary-foreground/60 hover:text-primary transition-colors">
+                    {link.label}
+                  </Link>
+                )
+              ))}
             </div>
           </div>
           <div>
             <h4 className="text-xs font-semibold uppercase tracking-widest text-secondary-foreground/40 mb-4">
-              {tx.footer_contact}
+              {contactHeader}
             </h4>
             <div className="flex flex-col gap-3 text-sm text-secondary-foreground/60">
               <span>{email}</span>
@@ -209,17 +247,17 @@ function Footer() {
           </div>
         </div>
         <div className="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
-          <p className="text-xs text-secondary-foreground/30">{tx.footer_rights(new Date().getFullYear())}</p>
+          <p className="text-xs text-secondary-foreground/30">{copyright}</p>
           <div className="flex items-center gap-6">
             {settings?.privacy_url ? (
-              <a href={settings.privacy_url} target="_blank" rel="noopener noreferrer" className="text-xs text-secondary-foreground/30 hover:text-primary transition-colors">{tx.footer_privacy}</a>
+              <a href={settings.privacy_url} target="_blank" rel="noopener noreferrer" className="text-xs text-secondary-foreground/30 hover:text-primary transition-colors">{privacyLabel}</a>
             ) : (
-              <span className="text-xs text-secondary-foreground/30 hover:text-primary cursor-pointer transition-colors">{tx.footer_privacy}</span>
+              <span className="text-xs text-secondary-foreground/30 hover:text-primary cursor-pointer transition-colors">{privacyLabel}</span>
             )}
             {settings?.terms_url ? (
-              <a href={settings.terms_url} target="_blank" rel="noopener noreferrer" className="text-xs text-secondary-foreground/30 hover:text-primary transition-colors">{tx.footer_terms}</a>
+              <a href={settings.terms_url} target="_blank" rel="noopener noreferrer" className="text-xs text-secondary-foreground/30 hover:text-primary transition-colors">{termsLabel}</a>
             ) : (
-              <span className="text-xs text-secondary-foreground/30 hover:text-primary cursor-pointer transition-colors">{tx.footer_terms}</span>
+              <span className="text-xs text-secondary-foreground/30 hover:text-primary cursor-pointer transition-colors">{termsLabel}</span>
             )}
           </div>
         </div>

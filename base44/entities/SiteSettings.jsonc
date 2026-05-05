@@ -49,6 +49,58 @@
     "default_seo_description_ar": {
       "type": "string",
       "title": "Default SEO Description (Arabic)"
+    },
+    "logo_url": {
+      "type": "string",
+      "title": "Logo URL"
+    },
+    "footer_tagline_en": {
+      "type": "string",
+      "title": "Footer Tagline (English)"
+    },
+    "footer_tagline_ar": {
+      "type": "string",
+      "title": "Footer Tagline (Arabic)"
+    },
+    "footer_nav_header_en": {
+      "type": "string",
+      "title": "Footer Nav Header (English)"
+    },
+    "footer_nav_header_ar": {
+      "type": "string",
+      "title": "Footer Nav Header (Arabic)"
+    },
+    "footer_contact_header_en": {
+      "type": "string",
+      "title": "Footer Contact Header (English)"
+    },
+    "footer_contact_header_ar": {
+      "type": "string",
+      "title": "Footer Contact Header (Arabic)"
+    },
+    "footer_copyright_en": {
+      "type": "string",
+      "title": "Footer Copyright (English)"
+    },
+    "footer_copyright_ar": {
+      "type": "string",
+      "title": "Footer Copyright (Arabic)"
+    },
+    "footer_privacy_label_en": {
+      "type": "string",
+      "title": "Privacy Label (English)"
+    },
+    "footer_privacy_label_ar": {
+      "type": "string",
+      "title": "Privacy Label (Arabic)"
+    },
+    "footer_terms_label_en": {
+      "type": "string",
+      "title": "Terms Label (English)"
+    },
+    "footer_terms_label_ar": {
+      "type": "string",
+      "title": "Terms Label (Arabic)"
     }
   },
   "required": [],

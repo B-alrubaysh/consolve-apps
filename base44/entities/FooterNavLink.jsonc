@@ -1,0 +1,81 @@
+{
+  "name": "FooterNavLink",
+  "type": "object",
+  "properties": {
+    "label_en": {
+      "type": "string",
+      "title": "Label (English)"
+    },
+    "label_ar": {
+      "type": "string",
+      "title": "Label (Arabic)"
+    },
+    "url": {
+      "type": "string",
+      "title": "URL"
+    },
+    "is_external": {
+      "type": "boolean",
+      "title": "External Link",
+      "default": false
+    },
+    "display_order": {
+      "type": "number",
+      "title": "Display Order",
+      "default": 0
+    },
+    "is_active": {
+      "type": "boolean",
+      "title": "Active",
+      "default": true
+    }
+  },
+  "required": [
+    "url"
+  ],
+  "rls": {
+    "read": true,
+    "create": {
+      "$or": [
+        {
+          "user_condition": {
+            "role": "owner"
+          }
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "update": {
+      "$or": [
+        {
+          "user_condition": {
+            "role": "owner"
+          }
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "delete": {
+      "$or": [
+        {
+          "user_condition": {
+            "role": "owner"
+          }
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    }
+  }
+}
