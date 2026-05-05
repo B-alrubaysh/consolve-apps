@@ -238,6 +238,25 @@ export default function BlogDetail() {
         .blog-content blockquote { border-${isAr ? "right" : "left"}: 3px solid hsl(var(--primary)); padding-${isAr ? "right" : "left"}: 1rem; color: hsl(var(--muted-foreground)); margin: 1.2em 0; font-style: italic; }
         .blog-content img { border-radius: 0.75rem; margin: 1.2em 0; }
         .blog-content code { background: hsl(var(--muted)); padding: 0.1em 0.3em; border-radius: 0.25rem; font-size: 0.9em; }
+        .blog-content pre, .blog-content .ql-syntax {
+          background: hsl(var(--muted));
+          padding: 1rem 1.25rem;
+          border-radius: 0.5rem;
+          margin: 1.2em 0;
+          overflow-x: auto;
+          font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+          font-size: 0.9em;
+          line-height: 1.6;
+          color: hsl(var(--foreground));
+        }
+        .blog-content pre code, .blog-content .ql-syntax {
+          background: transparent;
+          padding: 0;
+        }
+        .blog-content s, .blog-content strike { text-decoration: line-through; }
+        .blog-content .ql-align-center { text-align: center; }
+        .blog-content .ql-align-right { text-align: right; }
+        .blog-content .ql-align-justify { text-align: justify; }
       `}</style>
     </div>
   );

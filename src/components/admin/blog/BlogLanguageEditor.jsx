@@ -6,25 +6,27 @@ import { Textarea } from "@/components/ui/textarea";
 const QUILL_MODULES = {
   toolbar: [
     [{ header: [1, 2, 3, false] }],
-    ["bold", "italic", "underline"],
+    ["bold", "italic", "underline", "strike"],
     [
       { color: ["#000000", "#374151", "#6b7280", "#dc2626", "#f97316", "#16a34a", "#0ea5e9", "#7c3aed", "#db2777", "#ffffff"] },
       { background: ["#fef3c7", "#fee2e2", "#dcfce7", "#dbeafe", "#fce7f3", "transparent"] },
     ],
     ["link", "image", "video"],
-    ["blockquote"],
+    ["blockquote", "code-block"],
     [{ list: "ordered" }, { list: "bullet" }],
+    [{ align: [] }],
     ["clean"],
   ],
 };
 
 const QUILL_FORMATS = [
   "header",
-  "bold", "italic", "underline",
+  "bold", "italic", "underline", "strike",
   "color", "background",
   "link", "image", "video",
-  "blockquote",
+  "blockquote", "code-block",
   "list", "bullet",
+  "align",
 ];
 
 export default function BlogLanguageEditor({
