@@ -42,5 +42,9 @@
       "format": "date-time",
       "description": "Last successful login timestamp"
     }
-  }
+  },
+  "required": [
+    "role",
+    "status"
+  ]
 }
