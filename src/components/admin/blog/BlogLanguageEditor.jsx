@@ -7,6 +7,7 @@ const QUILL_MODULES = {
   toolbar: [
     [{ header: [1, 2, 3, false] }],
     ["bold", "italic", "underline"],
+    [{ color: [] }, { background: [] }],
     ["link", "image", "video"],
     ["blockquote"],
     [{ list: "ordered" }, { list: "bullet" }],
@@ -17,6 +18,7 @@ const QUILL_MODULES = {
 const QUILL_FORMATS = [
   "header",
   "bold", "italic", "underline",
+  "color", "background",
   "link", "image", "video",
   "blockquote",
   "list", "bullet",
