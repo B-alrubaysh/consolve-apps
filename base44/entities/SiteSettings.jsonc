@@ -1,0 +1,100 @@
+{
+  "name": "SiteSettings",
+  "type": "object",
+  "properties": {
+    "site_name": {
+      "type": "string",
+      "title": "Site Name"
+    },
+    "contact_email": {
+      "type": "string",
+      "title": "Contact Email"
+    },
+    "contact_phone": {
+      "type": "string",
+      "title": "Contact Phone"
+    },
+    "linkedin_url": {
+      "type": "string",
+      "title": "LinkedIn URL"
+    },
+    "twitter_url": {
+      "type": "string",
+      "title": "Twitter URL"
+    },
+    "instagram_url": {
+      "type": "string",
+      "title": "Instagram URL"
+    },
+    "privacy_url": {
+      "type": "string",
+      "title": "Privacy Policy URL"
+    },
+    "terms_url": {
+      "type": "string",
+      "title": "Terms URL"
+    },
+    "default_seo_title_en": {
+      "type": "string",
+      "title": "Default SEO Title (English)"
+    },
+    "default_seo_title_ar": {
+      "type": "string",
+      "title": "Default SEO Title (Arabic)"
+    },
+    "default_seo_description_en": {
+      "type": "string",
+      "title": "Default SEO Description (English)"
+    },
+    "default_seo_description_ar": {
+      "type": "string",
+      "title": "Default SEO Description (Arabic)"
+    }
+  },
+  "required": [],
+  "rls": {
+    "read": true,
+    "create": {
+      "$or": [
+        {
+          "user_condition": {
+            "role": "owner"
+          }
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "update": {
+      "$or": [
+        {
+          "user_condition": {
+            "role": "owner"
+          }
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "delete": {
+      "$or": [
+        {
+          "user_condition": {
+            "role": "owner"
+          }
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    }
+  }
+}

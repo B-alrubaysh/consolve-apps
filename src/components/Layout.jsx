@@ -1,7 +1,8 @@
 import { Outlet, Link, useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { Menu, X } from "lucide-react";
+import { Menu, X, Linkedin, Twitter, Instagram } from "lucide-react";
+import { base44 } from "@/api/base44Client";
 import LanguageSwitcher from "./LanguageSwitcher";
 import { useLanguage } from "../lib/useLanguage";
 import t from "../lib/translations";
@@ -136,6 +137,15 @@ function Navbar() {
 function Footer() {
   const { lang, dir } = useLanguage();
   const tx = t[lang];
+  const [settings, setSettings] = useState(null);
+
+  useEffect(() => {
+    let cancelled = false;
+    base44.entities.SiteSettings.list("-created_date", 1)
+      .then((list) => { if (!cancelled) setSettings((list || [])[0] || null); })
+      .catch(() => {});
+    return () => { cancelled = true; };
+  }, []);
 
   const NAV_LINKS = [
   { to: "/", label: tx.nav_home },
@@ -145,6 +155,13 @@ function Footer() {
   { to: "/contact", label: tx.nav_contact },
   { to: "/careers", label: lang === "ar" ? "الوظائف" : "Careers" }];
 
+  const email = settings?.contact_email || "info@consolve.com";
+  const phone = settings?.contact_phone || "+1 (800) 555-0199";
+  const socials = [
+    { url: settings?.linkedin_url, Icon: Linkedin, label: "LinkedIn" },
+    { url: settings?.twitter_url, Icon: Twitter, label: "Twitter" },
+    { url: settings?.instagram_url, Icon: Instagram, label: "Instagram" },
+  ].filter((s) => !!s.url);
 
   return (
     <footer className="bg-secondary text-secondary-foreground" dir={dir}>
@@ -175,16 +192,35 @@ function Footer() {
               {tx.footer_contact}
             </h4>
             <div className="flex flex-col gap-3 text-sm text-secondary-foreground/60">
-              <span>info@consolve.com</span>
-              <span>+1 (800) 555-0199</span>
+              <span>{email}</span>
+              <span>{phone}</span>
+              {socials.length > 0 && (
+                <div className="flex items-center gap-3 mt-1">
+                  {socials.map(({ url, Icon, label }) => (
+                    <a key={label} href={url} target="_blank" rel="noopener noreferrer"
+                      aria-label={label}
+                      className="text-secondary-foreground/60 hover:text-primary transition-colors">
+                      <Icon className="w-4 h-4" />
+                    </a>
+                  ))}
+                </div>
+              )}
             </div>
           </div>
         </div>
         <div className="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-xs text-secondary-foreground/30">{tx.footer_rights(new Date().getFullYear())}</p>
           <div className="flex items-center gap-6">
-            <span className="text-xs text-secondary-foreground/30 hover:text-primary cursor-pointer transition-colors">{tx.footer_privacy}</span>
-            <span className="text-xs text-secondary-foreground/30 hover:text-primary cursor-pointer transition-colors">{tx.footer_terms}</span>
+            {settings?.privacy_url ? (
+              <a href={settings.privacy_url} target="_blank" rel="noopener noreferrer" className="text-xs text-secondary-foreground/30 hover:text-primary transition-colors">{tx.footer_privacy}</a>
+            ) : (
+              <span className="text-xs text-secondary-foreground/30 hover:text-primary cursor-pointer transition-colors">{tx.footer_privacy}</span>
+            )}
+            {settings?.terms_url ? (
+              <a href={settings.terms_url} target="_blank" rel="noopener noreferrer" className="text-xs text-secondary-foreground/30 hover:text-primary transition-colors">{tx.footer_terms}</a>
+            ) : (
+              <span className="text-xs text-secondary-foreground/30 hover:text-primary cursor-pointer transition-colors">{tx.footer_terms}</span>
+            )}
           </div>
         </div>
       </div>

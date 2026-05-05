@@ -30,6 +30,7 @@ import AdminBlogPage from './pages/admin/AdminBlogPage';
 import AdminBlogEditorPage from './pages/admin/AdminBlogEditorPage';
 import AdminBlogTemplatesPage from './pages/admin/AdminBlogTemplatesPage';
 import AdminDashboardPage from './pages/admin/AdminDashboardPage';
+import AdminSettingsPage from './pages/admin/AdminSettingsPage';
 import AdminPlaceholder from './pages/admin/AdminPlaceholder';
 
 function App() {
@@ -69,7 +70,7 @@ function App() {
               <Route path="careers" element={<AdminCareersPage />} />
               <Route path="submissions" element={<AdminSubmissionsPage />} />
               <Route path="users" element={<AdminUsersPage />} />
-              <Route path="settings" element={<AdminPlaceholder title="Settings" />} />
+              <Route path="settings" element={<AdminSettingsPage />} />
             </Route>
 
             <Route path="*" element={<PageNotFound />} />
