@@ -91,12 +91,19 @@ export default function ClientFormDialog({ open, onOpenChange, initialClient, on
         display_order: Number(form.display_order) || 0,
       };
       if (initialClient?.id) {
-        await base44.entities.Client.update(initialClient.id, payload);
+        await base44.functions.invoke("manageClient", {
+          action: "update",
+          id: initialClient.id,
+          data: payload,
+        });
       } else {
         if (!payload.display_order) {
           payload.display_order = defaultDisplayOrder ?? 0;
         }
-        await base44.entities.Client.create(payload);
+        await base44.functions.invoke("manageClient", {
+          action: "create",
+          data: payload,
+        });
       }
       await onSaved?.();
       onOpenChange(false);

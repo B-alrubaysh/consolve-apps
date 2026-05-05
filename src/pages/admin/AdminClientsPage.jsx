@@ -68,8 +68,11 @@ export default function AdminClientsPage() {
 
     // Persist only the rows whose order changed.
     const changed = reordered.filter((c, i) => clients[i]?.id !== c.id || clients[i]?.display_order !== c.display_order);
-    for (const c of changed) {
-      await base44.entities.Client.update(c.id, { display_order: c.display_order });
+    if (changed.length > 0) {
+      await base44.functions.invoke("manageClient", {
+        action: "reorder",
+        data: changed.map((c) => ({ id: c.id, display_order: c.display_order })),
+      });
     }
   };
 
@@ -79,12 +82,16 @@ export default function AdminClientsPage() {
   const onToggleActive = async (client) => {
     const newVal = !client.is_active;
     setClients((prev) => prev.map((c) => (c.id === client.id ? { ...c, is_active: newVal } : c)));
-    await base44.entities.Client.update(client.id, { is_active: newVal });
+    await base44.functions.invoke("manageClient", {
+      action: "update",
+      id: client.id,
+      data: { is_active: newVal },
+    });
   };
 
   const onDelete = async (client) => {
     if (!confirm(`Delete client '${client.name_en}'? This cannot be undone.`)) return;
-    await base44.entities.Client.delete(client.id);
+    await base44.functions.invoke("manageClient", { action: "delete", id: client.id });
     setClients((prev) => prev.filter((c) => c.id !== client.id));
   };
 
