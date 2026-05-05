@@ -33,7 +33,7 @@ export default function BlogPostRow({ post, authorName, onEdit, onPreview, onPub
 
   return (
     <div className="grid grid-cols-12 items-center gap-4 px-4 py-3 border-t border-white/5 hover:bg-white/5 transition-colors text-sm">
-      <div className="col-span-12 md:col-span-5 lg:col-span-4 xl:col-span-3 min-w-0">
+      <div className="col-span-12 md:col-span-5 lg:col-span-4 xl:col-span-2 min-w-0">
         <p className="text-white font-medium truncate">{post.title_en || post.title_ar || "—"}</p>
         {post.title_ar && post.title_en && (
           <p className="text-white/50 text-xs truncate text-left" dir="ltr">{post.title_ar}</p>
@@ -53,25 +53,25 @@ export default function BlogPostRow({ post, authorName, onEdit, onPreview, onPub
       <div className="hidden xl:block xl:col-span-1 text-white/40 text-xs truncate">{fmt(post.created_date)}</div>
       <div className="hidden xl:block xl:col-span-1 text-white/40 text-xs truncate">{fmt(post.publish_date)}</div>
       <div className="hidden xl:block xl:col-span-1 text-white/40 text-xs truncate">{fmt(post.updated_date)}</div>
-      <div className="col-span-6 md:col-span-3 lg:col-span-2 xl:col-span-1 flex items-center justify-end gap-1">
+      <div className="col-span-6 md:col-span-3 lg:col-span-2 xl:col-span-2 flex items-center justify-end gap-0.5 flex-nowrap">
         <button onClick={() => onEdit(post)} title="Edit"
-          className="p-2 rounded-lg text-white/60 hover:bg-white/10 hover:text-white transition-colors">
+          className="p-1.5 rounded-lg text-white/60 hover:bg-white/10 hover:text-white transition-colors shrink-0">
           <Pencil className="w-4 h-4" />
         </button>
         <button onClick={() => onPreview(post)} title="Preview"
-          className="p-2 rounded-lg text-white/60 hover:bg-white/10 hover:text-white transition-colors">
+          className="p-1.5 rounded-lg text-white/60 hover:bg-white/10 hover:text-white transition-colors shrink-0">
           <Eye className="w-4 h-4" />
         </button>
         <button onClick={() => onPublish(post)} title="Publish"
-          className="p-2 rounded-lg text-white/60 hover:bg-green-500/20 hover:text-green-400 transition-colors">
+          className="p-1.5 rounded-lg text-white/60 hover:bg-green-500/20 hover:text-green-400 transition-colors shrink-0">
           <UploadCloud className="w-4 h-4" />
         </button>
         <button onClick={() => onArchive(post)} title="Archive"
-          className="p-2 rounded-lg text-white/60 hover:bg-white/10 hover:text-white transition-colors">
+          className="p-1.5 rounded-lg text-white/60 hover:bg-white/10 hover:text-white transition-colors shrink-0">
           <Archive className="w-4 h-4" />
         </button>
         <button onClick={() => onDelete(post)} title="Delete"
-          className="p-2 rounded-lg text-white/60 hover:bg-destructive/20 hover:text-destructive transition-colors">
+          className="p-1.5 rounded-lg text-white/60 hover:bg-destructive/20 hover:text-destructive transition-colors shrink-0">
           <Trash2 className="w-4 h-4" />
         </button>
       </div>
