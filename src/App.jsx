@@ -14,6 +14,8 @@ import Clients from './pages/Clients';
 import Contact from './pages/Contact';
 import Assessment from './pages/Assessment';
 import Careers from './pages/Careers';
+import BlogList from './pages/Blog';
+import BlogDetail from './pages/BlogDetail';
 
 // Admin
 import ProtectedAdminLayout from './components/admin/ProtectedAdminLayout';
@@ -42,8 +44,8 @@ function App() {
               <Route path="/assessment" element={<Assessment />} />
               <Route path="/careers" element={<Careers />} />
               <Route path="/careers/:slug" element={<Careers />} />
-              <Route path="/blog" element={<AdminPlaceholder title="Blog" />} />
-              <Route path="/blog/:slug" element={<AdminPlaceholder title="Blog Post" />} />
+              <Route path="/blog" element={<BlogList />} />
+              <Route path="/blog/:slug" element={<BlogDetail />} />
               <Route path="/admin/invite/:token" element={<AdminInvitePage />} />
             </Route>
 

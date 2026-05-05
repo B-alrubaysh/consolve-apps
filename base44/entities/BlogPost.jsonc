@@ -1,0 +1,114 @@
+{
+  "name": "BlogPost",
+  "type": "object",
+  "properties": {
+    "title_en": {
+      "type": "string",
+      "title": "Title (English)"
+    },
+    "title_ar": {
+      "type": "string",
+      "title": "Title (Arabic)"
+    },
+    "slug": {
+      "type": "string",
+      "title": "Slug"
+    },
+    "excerpt_en": {
+      "type": "string",
+      "title": "Excerpt (English)"
+    },
+    "excerpt_ar": {
+      "type": "string",
+      "title": "Excerpt (Arabic)"
+    },
+    "content_en": {
+      "type": "string",
+      "title": "Content (English)"
+    },
+    "content_ar": {
+      "type": "string",
+      "title": "Content (Arabic)"
+    },
+    "hero_image_url": {
+      "type": "string",
+      "title": "Hero Image URL"
+    },
+    "og_image_url": {
+      "type": "string",
+      "title": "Open Graph Image URL"
+    },
+    "author_id": {
+      "type": "string",
+      "title": "Author User ID"
+    },
+    "category": {
+      "type": "string",
+      "title": "Category"
+    },
+    "tags": {
+      "type": "array",
+      "title": "Tags",
+      "items": {
+        "type": "string"
+      }
+    },
+    "seo_title_en": {
+      "type": "string",
+      "title": "SEO Title (English)"
+    },
+    "seo_title_ar": {
+      "type": "string",
+      "title": "SEO Title (Arabic)"
+    },
+    "seo_description_en": {
+      "type": "string",
+      "title": "SEO Description (English)"
+    },
+    "seo_description_ar": {
+      "type": "string",
+      "title": "SEO Description (Arabic)"
+    },
+    "canonical_url": {
+      "type": "string",
+      "title": "Canonical URL"
+    },
+    "status": {
+      "type": "string",
+      "title": "Status",
+      "enum": [
+        "draft",
+        "scheduled",
+        "published",
+        "archived"
+      ],
+      "default": "draft"
+    },
+    "publish_date": {
+      "type": "string",
+      "format": "date-time",
+      "title": "Publish Date"
+    },
+    "email_gate_enabled": {
+      "type": "boolean",
+      "title": "Email Gate Enabled",
+      "default": false
+    },
+    "email_gate_threshold": {
+      "type": "number",
+      "title": "Email Gate Scroll Threshold (%)",
+      "default": 35
+    },
+    "email_gate_skippable": {
+      "type": "boolean",
+      "title": "Email Gate Skippable",
+      "default": true
+    }
+  },
+  "required": [
+    "slug"
+  ],
+  "rls": {
+    "read": true
+  }
+}

@@ -1,0 +1,34 @@
+{
+  "name": "BlogEmailCapture",
+  "type": "object",
+  "properties": {
+    "email": {
+      "type": "string",
+      "title": "Email"
+    },
+    "blog_post_id": {
+      "type": "string",
+      "title": "Blog Post ID"
+    },
+    "language": {
+      "type": "string",
+      "title": "Language"
+    },
+    "source_url": {
+      "type": "string",
+      "title": "Source URL"
+    },
+    "captured_at": {
+      "type": "string",
+      "format": "date-time",
+      "title": "Captured At"
+    }
+  },
+  "required": [
+    "email",
+    "blog_post_id"
+  ],
+  "rls": {
+    "create": true
+  }
+}
