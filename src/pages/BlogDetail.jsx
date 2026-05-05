@@ -68,6 +68,7 @@ export default function BlogDetail() {
       if (cancelled) return;
       setPost(found);
       setLoading(false);
+      if (found) console.log("post.email_gate_enabled:", found.email_gate_enabled);
 
       if (found?.author_id) {
         try {
@@ -133,18 +134,19 @@ export default function BlogDetail() {
     const threshold = post.email_gate_threshold ?? 35;
 
     const onScroll = () => {
-      const el = articleRef.current;
-      if (!el) return;
-      const rect = el.getBoundingClientRect();
-      const total = el.offsetHeight - window.innerHeight;
-      if (total <= 0) return;
-      const scrolled = Math.max(0, -rect.top);
-      const pct = (scrolled / total) * 100;
-      if (pct >= threshold) {
+      const scrollTop = window.scrollY || document.documentElement.scrollTop;
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      if (docHeight <= 0) {
+        console.log("scroll pct: doc too short — firing gate");
         setShowGate(true);
+        return;
       }
+      const pct = (scrollTop / docHeight) * 100;
+      console.log("scroll pct:", pct);
+      if (pct >= threshold) setShowGate(true);
     };
 
+    console.log("Email gate active, threshold:", threshold);
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, [post, gateDismissed]);
