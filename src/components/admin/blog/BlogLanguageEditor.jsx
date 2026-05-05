@@ -102,6 +102,45 @@ export default function BlogLanguageEditor({
         .blog-quill-wrapper .ql-container { border: none; min-height: 320px; font-size: 15px; }
         .blog-quill-wrapper .ql-editor { min-height: 320px; }
         .blog-quill-wrapper.rtl .ql-editor { direction: rtl; text-align: right; }
+
+        /* Force editor text to black on its white background — beats the parent bg-secondary text-white inheritance */
+        .blog-quill-wrapper .ql-editor {
+          color: #111827;
+        }
+        .blog-quill-wrapper .ql-editor p,
+        .blog-quill-wrapper .ql-editor h1,
+        .blog-quill-wrapper .ql-editor h2,
+        .blog-quill-wrapper .ql-editor h3,
+        .blog-quill-wrapper .ql-editor li,
+        .blog-quill-wrapper .ql-editor blockquote {
+          color: inherit;
+        }
+        /* Placeholder is gray, not white */
+        .blog-quill-wrapper .ql-editor.ql-blank::before {
+          color: #9ca3af;
+          font-style: normal;
+        }
+        /* Link tooltip — never clip on the left edge */
+        .blog-quill-wrapper {
+          position: relative;
+        }
+        .blog-quill-wrapper .ql-tooltip {
+          left: 12px !important;
+          max-width: calc(100% - 24px);
+          white-space: normal;
+          z-index: 50;
+        }
+        .blog-quill-wrapper .ql-tooltip input[type="text"] {
+          min-width: 200px;
+        }
+        /* Toolbar dropdown labels stay readable on the white background */
+        .blog-quill-wrapper .ql-toolbar .ql-picker-label,
+        .blog-quill-wrapper .ql-toolbar .ql-picker-item,
+        .blog-quill-wrapper .ql-toolbar button {
+          color: #374151;
+        }
+        .blog-quill-wrapper .ql-toolbar .ql-stroke { stroke: #374151; }
+        .blog-quill-wrapper .ql-toolbar .ql-fill { fill: #374151; }
       `}</style>
     </div>
   );
