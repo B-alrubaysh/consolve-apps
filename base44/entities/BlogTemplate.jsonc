@@ -1,0 +1,152 @@
+{
+  "name": "BlogTemplate",
+  "type": "object",
+  "properties": {
+    "name_en": {
+      "type": "string",
+      "title": "Name (English)"
+    },
+    "name_ar": {
+      "type": "string",
+      "title": "Name (Arabic)"
+    },
+    "description": {
+      "type": "string",
+      "title": "Description"
+    },
+    "category": {
+      "type": "string",
+      "title": "Category"
+    },
+    "suggested_title_pattern_en": {
+      "type": "string",
+      "title": "Suggested Title Pattern (English)"
+    },
+    "suggested_title_pattern_ar": {
+      "type": "string",
+      "title": "Suggested Title Pattern (Arabic)"
+    },
+    "suggested_excerpt_pattern_en": {
+      "type": "string",
+      "title": "Suggested Excerpt Pattern (English)"
+    },
+    "suggested_excerpt_pattern_ar": {
+      "type": "string",
+      "title": "Suggested Excerpt Pattern (Arabic)"
+    },
+    "content_structure_en": {
+      "type": "string",
+      "title": "Content Structure (English)"
+    },
+    "content_structure_ar": {
+      "type": "string",
+      "title": "Content Structure (Arabic)"
+    },
+    "suggested_seo_title_pattern_en": {
+      "type": "string",
+      "title": "SEO Title Pattern (English)"
+    },
+    "suggested_seo_title_pattern_ar": {
+      "type": "string",
+      "title": "SEO Title Pattern (Arabic)"
+    },
+    "suggested_seo_description_pattern_en": {
+      "type": "string",
+      "title": "SEO Description Pattern (English)"
+    },
+    "suggested_seo_description_pattern_ar": {
+      "type": "string",
+      "title": "SEO Description Pattern (Arabic)"
+    },
+    "is_active": {
+      "type": "boolean",
+      "title": "Active",
+      "default": true
+    },
+    "created_by": {
+      "type": "string",
+      "title": "Created By"
+    }
+  },
+  "required": [
+    "name_en"
+  ],
+  "rls": {
+    "read": {
+      "$or": [
+        {
+          "user_condition": {
+            "role": "owner"
+          }
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        },
+        {
+          "user_condition": {
+            "role": "writer"
+          }
+        }
+      ]
+    },
+    "create": {
+      "$or": [
+        {
+          "user_condition": {
+            "role": "owner"
+          }
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        },
+        {
+          "user_condition": {
+            "role": "writer"
+          }
+        }
+      ]
+    },
+    "update": {
+      "$or": [
+        {
+          "user_condition": {
+            "role": "owner"
+          }
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        },
+        {
+          "user_condition": {
+            "role": "writer"
+          }
+        }
+      ]
+    },
+    "delete": {
+      "$or": [
+        {
+          "user_condition": {
+            "role": "owner"
+          }
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        },
+        {
+          "user_condition": {
+            "role": "writer"
+          }
+        }
+      ]
+    }
+  }
+}

@@ -4,6 +4,7 @@ import { base44 } from "@/api/base44Client";
 import { Loader2, ArrowLeft, Save, CalendarClock, UploadCloud, Archive, Eye } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useAdminUser } from "../../components/admin/ProtectedAdminLayout";
 import { requireRole, ROLES } from "../../lib/rbac";
 import AccessDenied from "../../components/admin/AccessDenied";
@@ -57,6 +58,8 @@ export default function AdminBlogEditorPage() {
   const [slugTouched, setSlugTouched] = useState(false);
   const [saveState, setSaveState] = useState({ status: "idle", at: null });
   const [actionLoading, setActionLoading] = useState(null);
+  const [templates, setTemplates] = useState([]);
+  const [selectedTemplateId, setSelectedTemplateId] = useState("");
 
   const currentIdRef = useRef(id || null);
   const dirtyRef = useRef(false);
@@ -72,6 +75,11 @@ export default function AdminBlogEditorPage() {
       const userList = await base44.entities.User.list("-created_date", 500).catch(() => []);
       if (cancelled) return;
       setUsers(userList || []);
+
+      if (!id) {
+        const tpls = await base44.entities.BlogTemplate.list("-updated_date", 200).catch(() => []);
+        if (!cancelled) setTemplates((tpls || []).filter((t) => t.is_active));
+      }
 
       if (id) {
         const post = await base44.entities.BlogPost.filter({ id });
@@ -219,6 +227,59 @@ export default function AdminBlogEditorPage() {
     window.open(`/blog/${form.slug}?preview=true`, "_blank");
   };
 
+  const applyTemplate = (tplId) => {
+    if (!tplId) return;
+    const tpl = templates.find((t) => t.id === tplId);
+    if (!tpl) return;
+
+    const targetFields = [
+      "title_en", "title_ar", "content_en", "content_ar",
+      "excerpt_en", "excerpt_ar",
+      "seo_title_en", "seo_title_ar",
+      "seo_description_en", "seo_description_ar",
+    ];
+    const hasAnyContent = targetFields.some((k) => {
+      const v = form[k];
+      if (typeof v !== "string") return false;
+      if (k.startsWith("content_")) return !htmlIsEmpty(v);
+      return v.trim().length > 0;
+    });
+
+    if (hasAnyContent) {
+      const ok = confirm("Apply template? Empty fields will be filled. Existing content will NOT be overwritten.");
+      if (!ok) {
+        setSelectedTemplateId("");
+        return;
+      }
+    }
+
+    const isEmpty = (v) => !v || (typeof v === "string" && v.trim().length === 0);
+    const isHtmlEmpty = (v) => htmlIsEmpty(v);
+
+    setForm((p) => {
+      const next = { ...p };
+      if (isEmpty(next.title_en) && tpl.suggested_title_pattern_en) next.title_en = tpl.suggested_title_pattern_en;
+      if (isEmpty(next.title_ar) && tpl.suggested_title_pattern_ar) next.title_ar = tpl.suggested_title_pattern_ar;
+      if (isEmpty(next.excerpt_en) && tpl.suggested_excerpt_pattern_en) next.excerpt_en = tpl.suggested_excerpt_pattern_en;
+      if (isEmpty(next.excerpt_ar) && tpl.suggested_excerpt_pattern_ar) next.excerpt_ar = tpl.suggested_excerpt_pattern_ar;
+      if (isHtmlEmpty(next.content_en) && tpl.content_structure_en) next.content_en = tpl.content_structure_en;
+      if (isHtmlEmpty(next.content_ar) && tpl.content_structure_ar) next.content_ar = tpl.content_structure_ar;
+      if (isEmpty(next.seo_title_en) && tpl.suggested_seo_title_pattern_en) next.seo_title_en = tpl.suggested_seo_title_pattern_en;
+      if (isEmpty(next.seo_title_ar) && tpl.suggested_seo_title_pattern_ar) next.seo_title_ar = tpl.suggested_seo_title_pattern_ar;
+      if (isEmpty(next.seo_description_en) && tpl.suggested_seo_description_pattern_en) next.seo_description_en = tpl.suggested_seo_description_pattern_en;
+      if (isEmpty(next.seo_description_ar) && tpl.suggested_seo_description_pattern_ar) next.seo_description_ar = tpl.suggested_seo_description_pattern_ar;
+      if (isEmpty(next.category) && tpl.category) next.category = tpl.category;
+      if (isEmpty(next.title_en) === false && !slugTouched && isEmpty(next.slug)) {
+        next.slug = slugify(next.title_en);
+      }
+      return next;
+    });
+    setSelectedTemplateId(tplId);
+    dirtyRef.current = true;
+    setSaveState((s) => ({ status: "dirty", at: s.at }));
+    scheduleAutosave();
+  };
+
   const saveIndicator = useMemo(() => {
     if (saveState.status === "saving") return "Saving…";
     if (saveState.status === "dirty") return "Unsaved changes";
@@ -253,6 +314,20 @@ export default function AdminBlogEditorPage() {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Left: editor */}
         <div className="lg:col-span-2">
+          {!id && templates.length > 0 && (
+            <div className="mb-4 bg-white/5 border border-white/10 rounded-xl p-3 flex items-center gap-3">
+              <label className="text-xs text-white/60 whitespace-nowrap">Start from template</label>
+              <Select value={selectedTemplateId || "__blank__"} onValueChange={(v) => applyTemplate(v === "__blank__" ? "" : v)}>
+                <SelectTrigger className="bg-white/5 border-white/10 text-white"><SelectValue /></SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="__blank__">Blank post</SelectItem>
+                  {templates.map((t) => (
+                    <SelectItem key={t.id} value={t.id}>{t.name_en}</SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+          )}
           <Tabs defaultValue="en">
             <TabsList className="bg-white/5 border border-white/10">
               <TabsTrigger value="en">English</TabsTrigger>
