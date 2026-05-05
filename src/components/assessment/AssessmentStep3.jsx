@@ -86,12 +86,18 @@ Provide a thorough, specific, and actionable diagnosis.`;
       language: lang,
     });
 
-    const emailSubject = lang === "ar" ? "تم استلام تقييمك من كونسولف" : "Your Consolve Assessment Has Been Received";
-    const emailBody = lang === "ar"
-      ? `عزيزي ${clientInfo.contact_name}،\n\nشكراً لإتمامك التقييم الذكي لشركة ${clientInfo.company_name}.\n\nتم استلام طلبك. سيقوم فريقنا بمراجعة نتائج تقييمك والتواصل معك قريباً لمناقشة الخطوات التالية.\n\nمع أطيب التحيات،\nفريق كونسولف`
-      : `Dear ${clientInfo.contact_name},\n\nThank you for completing the Consolve Smart Assessment for ${clientInfo.company_name}.\n\nYour request has been received. Our team will review your assessment results and contact you shortly.\n\nBest regards,\nThe Consolve Team`;
+    // Best-effort confirmation email via our Resend-backed function. Don't block submit on email failure.
+    try {
+      await base44.functions.invoke("sendAssessmentConfirmation", {
+        to: clientInfo.contact_email,
+        contact_name: clientInfo.contact_name,
+        company_name: clientInfo.company_name,
+        lang,
+      });
+    } catch (e) {
+      console.warn("Confirmation email failed:", e);
+    }
 
-    await base44.integrations.Core.SendEmail({ to: clientInfo.contact_email, subject: emailSubject, body: emailBody });
     setSaved(true);
     setSaving(false);
   };
