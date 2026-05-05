@@ -1,10 +1,14 @@
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import moment from "moment";
+import { ASSESSMENT_STATUSES } from "../../lib/industries";
 
 const STATUS_COLORS = {
   New: "bg-blue-500/20 text-blue-400",
   "In Progress": "bg-yellow-500/20 text-yellow-400",
+  Reviewed: "bg-indigo-500/20 text-indigo-400",
   Contacted: "bg-green-500/20 text-green-400",
+  Qualified: "bg-emerald-500/20 text-emerald-400",
+  Closed: "bg-white/10 text-white/50",
 };
 
 const RISK_COLORS = {
@@ -52,9 +56,9 @@ export default function SubmissionCard({ submission, onClick, onUpdateStatus }) 
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="New">New</SelectItem>
-              <SelectItem value="In Progress">In Progress</SelectItem>
-              <SelectItem value="Contacted">Contacted</SelectItem>
+              {ASSESSMENT_STATUSES.map((st) => (
+                <SelectItem key={st} value={st}>{st}</SelectItem>
+              ))}
             </SelectContent>
           </Select>
         </div>

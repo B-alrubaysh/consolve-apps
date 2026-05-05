@@ -86,7 +86,10 @@
       "enum": [
         "New",
         "In Progress",
-        "Contacted"
+        "Reviewed",
+        "Contacted",
+        "Qualified",
+        "Closed"
       ],
       "default": "New"
     },
@@ -101,6 +104,18 @@
     "contact_phone": {
       "type": "string",
       "title": "Contact Phone"
+    },
+    "language": {
+      "type": "string",
+      "title": "Submission Language",
+      "enum": [
+        "en",
+        "ar"
+      ]
+    },
+    "internal_notes": {
+      "type": "string",
+      "title": "Internal Admin Notes"
     }
   },
   "required": [

@@ -20,7 +20,7 @@ import ProtectedAdminLayout from './components/admin/ProtectedAdminLayout';
 import AdminLoginPage from './pages/admin/AdminLoginPage';
 import AdminInvitePage from './pages/admin/AdminInvitePage';
 import AdminUsersPage from './pages/admin/AdminUsersPage';
-import AdminDashboard from './pages/AdminDashboard';
+import AssessmentsList from './pages/admin/AssessmentsList';
 import AdminPlaceholder from './pages/admin/AdminPlaceholder';
 
 function App() {
@@ -50,8 +50,8 @@ function App() {
             {/* Admin — gated */}
             <Route path="/admin" element={<ProtectedAdminLayout />}>
               <Route index element={<Navigate to="/admin/dashboard" replace />} />
-              <Route path="dashboard" element={<AdminDashboard />} />
-              <Route path="assessments" element={<AdminDashboard />} />
+              <Route path="dashboard" element={<AdminPlaceholder title="Dashboard" />} />
+              <Route path="assessments" element={<AssessmentsList />} />
               <Route path="clients" element={<AdminPlaceholder title="Clients" />} />
               <Route path="blog" element={<AdminPlaceholder title="Blog" />} />
               <Route path="blog/templates" element={<AdminPlaceholder title="Blog Templates" />} />
