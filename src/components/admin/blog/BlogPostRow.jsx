@@ -45,7 +45,7 @@ export default function BlogPostRow({ post, authorName, onEdit, onPreview, onPub
       </div>
       <div className="hidden lg:block lg:col-span-1 text-white/60 text-xs truncate">{post.category || "—"}</div>
       <div className="hidden lg:block lg:col-span-2 text-white/60 text-xs truncate">{authorName || "—"}</div>
-      <div className="col-span-3 md:col-span-2 lg:col-span-1 min-w-0">
+      <div className="col-span-3 md:col-span-2 lg:col-span-1 lg:-ml-6 min-w-0">
         <span className={`inline-block px-2 py-0.5 rounded-md text-[10px] font-semibold uppercase tracking-widest ${STATUS_STYLES[post.status] || STATUS_STYLES.draft}`}>
           {post.status || "draft"}
         </span>

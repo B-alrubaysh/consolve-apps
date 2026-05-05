@@ -194,7 +194,7 @@ export default function AdminBlogPage() {
             <span className="col-span-2 lg:col-span-1">Lang</span>
             <span className="hidden lg:block lg:col-span-1">Category</span>
             <span className="hidden lg:block lg:col-span-2">Author</span>
-            <span className="col-span-2 lg:col-span-1">Status</span>
+            <span className="col-span-2 lg:col-span-1 lg:-ml-6">Status</span>
             <span className="hidden xl:block xl:col-span-1">Created</span>
             <span className="hidden xl:block xl:col-span-1">Published</span>
             <span className="hidden xl:block xl:col-span-1">Updated</span>
