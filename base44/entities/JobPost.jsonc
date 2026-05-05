@@ -1,0 +1,113 @@
+{
+  "name": "JobPost",
+  "type": "object",
+  "properties": {
+    "title_en": {
+      "type": "string",
+      "title": "Title (English)"
+    },
+    "title_ar": {
+      "type": "string",
+      "title": "Title (Arabic)"
+    },
+    "slug": {
+      "type": "string",
+      "title": "Slug"
+    },
+    "department_en": {
+      "type": "string",
+      "title": "Department (English)"
+    },
+    "department_ar": {
+      "type": "string",
+      "title": "Department (Arabic)"
+    },
+    "location_en": {
+      "type": "string",
+      "title": "Location (English)"
+    },
+    "location_ar": {
+      "type": "string",
+      "title": "Location (Arabic)"
+    },
+    "work_type": {
+      "type": "string",
+      "title": "Work Type",
+      "enum": [
+        "onsite",
+        "hybrid",
+        "remote"
+      ]
+    },
+    "employment_type": {
+      "type": "string",
+      "title": "Employment Type",
+      "enum": [
+        "full-time",
+        "part-time",
+        "contract",
+        "internship"
+      ]
+    },
+    "description_en": {
+      "type": "string",
+      "title": "Description (English)"
+    },
+    "description_ar": {
+      "type": "string",
+      "title": "Description (Arabic)"
+    },
+    "requirements_en": {
+      "type": "string",
+      "title": "Requirements (English)"
+    },
+    "requirements_ar": {
+      "type": "string",
+      "title": "Requirements (Arabic)"
+    },
+    "responsibilities_en": {
+      "type": "string",
+      "title": "Responsibilities (English)"
+    },
+    "responsibilities_ar": {
+      "type": "string",
+      "title": "Responsibilities (Arabic)"
+    },
+    "status": {
+      "type": "string",
+      "title": "Status",
+      "enum": [
+        "draft",
+        "open",
+        "closed",
+        "archived"
+      ],
+      "default": "draft"
+    },
+    "application_limit": {
+      "type": "number",
+      "title": "Application Limit"
+    },
+    "application_count": {
+      "type": "number",
+      "title": "Application Count",
+      "default": 0
+    },
+    "publish_date": {
+      "type": "string",
+      "format": "date-time",
+      "title": "Publish Date"
+    },
+    "closing_date": {
+      "type": "string",
+      "format": "date-time",
+      "title": "Closing Date"
+    }
+  },
+  "required": [
+    "title_en"
+  ],
+  "rls": {
+    "read": true
+  }
+}

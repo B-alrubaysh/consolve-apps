@@ -1,0 +1,83 @@
+{
+  "name": "JobApplication",
+  "type": "object",
+  "properties": {
+    "job_post_id": {
+      "type": "string",
+      "title": "Job Post ID"
+    },
+    "submission_type": {
+      "type": "string",
+      "title": "Submission Type",
+      "enum": [
+        "job_application",
+        "general_submission"
+      ]
+    },
+    "full_name": {
+      "type": "string",
+      "title": "Full Name"
+    },
+    "email": {
+      "type": "string",
+      "title": "Email"
+    },
+    "phone": {
+      "type": "string",
+      "title": "Phone"
+    },
+    "linkedin_url": {
+      "type": "string",
+      "title": "LinkedIn URL"
+    },
+    "portfolio_url": {
+      "type": "string",
+      "title": "Portfolio URL"
+    },
+    "cv_url": {
+      "type": "string",
+      "title": "CV URL"
+    },
+    "cover_message": {
+      "type": "string",
+      "title": "Cover Message"
+    },
+    "consent_given": {
+      "type": "boolean",
+      "title": "Consent Given"
+    },
+    "language": {
+      "type": "string",
+      "title": "Language",
+      "enum": [
+        "en",
+        "ar"
+      ]
+    },
+    "source_page": {
+      "type": "string",
+      "title": "Source Page"
+    },
+    "status": {
+      "type": "string",
+      "title": "Status",
+      "enum": [
+        "new",
+        "reviewed",
+        "shortlisted",
+        "rejected",
+        "hired"
+      ],
+      "default": "new"
+    },
+    "internal_notes": {
+      "type": "string",
+      "title": "Internal Notes"
+    }
+  },
+  "required": [
+    "full_name",
+    "email",
+    "consent_given"
+  ]
+}
