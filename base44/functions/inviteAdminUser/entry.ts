@@ -1,4 +1,4 @@
-import { createClientFromRequest } from 'npm:@base44/sdk@0.8.25';
+import { createClientFromRequest } from 'npm:@base44/sdk@0.8.31';
 
 Deno.serve(async (req) => {
   try {
@@ -38,7 +38,7 @@ Deno.serve(async (req) => {
     // Invite via Base44 platform (sends standard onboarding email + creates the User record).
     // Role on the platform = 'user'; our app-level role lives on the entity record.
     const platformRole = role === 'admin' ? 'admin' : 'user';
-    await base44.asServiceRole.users.inviteUser(email, platformRole);
+    await base44.users.inviteUser(email, platformRole);
 
     // Update the newly created User record with our extended fields.
     // Wait briefly for the record to exist, then patch.
