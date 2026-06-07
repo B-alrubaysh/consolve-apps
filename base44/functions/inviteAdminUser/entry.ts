@@ -36,9 +36,9 @@ Deno.serve(async (req) => {
     const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString();
 
     // Invite via Base44 platform (sends standard onboarding email + creates the User record).
-    // Role on the platform = 'user'; our app-level role lives on the entity record.
-    const platformRole = role === 'admin' ? 'admin' : 'user';
-    await base44.users.inviteUser(email, platformRole);
+    // Always invite at platform-level 'user'; the app-level role (admin/writer/hr) lives on
+    // the User entity record and is enforced by our RBAC, so we don't need platform-admin.
+    await base44.users.inviteUser(email, 'user');
 
     // Update the newly created User record with our extended fields.
     // Wait briefly for the record to exist, then patch.
