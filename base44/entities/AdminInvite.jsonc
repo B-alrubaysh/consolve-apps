@@ -1,0 +1,66 @@
+{
+  "name": "AdminInvite",
+  "type": "object",
+  "properties": {
+    "email": {
+      "type": "string",
+      "title": "Email"
+    },
+    "role": {
+      "type": "string",
+      "title": "Role",
+      "enum": [
+        "admin",
+        "writer",
+        "hr"
+      ]
+    },
+    "status": {
+      "type": "string",
+      "title": "Status",
+      "enum": [
+        "pending",
+        "accepted",
+        "revoked"
+      ],
+      "default": "pending"
+    },
+    "invited_by": {
+      "type": "string",
+      "title": "Invited By"
+    },
+    "invite_expires_at": {
+      "type": "string",
+      "format": "date-time",
+      "title": "Invite Expires At"
+    },
+    "accepted_at": {
+      "type": "string",
+      "format": "date-time",
+      "title": "Accepted At"
+    }
+  },
+  "required": [
+    "email",
+    "role"
+  ],
+  "rls": {
+    "read": {
+      "$or": [
+        {
+          "user_condition": {
+            "role": "owner"
+          }
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "create": false,
+    "update": false,
+    "delete": false
+  }
+}
