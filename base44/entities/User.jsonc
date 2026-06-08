@@ -12,7 +12,23 @@
         "user"
       ],
       "default": "user",
-      "description": "User role for RBAC"
+      "description": "User role for RBAC",
+      "rls": {
+        "write": {
+          "$or": [
+            {
+              "user_condition": {
+                "role": "owner"
+              }
+            },
+            {
+              "user_condition": {
+                "role": "admin"
+              }
+            }
+          ]
+        }
+      }
     },
     "status": {
       "type": "string",
@@ -22,20 +38,118 @@
         "suspended"
       ],
       "default": "active",
-      "description": "Account lifecycle status"
+      "description": "Account lifecycle status",
+      "rls": {
+        "write": {
+          "$or": [
+            {
+              "user_condition": {
+                "role": "owner"
+              }
+            },
+            {
+              "user_condition": {
+                "role": "admin"
+              }
+            }
+          ]
+        }
+      }
     },
     "invited_by": {
       "type": "string",
-      "description": "Email of the user who sent the invite"
+      "description": "Email of the user who sent the invite",
+      "rls": {
+        "write": {
+          "$or": [
+            {
+              "user_condition": {
+                "role": "owner"
+              }
+            },
+            {
+              "user_condition": {
+                "role": "admin"
+              }
+            }
+          ]
+        }
+      }
     },
     "invite_token": {
       "type": "string",
-      "description": "Token used to accept an invite"
+      "description": "Token used to accept an invite",
+      "rls": {
+        "read": {
+          "$or": [
+            {
+              "email": "{{user.email}}"
+            },
+            {
+              "user_condition": {
+                "role": "owner"
+              }
+            },
+            {
+              "user_condition": {
+                "role": "admin"
+              }
+            }
+          ]
+        },
+        "write": {
+          "$or": [
+            {
+              "user_condition": {
+                "role": "owner"
+              }
+            },
+            {
+              "user_condition": {
+                "role": "admin"
+              }
+            }
+          ]
+        }
+      }
     },
     "invite_expires_at": {
       "type": "string",
       "format": "date-time",
-      "description": "When the invite token expires"
+      "description": "When the invite token expires",
+      "rls": {
+        "read": {
+          "$or": [
+            {
+              "email": "{{user.email}}"
+            },
+            {
+              "user_condition": {
+                "role": "owner"
+              }
+            },
+            {
+              "user_condition": {
+                "role": "admin"
+              }
+            }
+          ]
+        },
+        "write": {
+          "$or": [
+            {
+              "user_condition": {
+                "role": "owner"
+              }
+            },
+            {
+              "user_condition": {
+                "role": "admin"
+              }
+            }
+          ]
+        }
+      }
     },
     "last_login_at": {
       "type": "string",
@@ -46,5 +160,43 @@
   "required": [
     "role",
     "status"
-  ]
+  ],
+  "rls": {
+    "read": {
+      "$or": [
+        {
+          "email": "{{user.email}}"
+        },
+        {
+          "user_condition": {
+            "role": "owner"
+          }
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "create": false,
+    "update": {
+      "$or": [
+        {
+          "email": "{{user.email}}"
+        },
+        {
+          "user_condition": {
+            "role": "owner"
+          }
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "delete": false
+  }
 }
