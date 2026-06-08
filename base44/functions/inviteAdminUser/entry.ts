@@ -16,7 +16,7 @@ Deno.serve(async (req) => {
       return Response.json({ error: 'Forbidden — only owner/admin can invite users' }, { status: 403 });
     }
 
-    const { email, role, full_name } = await req.json();
+    const { email, role } = await req.json();
 
     if (!email || !role) {
       return Response.json({ error: 'email and role are required' }, { status: 400 });
@@ -25,50 +25,42 @@ Deno.serve(async (req) => {
       return Response.json({ error: 'Invalid role. Allowed: admin, writer, hr' }, { status: 400 });
     }
 
-    // Check if a user with this email already exists.
-    const existing = await base44.asServiceRole.entities.User.filter({ email });
-    if (existing.length > 0) {
-      return Response.json({ error: 'A user with this email already exists' }, { status: 409 });
+    // Dedupe — pending invite already exists.
+    const pending = await base44.asServiceRole.entities.AdminInvite.filter({ email, status: 'pending' });
+    if (pending.length > 0) {
+      return Response.json({ error: 'An invite is already pending for this email.' }, { status: 409 });
     }
 
-    // Generate invite token.
-    const token = crypto.randomUUID().replace(/-/g, '');
-    const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString();
+    // Dedupe — user is already an active admin/writer/hr/owner.
+    const existingUsers = await base44.asServiceRole.entities.User.filter({ email });
+    const existingActiveAdmin = existingUsers.find(
+      (u) => u.status === 'active' && ['owner', 'admin', 'writer', 'hr'].includes(u.role)
+    );
+    if (existingActiveAdmin) {
+      return Response.json({ error: 'This user is already an admin.' }, { status: 409 });
+    }
 
-    // Invite via Base44 platform (sends standard onboarding email + creates the User record).
-    // Always invite at platform-level 'user'; the app-level role (admin/writer/hr) lives on
-    // the User entity record and is enforced by our RBAC, so we don't need platform-admin.
-    await base44.users.inviteUser(email, 'user');
-
-    // Update the newly created User record with our extended fields.
-    // Wait for the record to exist (platform creation can lag a few seconds), then patch.
-    let invitedUser = null;
-    for (let i = 0; i < 8; i++) {
-      const rec = await base44.asServiceRole.entities.User.filter({ email });
-      if (rec.length > 0) {
-        invitedUser = rec[0];
-        break;
+    // Provision the auth account + send Base44's native invite email.
+    // If the platform reports the user already exists, continue — they'll just receive
+    // the role mapping via AdminInvite on next login.
+    try {
+      await base44.users.inviteUser(email, 'user');
+    } catch (e) {
+      if (!String(e?.message || '').toLowerCase().includes('exist')) {
+        throw e;
       }
-      await new Promise((r) => setTimeout(r, 500));
     }
 
-    if (!invitedUser) {
-      return Response.json(
-        { error: 'User was invited but the record was not ready in time. Please refresh and try editing the user, or retry the invite.' },
-        { status: 500 }
-      );
-    }
-
-    await base44.asServiceRole.entities.User.update(invitedUser.id, {
+    // Record the pending invite — the role will be applied on first login.
+    await base44.asServiceRole.entities.AdminInvite.create({
+      email,
       role,
-      status: 'invited',
       invited_by: me.email,
-      invite_token: token,
-      invite_expires_at: expiresAt,
-      full_name: full_name || invitedUser.full_name || email.split('@')[0],
+      status: 'pending',
+      invite_expires_at: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString(),
     });
 
-    return Response.json({ success: true, email, role, invite_token: token, invite_expires_at: expiresAt });
+    return Response.json({ success: true, email, role });
   } catch (error) {
     console.error('inviteAdminUser error:', error);
     return Response.json({ error: error.message }, { status: 500 });
