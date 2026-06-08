@@ -1,5 +1,5 @@
 import { format } from "date-fns";
-import { base44 } from "@/api/base44Client";
+import { base44 } from "@/api/base44Admin";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Eye } from "lucide-react";
 

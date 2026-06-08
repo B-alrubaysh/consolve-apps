@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { base44 } from "@/api/base44Client";
+import { base44 } from "@/api/base44Admin";
 import { Loader2, Plus, Users, Search } from "lucide-react";
 import { DragDropContext, Droppable } from "@hello-pangea/dnd";
 import { Button } from "@/components/ui/button";

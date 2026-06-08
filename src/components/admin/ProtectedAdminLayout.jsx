@@ -1,7 +1,7 @@
 import { useEffect, useState, createContext, useContext } from "react";
 import { Outlet, Navigate, Link, useLocation } from "react-router-dom";
 import { Loader2, LayoutDashboard, FileText, Users, Briefcase, Inbox, Settings, BookOpen, FilePlus2, LogOut } from "lucide-react";
-import { base44 } from "@/api/base44Client";
+import { base44 } from "@/api/base44Admin";
 import { useLanguage } from "../../lib/useLanguage";
 import { ALL_ADMIN_ROLES, canSeeNavItem } from "../../lib/rbac";
 

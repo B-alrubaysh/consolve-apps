@@ -1,5 +1,5 @@
 import { useRef, useState } from "react";
-import { base44 } from "@/api/base44Client";
+import { base44 } from "@/api/base44Admin";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -75,7 +75,7 @@ export default function BlogEditorSidebar({ form, setField, users, errors }) {
   return (
     <Accordion type="multiple" defaultValue={["status", "media", "cat"]} className="bg-white/5 border border-white/10 rounded-xl px-4">
       <AccordionItem value="status" className="border-white/10">
-        <AccordionTrigger className="text-white">Status & Schedule</AccordionTrigger>
+        <AccordionTrigger className="text-white">{"Status & Schedule"}</AccordionTrigger>
         <AccordionContent className="space-y-3">
           <Field label="Status">
             <Select value={form.status || "draft"} onValueChange={(v) => setField("status", v)}>
@@ -100,7 +100,7 @@ export default function BlogEditorSidebar({ form, setField, users, errors }) {
       </AccordionItem>
 
       <AccordionItem value="media" className="border-white/10">
-        <AccordionTrigger className="text-white">Hero & Media</AccordionTrigger>
+        <AccordionTrigger className="text-white">{"Hero & Media"}</AccordionTrigger>
         <AccordionContent className="space-y-4">
           <ImageUploader
             label="Hero Image"

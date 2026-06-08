@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { base44 } from "@/api/base44Client";
+import { base44 } from "@/api/base44Admin";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -157,7 +157,7 @@ export default function ClientFormDialog({ open, onOpenChange, initialClient, on
                     />
                   </label>
                   <p className="text-xs text-muted-foreground mt-2">
-                    Or drag & drop. SVG, PNG, JPG, or WEBP. Max 2MB.
+                    {"Or drag & drop. SVG, PNG, JPG, or WEBP. Max 2MB."}
                   </p>
                 </div>
               </div>

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
-import { base44 } from "@/api/base44Client";
+import { base44 } from "@/api/base44Admin";
 import { Loader2, CheckCircle2 } from "lucide-react";
 import { useLanguage } from "../../lib/useLanguage";
 

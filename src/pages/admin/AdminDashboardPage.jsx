@@ -4,7 +4,7 @@ import { formatDistanceToNow } from "date-fns";
 import {
   BookOpen, FileEdit, CalendarClock, Users, Briefcase, Inbox, FileText, ArrowRight,
 } from "lucide-react";
-import { base44 } from "@/api/base44Client";
+import { base44 } from "@/api/base44Admin";
 import { useAdminUser } from "../../components/admin/ProtectedAdminLayout";
 import { requireRole, ROLES } from "../../lib/rbac";
 import AccessDenied from "../../components/admin/AccessDenied";

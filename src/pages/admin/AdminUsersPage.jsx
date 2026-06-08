@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { base44 } from "@/api/base44Client";
+import { base44 } from "@/api/base44Admin";
 import { Loader2, UserPlus, Trash2, ShieldOff, ShieldCheck } from "lucide-react";
 import { useAdminUser } from "../../components/admin/ProtectedAdminLayout";
 import { requireRole, ROLES } from "../../lib/rbac";

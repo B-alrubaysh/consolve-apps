@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { base44 } from "@/api/base44Client";
+import { base44 } from "@/api/base44Admin";
 import { format } from "date-fns";
 import { Plus, Search, Pencil, Copy, Eye, EyeOff, Trash2, FileText, Loader2 } from "lucide-react";
 import { Input } from "@/components/ui/input";
