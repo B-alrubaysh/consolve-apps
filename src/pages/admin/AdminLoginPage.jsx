@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { base44 } from "@/api/base44Admin";
+import { getAdminUser } from "@/lib/getAdminUser";
 import { Loader2 } from "lucide-react";
 import { useLanguage } from "../../lib/useLanguage";
 
@@ -16,30 +17,25 @@ export default function AdminLoginPage() {
   useEffect(() => {
     let cancelled = false;
     (async () => {
-      try {
-        const me = await base44.auth.me();
-        if (cancelled) return;
-        if (me) {
-          // Apply any pending admin invite for this email before reading the User record.
-          try { await base44.functions.invoke("claimAdminInvite"); } catch { /* non-fatal */ }
+      // Apply any pending admin invite (best-effort) before reading the record.
+      try { await base44.functions.invoke("claimAdminInvite"); } catch { /* non-fatal */ }
 
-          // Check the User record to decide where to send them.
-          const records = await base44.entities.User.filter({ email: me.email });
-          const record = records[0];
-          if (record?.status === "invited" && record.invite_token) {
-            window.location.href = `/admin/invite/${record.invite_token}`;
-            return;
-          }
-          if (record?.status === "active" && ["owner", "admin", "writer", "hr"].includes(record.role)) {
-            window.location.href = "/admin/dashboard";
-            return;
-          }
-          // Authenticated but no admin access — show the access denied error inline.
-          setError(isAr ? "هذا الحساب لا يملك صلاحية الوصول إلى لوحة الإدارة." : "This account does not have admin access.");
+      const record = await getAdminUser();
+      if (cancelled) return;
+
+      if (record) {
+        if (record.status === "invited" && record.invite_token) {
+          window.location.href = `/admin/invite/${record.invite_token}`;
+          return;
         }
-      } catch {
-        // Not authenticated — stay on this page.
+        if (record.status === "active" && ["owner", "admin", "writer", "hr"].includes(record.role)) {
+          window.location.href = "/admin/dashboard";
+          return;
+        }
+        // Authenticated but no admin access — show inline error.
+        setError(isAr ? "هذا الحساب لا يملك صلاحية الوصول إلى لوحة الإدارة." : "This account does not have admin access.");
       }
+      // No record → not authenticated, stay on this page.
       if (!cancelled) setChecking(false);
     })();
     return () => { cancelled = true; };

@@ -2,6 +2,7 @@ import { useEffect, useState, createContext, useContext } from "react";
 import { Outlet, Navigate, Link, useLocation } from "react-router-dom";
 import { Loader2, LayoutDashboard, FileText, Users, Briefcase, Inbox, Settings, BookOpen, FilePlus2, LogOut } from "lucide-react";
 import { base44 } from "@/api/base44Admin";
+import { getAdminUser } from "@/lib/getAdminUser";
 import { useLanguage } from "../../lib/useLanguage";
 import { ALL_ADMIN_ROLES, canSeeNavItem } from "../../lib/rbac";
 
@@ -99,29 +100,19 @@ export default function ProtectedAdminLayout() {
   useEffect(() => {
     let cancelled = false;
     (async () => {
-      // Step 1 — platform auth.
-      let me;
-      try {
-        me = await base44.auth.me();
-      } catch {
-        if (!cancelled) setState({ status: "unauthenticated", user: null });
-        return;
-      }
-      if (cancelled) return;
-      if (!me) { setState({ status: "unauthenticated", user: null }); return; }
-
-      // Apply any pending admin invite for this email before reading the User record.
+      // Step 1 — apply any pending admin invite for this email (best-effort),
+      // BEFORE reading the user record so a freshly accepted invite is reflected.
       try { await base44.functions.invoke("claimAdminInvite"); } catch { /* non-fatal */ }
 
-      // Step 2 — fetch the matching User entity record by email.
-      const records = await base44.entities.User.filter({ email: me.email });
-      const record = records[0];
+      // Step 2 — fetch the current admin user via same-origin endpoint.
+      // We do NOT use base44.auth.me() here because it resolves against the
+      // platform host and returns 401 for custom-domain sessions.
+      const record = await getAdminUser();
 
       if (cancelled) return;
 
       if (!record) {
-        // No app-level record — treat as denied.
-        setState({ status: "denied", user: me });
+        setState({ status: "unauthenticated", user: null });
         return;
       }
 

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { base44 } from "@/api/base44Admin";
+import { getAdminUser } from "@/lib/getAdminUser";
 import { Loader2, CheckCircle2 } from "lucide-react";
 import { useLanguage } from "../../lib/useLanguage";
 
@@ -13,13 +14,9 @@ export default function AdminInvitePage() {
   useEffect(() => {
     let cancelled = false;
     (async () => {
-      // Step 1: User must be logged in via Base44 first.
-      let me = null;
-      try {
-        me = await base44.auth.me();
-      } catch {
-        me = null;
-      }
+      // Step 1: User must be logged in. Use the same-origin endpoint (auth.me()
+      // is unreliable on the custom domain).
+      const me = await getAdminUser();
       if (cancelled) return;
 
       if (!me) {
