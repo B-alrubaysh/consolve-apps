@@ -110,6 +110,9 @@ export default function ProtectedAdminLayout() {
       if (cancelled) return;
       if (!me) { setState({ status: "unauthenticated", user: null }); return; }
 
+      // Apply any pending admin invite for this email before reading the User record.
+      try { await base44.functions.invoke("claimAdminInvite"); } catch { /* non-fatal */ }
+
       // Step 2 — fetch the matching User entity record by email.
       const records = await base44.entities.User.filter({ email: me.email });
       const record = records[0];

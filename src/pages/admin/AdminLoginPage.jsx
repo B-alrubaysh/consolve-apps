@@ -20,6 +20,9 @@ export default function AdminLoginPage() {
         const me = await base44.auth.me();
         if (cancelled) return;
         if (me) {
+          // Apply any pending admin invite for this email before reading the User record.
+          try { await base44.functions.invoke("claimAdminInvite"); } catch { /* non-fatal */ }
+
           // Check the User record to decide where to send them.
           const records = await base44.entities.User.filter({ email: me.email });
           const record = records[0];
