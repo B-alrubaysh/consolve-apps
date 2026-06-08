@@ -1,4 +1,4 @@
-import { createClientFromRequest } from 'npm:@base44/sdk@0.8.25';
+import { createClientFromRequest } from 'npm:@base44/sdk@0.8.31';
 
 // Create / update / delete Client records on behalf of an authorized admin.
 // Frontend can't write to Client directly because the entity RLS evaluates the

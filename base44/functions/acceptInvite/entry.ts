@@ -1,4 +1,4 @@
-import { createClientFromRequest } from 'npm:@base44/sdk@0.8.25';
+import { createClientFromRequest } from 'npm:@base44/sdk@0.8.31';
 
 // Accepts an invite token. Validates token + expiry, marks the user active,
 // clears the token. The user must already be authenticated via Base44's
