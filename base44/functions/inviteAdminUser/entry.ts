@@ -41,27 +41,32 @@ Deno.serve(async (req) => {
     await base44.users.inviteUser(email, 'user');
 
     // Update the newly created User record with our extended fields.
-    // Wait briefly for the record to exist, then patch.
+    // Wait for the record to exist (platform creation can lag a few seconds), then patch.
     let invitedUser = null;
-    for (let i = 0; i < 5; i++) {
+    for (let i = 0; i < 8; i++) {
       const rec = await base44.asServiceRole.entities.User.filter({ email });
       if (rec.length > 0) {
         invitedUser = rec[0];
         break;
       }
-      await new Promise((r) => setTimeout(r, 400));
+      await new Promise((r) => setTimeout(r, 500));
     }
 
-    if (invitedUser) {
-      await base44.asServiceRole.entities.User.update(invitedUser.id, {
-        role,
-        status: 'invited',
-        invited_by: me.email,
-        invite_token: token,
-        invite_expires_at: expiresAt,
-        full_name: full_name || invitedUser.full_name || email.split('@')[0],
-      });
+    if (!invitedUser) {
+      return Response.json(
+        { error: 'User was invited but the record was not ready in time. Please refresh and try editing the user, or retry the invite.' },
+        { status: 500 }
+      );
     }
+
+    await base44.asServiceRole.entities.User.update(invitedUser.id, {
+      role,
+      status: 'invited',
+      invited_by: me.email,
+      invite_token: token,
+      invite_expires_at: expiresAt,
+      full_name: full_name || invitedUser.full_name || email.split('@')[0],
+    });
 
     return Response.json({ success: true, email, role, invite_token: token, invite_expires_at: expiresAt });
   } catch (error) {
