@@ -30,6 +30,8 @@ export default function AdminUsersPage() {
   const allowed = requireRole(me, ROLES.OWNER, ROLES.ADMIN);
 
   const [users, setUsers] = useState([]);
+  const [pendingInvites, setPendingInvites] = useState([]);
+  const [loadError, setLoadError] = useState("");
   const [loading, setLoading] = useState(true);
   const [inviteOpen, setInviteOpen] = useState(false);
   const [inviteForm, setInviteForm] = useState({ email: "", role: "admin", full_name: "" });
@@ -39,9 +41,24 @@ export default function AdminUsersPage() {
 
   const load = async () => {
     setLoading(true);
-    const data = await base44.entities.User.list("-created_date", 200);
-    setUsers(data);
-    setLoading(false);
+    setLoadError("");
+    try {
+      const res = await base44.functions.invoke("listAdminUsers");
+      if (res.data?.error) {
+        setLoadError(res.data.error);
+        setUsers([]);
+        setPendingInvites([]);
+      } else {
+        setUsers(res.data?.users || []);
+        setPendingInvites(res.data?.pendingInvites || []);
+      }
+    } catch (err) {
+      setLoadError(err?.response?.data?.error || err?.message || "Failed to load users.");
+      setUsers([]);
+      setPendingInvites([]);
+    } finally {
+      setLoading(false);
+    }
   };
 
   useEffect(() => {
@@ -151,6 +168,12 @@ export default function AdminUsersPage() {
         </Dialog>
       </div>
 
+      {loadError && !loading && (
+        <div className="mb-4 px-4 py-3 rounded-lg bg-destructive/10 border border-destructive/30 text-destructive text-sm">
+          {loadError}
+        </div>
+      )}
+
       {loading ? (
         <div className="py-20 text-center"><Loader2 className="w-6 h-6 animate-spin text-primary mx-auto" /></div>
       ) : (
@@ -226,6 +249,37 @@ export default function AdminUsersPage() {
               })}
             </tbody>
           </table>
+        </div>
+      )}
+
+      {!loading && pendingInvites.length > 0 && (
+        <div className="mt-10">
+          <h2 className="text-lg font-semibold text-white mb-1">Pending invitations</h2>
+          <p className="text-sm text-white/40 mb-4">Invites that haven't been accepted yet.</p>
+          <div className="bg-white/5 border border-white/10 rounded-xl overflow-hidden">
+            <table className="w-full text-sm">
+              <thead className="bg-white/5 text-white/50 uppercase text-xs tracking-widest">
+                <tr>
+                  <th className="text-left px-5 py-3 font-medium">Email</th>
+                  <th className="text-left px-5 py-3 font-medium">Role</th>
+                  <th className="text-left px-5 py-3 font-medium">Invited By</th>
+                  <th className="text-left px-5 py-3 font-medium">Expires</th>
+                </tr>
+              </thead>
+              <tbody>
+                {pendingInvites.map((inv) => (
+                  <tr key={inv.id} className="border-t border-white/5">
+                    <td className="px-5 py-4 text-white">{inv.email}</td>
+                    <td className="px-5 py-4 text-white/70">{ROLE_LABEL[inv.role] || inv.role}</td>
+                    <td className="px-5 py-4 text-white/70">{inv.invited_by || "—"}</td>
+                    <td className="px-5 py-4 text-white/50 text-xs">
+                      {inv.invite_expires_at ? format(new Date(inv.invite_expires_at), "MMM d, yyyy") : "—"}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
       )}
     </div>
