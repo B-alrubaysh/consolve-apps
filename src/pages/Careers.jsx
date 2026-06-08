@@ -121,9 +121,7 @@ function ApplicationForm({ job, isAr, dir, lang, onClose, onSuccess }) {
       status: "new",
     });
 
-    await base44.entities.JobPost.update(job.id, {
-      application_count: (job.application_count || 0) + 1,
-    });
+    await base44.functions.invoke("incrementJobApplicationCount", { job_post_id: job.id });
 
     setLoading(false);
     setSubmitted(true);
