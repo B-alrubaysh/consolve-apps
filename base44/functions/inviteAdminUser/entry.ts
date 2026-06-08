@@ -40,18 +40,8 @@ Deno.serve(async (req) => {
       return Response.json({ error: 'This user is already an admin.' }, { status: 409 });
     }
 
-    // Provision the auth account + send Base44's native invite email.
-    // If the platform reports the user already exists, continue — they'll just receive
-    // the role mapping via AdminInvite on next login.
-    try {
-      await base44.users.inviteUser(email, 'user');
-    } catch (e) {
-      if (!String(e?.message || '').toLowerCase().includes('exist')) {
-        throw e;
-      }
-    }
-
-    // Record the pending invite — the role will be applied on first login.
+    // Record the pending invite FIRST — this is the source of truth for the role and
+    // must always be written. The role is applied on first login by claimAdminInvite.
     await base44.asServiceRole.entities.AdminInvite.create({
       email,
       role,
@@ -60,7 +50,17 @@ Deno.serve(async (req) => {
       invite_expires_at: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString(),
     });
 
-    return Response.json({ success: true, email, role });
+    // Best-effort: send Base44's native invite email. Never abort on failure —
+    // the AdminInvite is already persisted and will apply on next login.
+    let emailSent = true;
+    try {
+      await base44.users.inviteUser(email, 'user');
+    } catch (e) {
+      emailSent = false;
+      console.error('inviteUser failed (non-fatal):', e?.message);
+    }
+
+    return Response.json({ success: true, email, role, emailSent });
   } catch (error) {
     console.error('inviteAdminUser error:', error);
     return Response.json({ error: error.message }, { status: 500 });

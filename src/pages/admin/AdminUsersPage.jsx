@@ -35,6 +35,7 @@ export default function AdminUsersPage() {
   const [inviteForm, setInviteForm] = useState({ email: "", role: "admin", full_name: "" });
   const [inviteSubmitting, setInviteSubmitting] = useState(false);
   const [inviteError, setInviteError] = useState("");
+  const [inviteNotice, setInviteNotice] = useState("");
 
   const load = async () => {
     setLoading(true);
@@ -53,12 +54,18 @@ export default function AdminUsersPage() {
 
   const submitInvite = async () => {
     setInviteError("");
+    setInviteNotice("");
     setInviteSubmitting(true);
     try {
       const res = await base44.functions.invoke("inviteAdminUser", inviteForm);
-      if (res.data?.success) {
+      if (res.data?.success && res.data?.emailSent !== false) {
         setInviteOpen(false);
         setInviteForm({ email: "", role: "admin", full_name: "" });
+        await load();
+      } else if (res.data?.success && res.data?.emailSent === false) {
+        setInviteNotice(
+          "Role saved. We couldn't send the invite email (the account may already exist). Ask them to go to /admin/login → Continue to Login → 'Forgot password' to set their password. Their admin access will be applied automatically when they sign in."
+        );
         await load();
       } else {
         setInviteError(res.data?.error || "Failed to invite user.");
@@ -120,13 +127,18 @@ export default function AdminUsersPage() {
                   <SelectTrigger><SelectValue /></SelectTrigger>
                   <SelectContent>
                     <SelectItem value="admin">Admin — full access</SelectItem>
-                    <SelectItem value="writer">Writer — Blog & Templates</SelectItem>
-                    <SelectItem value="hr">HR — Careers & Submissions</SelectItem>
+                    <SelectItem value="writer">{"Writer — Blog & Templates"}</SelectItem>
+                    <SelectItem value="hr">{"HR — Careers & Submissions"}</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
               {inviteError && (
                 <p className="text-sm text-destructive">{inviteError}</p>
+              )}
+              {inviteNotice && (
+                <p className="text-sm text-muted-foreground bg-muted/40 border border-border rounded-md p-3 leading-relaxed">
+                  {inviteNotice}
+                </p>
               )}
             </div>
             <DialogFooter>
