@@ -17,7 +17,14 @@ Deno.serve(async (req) => {
       return Response.json({ error: 'Forbidden' }, { status: 403 });
     }
 
-    const { action, target_user_id, updates } = await req.json();
+    const { action, target_user_id, updates, invite_id } = await req.json();
+
+    // Revoke a pending AdminInvite. Does not require target_user_id.
+    if (action === 'revoke_invite') {
+      if (!invite_id) return Response.json({ error: 'invite_id required' }, { status: 400 });
+      await base44.asServiceRole.entities.AdminInvite.update(invite_id, { status: 'revoked' });
+      return Response.json({ success: true });
+    }
 
     if (!target_user_id) return Response.json({ error: 'target_user_id required' }, { status: 400 });
 

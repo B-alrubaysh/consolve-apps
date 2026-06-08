@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { base44 } from "@/api/base44Admin";
-import { Loader2, UserPlus, Trash2, ShieldOff, ShieldCheck } from "lucide-react";
+import { Loader2, UserPlus, Trash2, ShieldOff, ShieldCheck, X } from "lucide-react";
 import { useAdminUser } from "../../components/admin/ProtectedAdminLayout";
 import { requireRole, ROLES } from "../../lib/rbac";
 import AccessDenied from "../../components/admin/AccessDenied";
@@ -101,6 +101,12 @@ export default function AdminUsersPage() {
   const deleteUser = async (target_user_id) => {
     if (!confirm("Delete this user? This cannot be undone.")) return;
     await base44.functions.invoke("updateAdminUser", { action: "delete", target_user_id });
+    await load();
+  };
+
+  const revokeInvite = async (invite_id) => {
+    if (!confirm("Revoke this invitation?")) return;
+    await base44.functions.invoke("updateAdminUser", { action: "revoke_invite", invite_id });
     await load();
   };
 
@@ -264,6 +270,7 @@ export default function AdminUsersPage() {
                   <th className="text-left px-5 py-3 font-medium">Role</th>
                   <th className="text-left px-5 py-3 font-medium">Invited By</th>
                   <th className="text-left px-5 py-3 font-medium">Expires</th>
+                  <th className="text-right px-5 py-3 font-medium">Actions</th>
                 </tr>
               </thead>
               <tbody>
@@ -274,6 +281,16 @@ export default function AdminUsersPage() {
                     <td className="px-5 py-4 text-white/70">{inv.invited_by || "—"}</td>
                     <td className="px-5 py-4 text-white/50 text-xs">
                       {inv.invite_expires_at ? format(new Date(inv.invite_expires_at), "MMM d, yyyy") : "—"}
+                    </td>
+                    <td className="px-5 py-4 text-right">
+                      <Button
+                        size="sm"
+                        variant="ghost"
+                        className="text-red-400 hover:text-red-300 gap-1.5"
+                        onClick={() => revokeInvite(inv.id)}
+                      >
+                        <X className="w-4 h-4" /> Revoke
+                      </Button>
                     </td>
                   </tr>
                 ))}

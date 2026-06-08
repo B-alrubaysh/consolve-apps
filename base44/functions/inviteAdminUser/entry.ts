@@ -40,8 +40,8 @@ Deno.serve(async (req) => {
       return Response.json({ error: 'This user is already an admin.' }, { status: 409 });
     }
 
-    // Record the pending invite FIRST — this is the source of truth for the role and
-    // must always be written. The role is applied on first login by claimAdminInvite.
+    // Record the pending invite — this is the source of truth for the role and
+    // is applied on first login by claimAdminInvite. Always written first.
     await base44.asServiceRole.entities.AdminInvite.create({
       email,
       role,
@@ -50,14 +50,55 @@ Deno.serve(async (req) => {
       invite_expires_at: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString(),
     });
 
-    // Best-effort: send Base44's native invite email. Never abort on failure —
-    // the AdminInvite is already persisted and will apply on next login.
-    let emailSent = true;
-    try {
-      await base44.users.inviteUser(email, 'user');
-    } catch (e) {
-      emailSent = false;
-      console.error('inviteUser failed (non-fatal):', e?.message);
+    // Send a branded invite email via Resend. Never throw — the AdminInvite is
+    // already persisted and will apply on first sign-in regardless.
+    let emailSent = false;
+    const apiKey = Deno.env.get("RESEND_API_KEY");
+    if (apiKey) {
+      const from = Deno.env.get("RESEND_FROM") || "Consolve <onboarding@resend.dev>";
+      const loginUrl = "https://consolve.sa/admin/login";
+      const roleLabel = role.charAt(0).toUpperCase() + role.slice(1);
+      const subject = "You've been invited to the Consolve admin panel";
+
+      const text = `Hello,
+
+You've been granted ${roleLabel} access to the Consolve admin panel.
+
+To get started, visit ${loginUrl} and sign up (or sign in) using this email address: ${email}.
+
+Your admin access will be applied automatically on your first sign-in.
+
+Best regards,
+The Consolve Team`;
+
+      const html = `<div style="font-family: Arial, sans-serif; line-height: 1.6; color: #1a2a33; max-width: 560px;">
+  <p style="margin: 0 0 16px;">Hello,</p>
+  <p style="margin: 0 0 16px;">You've been granted <strong>${roleLabel}</strong> access to the Consolve admin panel.</p>
+  <p style="margin: 0 0 16px;">To get started, visit
+    <a href="${loginUrl}" style="color: #e07856; text-decoration: none; font-weight: 600;">${loginUrl}</a>
+    and sign up (or sign in) using this email address: <strong>${email}</strong>.
+  </p>
+  <p style="margin: 0 0 16px;">Your admin access will be applied automatically on your first sign-in.</p>
+  <p style="margin: 24px 0 0; color: #4a5d66;">Best regards,<br/>The Consolve Team</p>
+</div>`;
+
+      try {
+        const res = await fetch("https://api.resend.com/emails", {
+          method: "POST",
+          headers: {
+            "Authorization": `Bearer ${apiKey}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ from, to: [email], subject, text, html }),
+        });
+        emailSent = res.ok;
+        if (!res.ok) {
+          const detail = await res.text();
+          console.error("Resend invite error:", res.status, detail);
+        }
+      } catch (e) {
+        console.error("Resend invite fetch failed (non-fatal):", e?.message);
+      }
     }
 
     return Response.json({ success: true, email, role, emailSent });
