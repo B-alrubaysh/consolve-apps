@@ -19,6 +19,7 @@ function Navbar() {
   { to: "/about", label: tx.nav_about },
   { to: "/services", label: tx.nav_services },
   { to: "/clients", label: tx.nav_clients },
+  { to: "/blog", label: lang === "ar" ? "المدونة" : "Blog" },
   { to: "/contact", label: tx.nav_contact }];
 
 
@@ -162,6 +163,7 @@ function Footer() {
     { to: "/clients", label: tx.nav_clients, external: false },
     { to: "/contact", label: tx.nav_contact, external: false },
     { to: "/careers", label: lang === "ar" ? "الوظائف" : "Careers", external: false },
+    { to: "/blog", label: lang === "ar" ? "المدونة" : "Blog", external: false },
   ];
 
   const activeLinks = footerLinks.filter((l) => l.is_active === true);
