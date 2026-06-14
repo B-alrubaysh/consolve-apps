@@ -5,6 +5,8 @@ import { requireRole, ROLES } from "../../lib/rbac";
 import AccessDenied from "../../components/admin/AccessDenied";
 import SiteInfoTab from "../../components/admin/settings/SiteInfoTab";
 import FooterSocialTab from "../../components/admin/settings/FooterSocialTab";
+import AboutPageTab from "../../components/admin/settings/AboutPageTab";
+import ContactPageTab from "../../components/admin/settings/ContactPageTab";
 import ProfileTab from "../../components/admin/settings/ProfileTab";
 import EmailCapturesTab from "../../components/admin/settings/EmailCapturesTab";
 
@@ -19,6 +21,8 @@ export default function AdminSettingsPage() {
     const list = [];
     if (isOwnerAdmin) list.push({ value: "site", label: "Site Info" });
     if (isOwnerAdmin) list.push({ value: "footer", label: "Footer & Social" });
+    if (isOwnerAdmin) list.push({ value: "about", label: "About Page" });
+    if (isOwnerAdmin) list.push({ value: "contact", label: "Contact Page" });
     list.push({ value: "profile", label: "Profile" });
     if (isOwnerAdmin) list.push({ value: "captures", label: "Email Captures" });
     return list;
@@ -50,6 +54,16 @@ export default function AdminSettingsPage() {
         {isOwnerAdmin && (
           <TabsContent value="footer" className="mt-6">
             <FooterSocialTab />
+          </TabsContent>
+        )}
+        {isOwnerAdmin && (
+          <TabsContent value="about" className="mt-6">
+            <AboutPageTab />
+          </TabsContent>
+        )}
+        {isOwnerAdmin && (
+          <TabsContent value="contact" className="mt-6">
+            <ContactPageTab />
           </TabsContent>
         )}
         <TabsContent value="profile" className="mt-6">

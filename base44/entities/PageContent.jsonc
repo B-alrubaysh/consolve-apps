@@ -1,0 +1,312 @@
+{
+  "name": "PageContent",
+  "type": "object",
+  "properties": {
+    "about_label_en": {
+      "type": "string",
+      "title": "About \u2014 Eyebrow (English)"
+    },
+    "about_label_ar": {
+      "type": "string",
+      "title": "About \u2014 Eyebrow (Arabic)"
+    },
+    "about_h1_en": {
+      "type": "string",
+      "title": "About \u2014 Headline (English)"
+    },
+    "about_h1_ar": {
+      "type": "string",
+      "title": "About \u2014 Headline (Arabic)"
+    },
+    "about_p1_en": {
+      "type": "string",
+      "title": "About \u2014 Paragraph 1 (English)"
+    },
+    "about_p1_ar": {
+      "type": "string",
+      "title": "About \u2014 Paragraph 1 (Arabic)"
+    },
+    "about_p2_en": {
+      "type": "string",
+      "title": "About \u2014 Paragraph 2 (English)"
+    },
+    "about_p2_ar": {
+      "type": "string",
+      "title": "About \u2014 Paragraph 2 (Arabic)"
+    },
+    "about_image_url": {
+      "type": "string",
+      "title": "About \u2014 Image URL"
+    },
+    "about_mission_label_en": {
+      "type": "string",
+      "title": "About Mission \u2014 Eyebrow (English)"
+    },
+    "about_mission_label_ar": {
+      "type": "string",
+      "title": "About Mission \u2014 Eyebrow (Arabic)"
+    },
+    "about_mission_h2_en": {
+      "type": "string",
+      "title": "About Mission \u2014 Heading (English)"
+    },
+    "about_mission_h2_ar": {
+      "type": "string",
+      "title": "About Mission \u2014 Heading (Arabic)"
+    },
+    "about_mission_p_en": {
+      "type": "string",
+      "title": "About Mission \u2014 Paragraph (English)"
+    },
+    "about_mission_p_ar": {
+      "type": "string",
+      "title": "About Mission \u2014 Paragraph (Arabic)"
+    },
+    "about_values_label_en": {
+      "type": "string",
+      "title": "About Values \u2014 Eyebrow (English)"
+    },
+    "about_values_label_ar": {
+      "type": "string",
+      "title": "About Values \u2014 Eyebrow (Arabic)"
+    },
+    "about_values_h2_en": {
+      "type": "string",
+      "title": "About Values \u2014 Heading (English)"
+    },
+    "about_values_h2_ar": {
+      "type": "string",
+      "title": "About Values \u2014 Heading (Arabic)"
+    },
+    "stat1_number_en": {
+      "type": "string",
+      "title": "Stat 1 \u2014 Number (English)"
+    },
+    "stat1_number_ar": {
+      "type": "string",
+      "title": "Stat 1 \u2014 Number (Arabic)"
+    },
+    "stat1_label_en": {
+      "type": "string",
+      "title": "Stat 1 \u2014 Label (English)"
+    },
+    "stat1_label_ar": {
+      "type": "string",
+      "title": "Stat 1 \u2014 Label (Arabic)"
+    },
+    "stat2_number_en": {
+      "type": "string",
+      "title": "Stat 2 \u2014 Number (English)"
+    },
+    "stat2_number_ar": {
+      "type": "string",
+      "title": "Stat 2 \u2014 Number (Arabic)"
+    },
+    "stat2_label_en": {
+      "type": "string",
+      "title": "Stat 2 \u2014 Label (English)"
+    },
+    "stat2_label_ar": {
+      "type": "string",
+      "title": "Stat 2 \u2014 Label (Arabic)"
+    },
+    "stat3_number_en": {
+      "type": "string",
+      "title": "Stat 3 \u2014 Number (English)"
+    },
+    "stat3_number_ar": {
+      "type": "string",
+      "title": "Stat 3 \u2014 Number (Arabic)"
+    },
+    "stat3_label_en": {
+      "type": "string",
+      "title": "Stat 3 \u2014 Label (English)"
+    },
+    "stat3_label_ar": {
+      "type": "string",
+      "title": "Stat 3 \u2014 Label (Arabic)"
+    },
+    "stat4_number_en": {
+      "type": "string",
+      "title": "Stat 4 \u2014 Number (English)"
+    },
+    "stat4_number_ar": {
+      "type": "string",
+      "title": "Stat 4 \u2014 Number (Arabic)"
+    },
+    "stat4_label_en": {
+      "type": "string",
+      "title": "Stat 4 \u2014 Label (English)"
+    },
+    "stat4_label_ar": {
+      "type": "string",
+      "title": "Stat 4 \u2014 Label (Arabic)"
+    },
+    "value1_title_en": {
+      "type": "string",
+      "title": "Value 1 \u2014 Title (English)"
+    },
+    "value1_title_ar": {
+      "type": "string",
+      "title": "Value 1 \u2014 Title (Arabic)"
+    },
+    "value1_desc_en": {
+      "type": "string",
+      "title": "Value 1 \u2014 Description (English)"
+    },
+    "value1_desc_ar": {
+      "type": "string",
+      "title": "Value 1 \u2014 Description (Arabic)"
+    },
+    "value2_title_en": {
+      "type": "string",
+      "title": "Value 2 \u2014 Title (English)"
+    },
+    "value2_title_ar": {
+      "type": "string",
+      "title": "Value 2 \u2014 Title (Arabic)"
+    },
+    "value2_desc_en": {
+      "type": "string",
+      "title": "Value 2 \u2014 Description (English)"
+    },
+    "value2_desc_ar": {
+      "type": "string",
+      "title": "Value 2 \u2014 Description (Arabic)"
+    },
+    "value3_title_en": {
+      "type": "string",
+      "title": "Value 3 \u2014 Title (English)"
+    },
+    "value3_title_ar": {
+      "type": "string",
+      "title": "Value 3 \u2014 Title (Arabic)"
+    },
+    "value3_desc_en": {
+      "type": "string",
+      "title": "Value 3 \u2014 Description (English)"
+    },
+    "value3_desc_ar": {
+      "type": "string",
+      "title": "Value 3 \u2014 Description (Arabic)"
+    },
+    "value4_title_en": {
+      "type": "string",
+      "title": "Value 4 \u2014 Title (English)"
+    },
+    "value4_title_ar": {
+      "type": "string",
+      "title": "Value 4 \u2014 Title (Arabic)"
+    },
+    "value4_desc_en": {
+      "type": "string",
+      "title": "Value 4 \u2014 Description (English)"
+    },
+    "value4_desc_ar": {
+      "type": "string",
+      "title": "Value 4 \u2014 Description (Arabic)"
+    },
+    "contact_label_en": {
+      "type": "string",
+      "title": "Contact \u2014 Eyebrow (English)"
+    },
+    "contact_label_ar": {
+      "type": "string",
+      "title": "Contact \u2014 Eyebrow (Arabic)"
+    },
+    "contact_h1_en": {
+      "type": "string",
+      "title": "Contact \u2014 Headline (English)"
+    },
+    "contact_h1_ar": {
+      "type": "string",
+      "title": "Contact \u2014 Headline (Arabic)"
+    },
+    "contact_sub_en": {
+      "type": "string",
+      "title": "Contact \u2014 Subhead (English)"
+    },
+    "contact_sub_ar": {
+      "type": "string",
+      "title": "Contact \u2014 Subhead (Arabic)"
+    },
+    "contact_office_en": {
+      "type": "string",
+      "title": "Contact \u2014 Office Line (English)"
+    },
+    "contact_office_ar": {
+      "type": "string",
+      "title": "Contact \u2014 Office Line (Arabic)"
+    },
+    "contact_aside_title_en": {
+      "type": "string",
+      "title": "Contact Aside \u2014 Title (English)"
+    },
+    "contact_aside_title_ar": {
+      "type": "string",
+      "title": "Contact Aside \u2014 Title (Arabic)"
+    },
+    "contact_aside_text_en": {
+      "type": "string",
+      "title": "Contact Aside \u2014 Text (English)"
+    },
+    "contact_aside_text_ar": {
+      "type": "string",
+      "title": "Contact Aside \u2014 Text (Arabic)"
+    },
+    "contact_aside_link_label_en": {
+      "type": "string",
+      "title": "Contact Aside \u2014 Link Label (English)"
+    },
+    "contact_aside_link_label_ar": {
+      "type": "string",
+      "title": "Contact Aside \u2014 Link Label (Arabic)"
+    }
+  },
+  "required": [],
+  "rls": {
+    "read": true,
+    "create": {
+      "$or": [
+        {
+          "user_condition": {
+            "role": "owner"
+          }
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "update": {
+      "$or": [
+        {
+          "user_condition": {
+            "role": "owner"
+          }
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "delete": {
+      "$or": [
+        {
+          "user_condition": {
+            "role": "owner"
+          }
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    }
+  }
+}

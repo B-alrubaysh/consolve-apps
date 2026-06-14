@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Mail, Phone, MapPin, Send } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -12,8 +12,29 @@ export default function Contact() {
   const [form, setForm] = useState({ name: "", email: "", phone: "", company: "", message: "" });
   const [loading, setLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
-  const { lang, dir } = useLanguage();
+  const { lang, dir, isAr } = useLanguage();
   const tx = t[lang];
+
+  // PageContent → editable bilingual hero / office / aside text.
+  // SiteSettings → real contact email + phone (same source the Footer uses).
+  const [rec, setRec] = useState(null);
+  const [settings, setSettings] = useState(null);
+
+  useEffect(() => {
+    let cancelled = false;
+    Promise.all([
+      base44.entities.PageContent.list("-created_date", 1).catch(() => []),
+      base44.entities.SiteSettings.list("-created_date", 1).catch(() => []),
+    ]).then(([pcList, ssList]) => {
+      if (cancelled) return;
+      setRec((pcList || [])[0] || null);
+      setSettings((ssList || [])[0] || null);
+    });
+    return () => { cancelled = true; };
+  }, []);
+
+  const pick = (key, fallback) =>
+    (isAr ? rec?.[`${key}_ar`] : rec?.[`${key}_en`]) || fallback;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -23,14 +44,17 @@ export default function Contact() {
     setLoading(false);
   };
 
+  const email = settings?.contact_email || "info@consolve.com";
+  const phone = settings?.contact_phone || "+1 (800) 555-0199";
+
   return (
     <div dir={dir}>
       <section className="pt-32 pb-20 md:pt-44 md:pb-28">
         <div className="max-w-7xl mx-auto px-6">
           <AnimatedSection>
-            <p className="text-primary font-semibold text-xs uppercase tracking-[0.2em] mb-4">{tx.contact_label}</p>
-            <h1 className="text-4xl md:text-6xl font-bold text-foreground tracking-tight mb-8 max-w-3xl">{tx.contact_h1}</h1>
-            <p className="text-lg text-muted-foreground leading-relaxed max-w-2xl">{tx.contact_sub}</p>
+            <p className="text-primary font-semibold text-xs uppercase tracking-[0.2em] mb-4">{pick("contact_label", tx.contact_label)}</p>
+            <h1 className="text-4xl md:text-6xl font-bold text-foreground tracking-tight mb-8 max-w-3xl">{pick("contact_h1", tx.contact_h1)}</h1>
+            <p className="text-lg text-muted-foreground leading-relaxed max-w-2xl">{pick("contact_sub", tx.contact_sub)}</p>
           </AnimatedSection>
         </div>
       </section>
@@ -86,9 +110,9 @@ export default function Contact() {
               <AnimatedSection delay={200}>
                 <div className="space-y-8">
                   {[
-                    { icon: Mail, label: tx.contact_email_label, val: "info@consolve.com" },
-                    { icon: Phone, label: tx.contact_phone_label, val: "+1 (800) 555-0199" },
-                    { icon: MapPin, label: tx.contact_office_label, val: tx.contact_office_val },
+                    { icon: Mail, label: tx.contact_email_label, val: email },
+                    { icon: Phone, label: tx.contact_phone_label, val: phone },
+                    { icon: MapPin, label: tx.contact_office_label, val: pick("contact_office", tx.contact_office_val) },
                   ].map((item, i) => (
                     <div key={i} className="flex gap-4">
                       <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center shrink-0">
@@ -101,9 +125,9 @@ export default function Contact() {
                     </div>
                   ))}
                   <div className="mt-12 p-8 rounded-2xl bg-secondary">
-                    <h3 className="text-lg font-semibold text-white mb-3">{tx.contact_aside_h}</h3>
-                    <p className="text-sm text-white/60 leading-relaxed mb-4">{tx.contact_aside_p}</p>
-                    <a href="/assessment" className="text-primary text-sm font-semibold hover:underline">{tx.contact_aside_link}</a>
+                    <h3 className="text-lg font-semibold text-white mb-3">{pick("contact_aside_title", tx.contact_aside_h)}</h3>
+                    <p className="text-sm text-white/60 leading-relaxed mb-4">{pick("contact_aside_text", tx.contact_aside_p)}</p>
+                    <a href="/assessment" className="text-primary text-sm font-semibold hover:underline">{pick("contact_aside_link_label", tx.contact_aside_link)}</a>
                   </div>
                 </div>
               </AnimatedSection>
