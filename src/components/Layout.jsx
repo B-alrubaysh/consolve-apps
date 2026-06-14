@@ -93,11 +93,11 @@ function Navbar() {
         {/* Mobile */}
         <div className="flex md:hidden items-center justify-between px-5">
           <Link to="/" className="flex items-center shrink-0">
-            <img
-              src="https://media.base44.com/images/public/69c6e2cf0b61fa041c4eb06c/a90b3e265_image.png"
-              alt="Consolve"
-              className="h-8 w-auto"
-              style={{ mixBlendMode: 'screen' }} />
+            <img src="https://media.base44.com/images/public/69c6e2cf0b61fa041c4eb06c/4c25434d1_Consolve_identity_compressed_HQai.png"
+
+            alt="Consolve"
+            className="h-8 w-auto"
+            style={{ mixBlendMode: 'screen' }} />
             
           </Link>
           <div className="flex items-center gap-3">
@@ -146,54 +146,54 @@ function Footer() {
   useEffect(() => {
     let cancelled = false;
     Promise.all([
-      base44.entities.SiteSettings.list("-created_date", 1).catch(() => null),
-      base44.entities.FooterNavLink.list("display_order", 100).catch(() => []),
-    ]).then(([sList, links]) => {
+    base44.entities.SiteSettings.list("-created_date", 1).catch(() => null),
+    base44.entities.FooterNavLink.list("display_order", 100).catch(() => [])]
+    ).then(([sList, links]) => {
       if (cancelled) return;
       setSettings((sList || [])[0] || null);
       setFooterLinks(links || []);
     });
-    return () => { cancelled = true; };
+    return () => {cancelled = true;};
   }, []);
 
   const FALLBACK_NAV_LINKS = [
-    { to: "/", label: tx.nav_home, external: false },
-    { to: "/about", label: tx.nav_about, external: false },
-    { to: "/services", label: tx.nav_services, external: false },
-    { to: "/clients", label: tx.nav_clients, external: false },
-    { to: "/contact", label: tx.nav_contact, external: false },
-    { to: "/careers", label: lang === "ar" ? "الوظائف" : "Careers", external: false },
-    { to: "/blog", label: lang === "ar" ? "المدونة" : "Blog", external: false },
-  ];
+  { to: "/", label: tx.nav_home, external: false },
+  { to: "/about", label: tx.nav_about, external: false },
+  { to: "/services", label: tx.nav_services, external: false },
+  { to: "/clients", label: tx.nav_clients, external: false },
+  { to: "/contact", label: tx.nav_contact, external: false },
+  { to: "/careers", label: lang === "ar" ? "الوظائف" : "Careers", external: false },
+  { to: "/blog", label: lang === "ar" ? "المدونة" : "Blog", external: false }];
+
 
   const activeLinks = footerLinks.filter((l) => l.is_active === true);
-  const navLinks = activeLinks.length > 0
-    ? activeLinks.map((l) => ({
-        to: l.url,
-        label: (isAr ? l.label_ar : l.label_en) || l.label_en || l.label_ar || l.url,
-        external: !!l.is_external,
-        id: l.id,
-      }))
-    : FALLBACK_NAV_LINKS;
+  const navLinks = activeLinks.length > 0 ?
+  activeLinks.map((l) => ({
+    to: l.url,
+    label: (isAr ? l.label_ar : l.label_en) || l.label_en || l.label_ar || l.url,
+    external: !!l.is_external,
+    id: l.id
+  })) :
+  FALLBACK_NAV_LINKS;
 
   const logoSrc = settings?.logo_url || DEFAULT_LOGO;
   const tagline = (isAr ? settings?.footer_tagline_ar : settings?.footer_tagline_en) || tx.footer_tagline;
   const navHeader = (isAr ? settings?.footer_nav_header_ar : settings?.footer_nav_header_en) || tx.footer_navigate;
   const contactHeader = (isAr ? settings?.footer_contact_header_ar : settings?.footer_contact_header_en) || tx.footer_contact;
-  const copyrightRaw = (isAr ? settings?.footer_copyright_ar : settings?.footer_copyright_en);
-  const copyright = copyrightRaw
-    ? copyrightRaw.replace(/\{\{year\}\}/g, String(new Date().getFullYear()))
-    : tx.footer_rights(new Date().getFullYear());
+  const copyrightRaw = isAr ? settings?.footer_copyright_ar : settings?.footer_copyright_en;
+  const copyright = copyrightRaw ?
+  copyrightRaw.replace(/\{\{year\}\}/g, String(new Date().getFullYear())) :
+  tx.footer_rights(new Date().getFullYear());
   const privacyLabel = (isAr ? settings?.footer_privacy_label_ar : settings?.footer_privacy_label_en) || tx.footer_privacy;
   const termsLabel = (isAr ? settings?.footer_terms_label_ar : settings?.footer_terms_label_en) || tx.footer_terms;
 
   const email = settings?.contact_email || "info@consolve.com";
   const phone = settings?.contact_phone || "+1 (800) 555-0199";
   const socials = [
-    { url: settings?.linkedin_url, Icon: Linkedin, label: "LinkedIn" },
-    { url: settings?.twitter_url, Icon: Twitter, label: "Twitter" },
-    { url: settings?.instagram_url, Icon: Instagram, label: "Instagram" },
-  ].filter((s) => !!s.url);
+  { url: settings?.linkedin_url, Icon: Linkedin, label: "LinkedIn" },
+  { url: settings?.twitter_url, Icon: Twitter, label: "Twitter" },
+  { url: settings?.instagram_url, Icon: Instagram, label: "Instagram" }].
+  filter((s) => !!s.url);
 
   return (
     <footer className="bg-secondary text-secondary-foreground" dir={dir}>
@@ -212,19 +212,19 @@ function Footer() {
               {navHeader}
             </h4>
             <div className="flex flex-col gap-3">
-              {navLinks.map((link, i) => (
-                link.external ? (
-                  <a key={link.id || `${link.to}-${i}`} href={link.to} target="_blank" rel="noopener noreferrer"
-                    className="text-sm text-secondary-foreground/60 hover:text-primary transition-colors">
+              {navLinks.map((link, i) =>
+              link.external ?
+              <a key={link.id || `${link.to}-${i}`} href={link.to} target="_blank" rel="noopener noreferrer"
+              className="text-sm text-secondary-foreground/60 hover:text-primary transition-colors">
                     {link.label}
-                  </a>
-                ) : (
-                  <Link key={link.id || `${link.to}-${i}`} to={link.to}
-                    className="text-sm text-secondary-foreground/60 hover:text-primary transition-colors">
+                  </a> :
+
+              <Link key={link.id || `${link.to}-${i}`} to={link.to}
+              className="text-sm text-secondary-foreground/60 hover:text-primary transition-colors">
                     {link.label}
                   </Link>
-                )
-              ))}
+
+              )}
             </div>
           </div>
           <div>
@@ -234,33 +234,33 @@ function Footer() {
             <div className="flex flex-col gap-3 text-sm text-secondary-foreground/60">
               <span>{email}</span>
               <span>{phone}</span>
-              {socials.length > 0 && (
-                <div className="flex items-center gap-3 mt-1">
-                  {socials.map(({ url, Icon, label }) => (
-                    <a key={label} href={url} target="_blank" rel="noopener noreferrer"
-                      aria-label={label}
-                      className="text-secondary-foreground/60 hover:text-primary transition-colors">
+              {socials.length > 0 &&
+              <div className="flex items-center gap-3 mt-1">
+                  {socials.map(({ url, Icon, label }) =>
+                <a key={label} href={url} target="_blank" rel="noopener noreferrer"
+                aria-label={label}
+                className="text-secondary-foreground/60 hover:text-primary transition-colors">
                       <Icon className="w-4 h-4" />
                     </a>
-                  ))}
+                )}
                 </div>
-              )}
+              }
             </div>
           </div>
         </div>
         <div className="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-xs text-secondary-foreground/30">{copyright}</p>
           <div className="flex items-center gap-6">
-            {settings?.privacy_url ? (
-              <a href={settings.privacy_url} target="_blank" rel="noopener noreferrer" className="text-xs text-secondary-foreground/30 hover:text-primary transition-colors">{privacyLabel}</a>
-            ) : (
-              <span className="text-xs text-secondary-foreground/30 hover:text-primary cursor-pointer transition-colors">{privacyLabel}</span>
-            )}
-            {settings?.terms_url ? (
-              <a href={settings.terms_url} target="_blank" rel="noopener noreferrer" className="text-xs text-secondary-foreground/30 hover:text-primary transition-colors">{termsLabel}</a>
-            ) : (
-              <span className="text-xs text-secondary-foreground/30 hover:text-primary cursor-pointer transition-colors">{termsLabel}</span>
-            )}
+            {settings?.privacy_url ?
+            <a href={settings.privacy_url} target="_blank" rel="noopener noreferrer" className="text-xs text-secondary-foreground/30 hover:text-primary transition-colors">{privacyLabel}</a> :
+
+            <span className="text-xs text-secondary-foreground/30 hover:text-primary cursor-pointer transition-colors">{privacyLabel}</span>
+            }
+            {settings?.terms_url ?
+            <a href={settings.terms_url} target="_blank" rel="noopener noreferrer" className="text-xs text-secondary-foreground/30 hover:text-primary transition-colors">{termsLabel}</a> :
+
+            <span className="text-xs text-secondary-foreground/30 hover:text-primary cursor-pointer transition-colors">{termsLabel}</span>
+            }
           </div>
         </div>
       </div>
