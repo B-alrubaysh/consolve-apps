@@ -1,6 +1,6 @@
 import { useEffect, useState, createContext, useContext } from "react";
 import { Outlet, Navigate, Link, useLocation } from "react-router-dom";
-import { Loader2, LayoutDashboard, FileText, Users, Briefcase, Inbox, Settings, BookOpen, FilePlus2, LogOut } from "lucide-react";
+import { Loader2, LayoutDashboard, FileText, Users, Briefcase, Inbox, Mail, Settings, BookOpen, FilePlus2, LogOut } from "lucide-react";
 import { base44 } from "@/api/base44Admin";
 import { getAdminUser } from "@/lib/getAdminUser";
 import { useLanguage } from "../../lib/useLanguage";
@@ -13,6 +13,7 @@ const NAV = [
   { key: "clients", to: "/admin/clients", label: "Clients", icon: Users },
   { key: "careers", to: "/admin/careers", label: "Careers", icon: Briefcase },
   { key: "submissions", to: "/admin/submissions", label: "Submissions", icon: Inbox },
+  { key: "inquiries", to: "/admin/inquiries", label: "Inquiries", icon: Mail },
   { key: "assessments", to: "/admin/assessments", label: "Assessments", icon: FileText },
   { key: "users", to: "/admin/users", label: "Users", icon: Users },
   { key: "settings", to: "/admin/settings", label: "Settings", icon: Settings },

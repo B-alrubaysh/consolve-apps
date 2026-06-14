@@ -27,8 +27,8 @@ export function requireRole(user, ...allowedRoles) {
  * owner/admin: everything.
  */
 export const SIDEBAR_VISIBILITY = {
-  [ROLES.OWNER]: ["dashboard", "blog", "templates", "clients", "careers", "submissions", "assessments", "users", "settings"],
-  [ROLES.ADMIN]: ["dashboard", "blog", "templates", "clients", "careers", "submissions", "assessments", "users", "settings"],
+  [ROLES.OWNER]: ["dashboard", "blog", "templates", "clients", "careers", "submissions", "inquiries", "assessments", "users", "settings"],
+  [ROLES.ADMIN]: ["dashboard", "blog", "templates", "clients", "careers", "submissions", "inquiries", "assessments", "users", "settings"],
   [ROLES.WRITER]: ["blog", "templates"],
   [ROLES.HR]: ["careers", "submissions"],
 };

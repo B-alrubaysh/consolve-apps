@@ -26,6 +26,7 @@ import AssessmentsList from './pages/admin/AssessmentsList';
 import AdminClientsPage from './pages/admin/AdminClientsPage';
 import AdminCareersPage from './pages/admin/AdminCareersPage';
 import AdminSubmissionsPage from './pages/admin/AdminSubmissionsPage';
+import AdminInquiriesPage from './pages/admin/AdminInquiriesPage';
 import AdminBlogPage from './pages/admin/AdminBlogPage';
 import AdminBlogEditorPage from './pages/admin/AdminBlogEditorPage';
 import AdminBlogTemplatesPage from './pages/admin/AdminBlogTemplatesPage';
@@ -69,6 +70,7 @@ function App() {
               <Route path="blog/templates" element={<AdminBlogTemplatesPage />} />
               <Route path="careers" element={<AdminCareersPage />} />
               <Route path="submissions" element={<AdminSubmissionsPage />} />
+              <Route path="inquiries" element={<AdminInquiriesPage />} />
               <Route path="users" element={<AdminUsersPage />} />
               <Route path="settings" element={<AdminSettingsPage />} />
             </Route>

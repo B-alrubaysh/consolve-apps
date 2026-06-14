@@ -22,6 +22,14 @@
       "type": "string",
       "title": "Message"
     },
+    "language": {
+      "type": "string",
+      "title": "Language",
+      "enum": [
+        "en",
+        "ar"
+      ]
+    },
     "status": {
       "type": "string",
       "title": "Status",
