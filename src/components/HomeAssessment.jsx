@@ -12,7 +12,7 @@ export default function HomeAssessment() {
   const [clientInfo, setClientInfo] = useState(null);
   const [answers, setAnswers] = useState([]);
 
-  const title = lang === "ar" ? "بدء الاستبيان — مدعوم بالذكاء الاصطناعي ⚡️" : "Start Assessment — AI-Powered ⚡️";
+  const title = lang === "ar" ? "بدء الاستبيان، مدعوم بالذكاء الاصطناعي ⚡️" : "Start Assessment — AI-Powered ⚡️";
   const subtitle = lang === "ar" ?
   "أجرِ تقييمك المجاني الآن واحصل على تشخيص ذكي لأعمالك في دقائق" :
   "Run your free assessment now and get an AI-powered business diagnosis in minutes";

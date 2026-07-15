@@ -1,0 +1,6 @@
+# Consolve robots policy
+# Public pages are crawlable. Admin routes must not be indexed or crawled.
+
+User-agent: *
+Disallow: /admin/
+Disallow: /admin
