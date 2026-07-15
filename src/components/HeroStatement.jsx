@@ -27,17 +27,17 @@ function CountUp({ target, duration = 900 }) {
 }
 
 const METRICS_EN = [
-  { value: 100, suffix: "+", label: "Projects Delivered" },
+  { value: 100, suffix: "+", label: "Consulting Projects Delivered" },
   { value: 20,  suffix: "+", label: "Clients Served" },
-  { value: 10,  suffix: "+", label: "Industries Covered" },
-  { value: 9,   suffix: "",  label: "Core Service Areas" },
+  { value: 10,  suffix: "+", label: "Sectors Served" },
+  { value: 9,   suffix: "",  label: "Specialized Consulting Areas" },
 ];
 
 const METRICS_AR = [
-  { value: 100, suffix: "+", label: "مشروع تم تنفيذه" },
-  { value: 20,  suffix: "+", label: "عميل تم خدمتهم" },
-  { value: 10,  suffix: "+", label: "قطاعات تم خدمتها" },
-  { value: 9,   suffix: "",  label: "مجالات استشارية" },
+  { value: 100, suffix: "+", label: "مشروع استشاري تم تنفيذه" },
+  { value: 20,  suffix: "+", label: "عميلًا وثق بخدماتنا" },
+  { value: 10,  suffix: "+", label: "قطاعات متنوعة" },
+  { value: 9,   suffix: "",  label: "مجالات استشارية متخصصة" },
 ];
 
 export default function HeroStatement() {
@@ -53,17 +53,16 @@ export default function HeroStatement() {
   const headlineEN = (
     <h2 className="text-5xl md:text-6xl lg:text-7xl font-black text-foreground leading-[1.0] tracking-tight">
       <span className="text-primary">Empowering</span>
-      {" Entities Through "}
-      <span className="text-primary">Modern</span>
-      {" Concepts"}
+      {" organizations to achieve more efficient, sustainable "}
+      <span className="text-primary">performance</span>
     </h2>
   );
 
   const headlineAR = (
     <h2 className="text-5xl md:text-6xl lg:text-7xl font-black text-foreground leading-[1.0] tracking-tight" dir="rtl">
-      <span className="text-primary">تمكين</span>
-      {" المنظمات باستخدام مفاهيم "}
-      <span className="text-primary">حديثة</span>
+      <span className="text-primary">نمكّن</span>
+      {" المؤسسات من تحقيق أداء أكثر كفاءة "}
+      <span className="text-primary">واستدامة</span>
     </h2>
   );
 
@@ -100,8 +99,8 @@ export default function HeroStatement() {
             </p>
             <p className="text-muted-foreground text-base md:text-lg leading-[1.8]">
               {isAr
-                ? "نساعد المؤسسات على تحويل الاستراتيجيات إلى نتائج ملموسة. من خلال نهج متكامل يشمل الاستراتيجية، العمليات، الحوكمة، والابتكار، نعمل مع الشركات لحل التحديات المعقدة، وتحسين الأداء، وتحقيق نمو مستدام. بدءًا من صياغة الرؤية وإعادة الهيكلة، وصولًا إلى تحسين العمليات، وإدارة المخاطر، والتوسع في الأسواق. نقدم حلولًا عملية تحقق أثرًا حقيقيًا."
-                : "We help organizations transform strategy into measurable results. Through an integrated approach across strategy, operations, governance, and innovation, we partner with businesses to solve complex challenges, optimize performance, and unlock sustainable growth. From defining vision and restructuring organizations to improving operations, managing risk, and driving market expansion. we deliver practical solutions that create real impact."}
+                ? "نساعد الشركات على تطوير أدائها من خلال تشخيص التحديات الإدارية والتشغيلية، وتحليل الفجوات، وتصميم حلول عملية قابلة للتنفيذ. تشمل خدماتنا الحوكمة، وتحسين العمليات، والبحث والتطوير، والاستراتيجية، وبناء السياسات والإجراءات، بما يساعد المؤسسات على رفع الكفاءة، وتحسين جودة القرارات، ودعم النمو المستدام."
+                : "We help companies improve their performance by diagnosing administrative and operational challenges, analyzing gaps, and designing practical, actionable solutions. Our services include governance, process improvement, R&D, strategy, and policy and procedure development — helping organizations increase efficiency, improve decision quality, and support sustainable growth."}
             </p>
           </motion.div>
         </div>

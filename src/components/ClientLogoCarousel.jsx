@@ -46,7 +46,6 @@ export default function ClientLogoCarousel() {
   // Loading or empty → render nothing.
   if (clients === null || clients.length === 0) return null;
 
-  const eyebrow = isAr ? "العملاء" : "Clients";
   const title = isAr ? "عملاؤنا" : "Our Clients";
   const subtitle = isAr
     ? "ثقة عملائنا بنا من منظمات في قطاعات متعددة"
@@ -61,7 +60,6 @@ export default function ClientLogoCarousel() {
 
       <div className="max-w-7xl mx-auto px-6">
         <div className="text-center mb-16">
-          <p className="text-xs font-semibold uppercase text-primary tracking-[0.2em] mb-4">{eyebrow}</p>
           <h2 className="text-3xl md:text-5xl font-bold text-foreground tracking-tight mb-4">{title}</h2>
           <p className="text-base md:text-lg text-muted-foreground max-w-2xl mx-auto">{subtitle}</p>
         </div>

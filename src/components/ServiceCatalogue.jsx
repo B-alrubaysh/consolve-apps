@@ -8,27 +8,29 @@ const SERVICES = [
     id: "strategy",
     nameEn: "Strategy Consulting",
     nameAr: "الاستشارات الاستراتيجية",
-    goalEn: "Define direction, growth, and competitive positioning",
-    goalAr: "تحديد الاتجاه والنمو والمكانة التنافسية",
+    goalEn: "We build strategies that drive growth and turn goals into actionable plans.",
+    goalAr: "نبني استراتيجيات تدعم النمو وتحول الأهداف إلى خطط قابلة للتنفيذ.",
+    descEn: "We build strategies that help companies make clearer decisions and turn goals into actionable plans.",
+    descAr: "نبني استراتيجيات تساعد الشركات على اتخاذ قرارات أكثر وضوحًا وتحويل الأهداف إلى خطط قابلة للتنفيذ.",
     subEn: [
       "Corporate Strategy Development",
-      "Business Unit Strategy",
-      "Market Entry & Expansion Strategy",
-      "Strategic Planning & Execution Roadmaps",
-      "Competitive Benchmarking & Market Analysis",
-      "Vision, Mission & Value Definition",
-      "Digital & Innovation Strategy",
-      "ESG & Sustainability Strategy",
+      "Strategic Planning",
+      "Business Model Development",
+      "Market Entry Strategies",
+      "Market and Competitor Analysis",
+      "Vision, Mission, and Values Formulation",
+      "Organizational Transformation and Growth Management",
+      "Sustainability and Business Continuity",
     ],
     subAr: [
       "تطوير الاستراتيجية المؤسسية",
-      "استراتيجية وحدات الأعمال",
-      "استراتيجيات دخول الأسواق",
       "التخطيط الاستراتيجي",
-      "التحليل السوقي",
+      "تطوير نماذج الأعمال",
+      "استراتيجيات دخول الأسواق",
+      "تحليل السوق والمنافسين",
       "صياغة الرؤية والرسالة والقيم",
-      "التحول الرقمي والابتكار",
-      "الاستدامة",
+      "التحول المؤسسي وإدارة النمو",
+      "الاستدامة واستمرارية الأعمال",
     ],
   },
   {
@@ -265,12 +267,12 @@ export default function ServiceCatalogue() {
                 {isAr ? "خدماتنا" : "Services"}
               </p>
               <h2 className="text-3xl md:text-5xl font-bold text-foreground tracking-tight mb-4 leading-tight">
-                {isAr ? "استكشف مجالاتنا الاستشارية" : "Explore Our Service Capabilities"}
+                {isAr ? "حلول استشارية تدعم نمو أعمالك" : "Consulting Solutions That Drive Your Growth"}
               </h2>
               <p className="text-muted-foreground text-base md:text-lg">
                 {isAr
-                  ? "اختر المجال الاستشاري لعرض الخدمات التفصيلية"
-                  : "Select a service area to view its detailed capabilities and offerings"}
+                  ? "اختر المجال الاستشاري لاستعراض الخدمات والحلول التي تساعد على تحسين الأداء، ورفع الكفاءة، ودعم النمو المؤسسي."
+                  : "Choose a consulting area to explore the services and solutions that help improve performance, increase efficiency, and support organizational growth."}
               </p>
             </div>
 
@@ -365,7 +367,9 @@ export default function ServiceCatalogue() {
                     <div className="flex items-center gap-2 mt-3">
                       <div className="w-6 h-px bg-primary" />
                       <p className="text-sm text-primary font-medium">
-                        {isAr ? active.goalAr : active.goalEn}
+                        {isAr
+                          ? (active.descAr || active.goalAr)
+                          : (active.descEn || active.goalEn)}
                       </p>
                     </div>
                   </div>
