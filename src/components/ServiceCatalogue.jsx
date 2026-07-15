@@ -364,9 +364,9 @@ export default function ServiceCatalogue() {
                     <h3 className="text-2xl md:text-3xl font-bold text-foreground tracking-tight">
                       {isAr ? active.nameAr : active.nameEn}
                     </h3>
-                    <div className="flex items-center gap-2 mt-3">
-                      <div className="w-6 h-px bg-primary" />
-                      <p className="text-sm text-primary font-medium">
+                    <div className="flex items-start gap-2 mt-3">
+                      <div className="w-6 h-px bg-primary mt-2.5 shrink-0" />
+                      <p className="text-sm text-primary font-medium leading-relaxed">
                         {isAr
                           ? (active.descAr || active.goalAr)
                           : (active.descEn || active.goalEn)}
