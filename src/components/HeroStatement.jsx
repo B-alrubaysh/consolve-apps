@@ -1,14 +1,14 @@
-import { useEffect, useRef, useState } from "react";
-import { motion, useInView } from "framer-motion";
+import { useEffect, useState } from "react";
+import { motion } from "framer-motion";
 import { useLanguage } from "../lib/useLanguage";
 
-function CountUp({ target, duration = 900 }) {
+// `active` is driven by the parent card's onViewportEnter (framer's viewport
+// detection) — a per-span useInView here proved flaky and left counters at 0.
+function CountUp({ target, duration = 900, active }) {
   const [count, setCount] = useState(0);
-  const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: "-80px" });
 
   useEffect(() => {
-    if (!inView) return;
+    if (!active) return;
     let start = 0;
     const step = target / (duration / 16);
     const timer = setInterval(() => {
@@ -21,21 +21,21 @@ function CountUp({ target, duration = 900 }) {
       }
     }, 16);
     return () => clearInterval(timer);
-  }, [inView, target, duration]);
+  }, [active, target, duration]);
 
-  return <span ref={ref}>{count}</span>;
+  return <span>{count}</span>;
 }
 
 const METRICS_EN = [
   { value: 100, suffix: "+", label: "Consulting Projects Delivered" },
-  { value: 20,  suffix: "+", label: "Clients Served" },
+  { value: 70,  suffix: "+", label: "Clients Served" },
   { value: 10,  suffix: "+", label: "Sectors Served" },
   { value: 9,   suffix: "",  label: "Specialized Consulting Areas" },
 ];
 
 const METRICS_AR = [
   { value: 100, suffix: "+", label: "مشروع استشاري تم تنفيذه" },
-  { value: 20,  suffix: "+", label: "عميلًا وثق بخدماتنا" },
+  { value: 70,  suffix: "+", label: "عميل" },
   { value: 10,  suffix: "+", label: "قطاعات متنوعة" },
   { value: 9,   suffix: "",  label: "مجالات استشارية متخصصة" },
 ];
@@ -59,7 +59,7 @@ export default function HeroStatement() {
   );
 
   const headlineAR = (
-    <h2 className="text-5xl md:text-6xl lg:text-7xl font-black text-foreground leading-[1.0] tracking-tight" dir="rtl">
+    <h2 className="text-4xl md:text-5xl lg:text-6xl font-black text-foreground leading-[1.15] tracking-tight" dir="rtl">
       <span className="text-primary">نمكّن</span>
       {" المؤسسات من تحقيق أداء أكثر كفاءة "}
       <span className="text-primary">واستدامة</span>
@@ -67,6 +67,7 @@ export default function HeroStatement() {
   );
 
   const metrics = isAr ? METRICS_AR : METRICS_EN;
+  const [countersOn, setCountersOn] = useState(false);
 
   return (
     <section className="py-24 md:py-36 bg-background border-b border-border" dir={dir}>
@@ -94,10 +95,10 @@ export default function HeroStatement() {
             viewport={{ once: true, margin: "-60px" }}
             transition={{ duration: 0.75, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
           >
-            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-primary mb-5">
+            <p className="text-sm md:text-base font-semibold uppercase tracking-[0.2em] text-primary mb-5">
               {isAr ? "ماذا نقدم؟" : "What we do?"}
             </p>
-            <p className="text-muted-foreground text-base md:text-lg leading-[1.8]">
+            <p className="text-muted-foreground text-lg md:text-xl leading-[1.8]">
               {isAr
                 ? "نساعد الشركات على تطوير أدائها من خلال تشخيص التحديات الإدارية والتشغيلية، وتحليل الفجوات، وتصميم حلول عملية قابلة للتنفيذ. تشمل خدماتنا الحوكمة، وتحسين العمليات، والبحث والتطوير، والاستراتيجية، وبناء السياسات والإجراءات، بما يساعد المؤسسات على رفع الكفاءة، وتحسين جودة القرارات، ودعم النمو المستدام."
                 : "We help companies improve their performance by diagnosing administrative and operational challenges, analyzing gaps, and designing practical, actionable solutions. Our services include governance, process improvement, R&D, strategy, and policy and procedure development — helping organizations increase efficiency, improve decision quality, and support sustainable growth."}
@@ -110,17 +111,18 @@ export default function HeroStatement() {
           {metrics.map((m, i) => (
             <motion.div
               key={i}
-              className={`flex flex-col ${isAr ? "items-end" : "items-start"} gap-2 p-6 md:p-8 rounded-2xl border border-border bg-card`}
+              className="flex flex-col items-start gap-2 p-6 md:p-8 rounded-2xl border border-border bg-card"
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-40px" }}
+              onViewportEnter={() => setCountersOn(true)}
               transition={{ duration: 0.65, delay: i * 0.1, ease: [0.16, 1, 0.3, 1] }}
             >
               <div className="text-4xl md:text-5xl font-black text-foreground tabular-nums">
                 {isAr && m.suffix ? (
-                  <><span className="text-primary">{m.suffix}</span><CountUp target={m.value} /></>
+                  <><span className="text-primary">{m.suffix}</span><CountUp target={m.value} active={countersOn} /></>
                 ) : (
-                  <><CountUp target={m.value} /><span className="text-primary">{m.suffix}</span></>
+                  <><CountUp target={m.value} active={countersOn} /><span className="text-primary">{m.suffix}</span></>
                 )}
               </div>
               <p className="text-sm text-muted-foreground font-medium leading-snug">{m.label}</p>

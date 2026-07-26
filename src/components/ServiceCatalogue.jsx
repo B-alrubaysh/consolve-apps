@@ -263,7 +263,7 @@ export default function ServiceCatalogue() {
 
             {/* Header block (moved inside left column) */}
             <div>
-              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-primary mb-4">
+              <p className="text-sm md:text-base font-semibold uppercase tracking-[0.2em] text-primary mb-4">
                 {isAr ? "خدماتنا" : "Services"}
               </p>
               <h2 className="text-3xl md:text-5xl font-bold text-foreground tracking-tight mb-4 leading-tight">
@@ -365,7 +365,6 @@ export default function ServiceCatalogue() {
                       {isAr ? active.nameAr : active.nameEn}
                     </h3>
                     <div className="flex items-start gap-2 mt-3">
-                      <div className="w-6 h-px bg-primary mt-2.5 shrink-0" />
                       <p className="text-sm text-primary font-medium leading-relaxed">
                         {isAr
                           ? (active.descAr || active.goalAr)
@@ -380,7 +379,7 @@ export default function ServiceCatalogue() {
                   {/* Sub-services grid */}
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-3">
                     {subs.map((sub, i) => (
-                      <div key={i} className={`flex items-start gap-2.5 ${isAr ? "flex-row-reverse" : ""}`}>
+                      <div key={i} className="flex items-start gap-2.5">
                         <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-primary shrink-0" />
                         <span className="text-sm text-foreground leading-snug">{sub}</span>
                       </div>
