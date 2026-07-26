@@ -2,9 +2,11 @@ import { Link } from "react-router-dom";
 import { ArrowRight, Shield, Brain, Lock, BarChart3 } from "lucide-react";
 import { motion } from "framer-motion";
 import AnimatedSection from "../components/AnimatedSection";
-import HomeAssessment from "../components/HomeAssessment";
+// HomeAssessment kept for potential re-enable (superseded by DiagnosisSection).
+// import HomeAssessment from "../components/HomeAssessment";
 import HeroStatement from "../components/HeroStatement";
 import ServiceCatalogue from "../components/ServiceCatalogue";
+import DiagnosisSection from "../components/DiagnosisSection";
 import ClientLogoCarousel from "../components/ClientLogoCarousel";
 import RecentBlogs from "../components/RecentBlogs";
 import { useLanguage } from "../lib/useLanguage";
@@ -75,11 +77,14 @@ export default function Home() {
       {/* Service Catalogue */}
       <ServiceCatalogue />
 
+      {/* Diagnosis (new design) */}
+      <DiagnosisSection />
+
       {/* Client Logo Carousel */}
       <ClientLogoCarousel />
 
-      {/* Embedded Assessment */}
-      <HomeAssessment />
+      {/* Old embedded assessment — superseded by DiagnosisSection above; re-enable by uncommenting. */}
+      {/* <HomeAssessment /> */}
 
       {/* Recent Blogs */}
       <RecentBlogs />
