@@ -18,6 +18,8 @@ const BILINGUAL = [
   "value2_title", "value2_desc",
   "value3_title", "value3_desc",
   "value4_title", "value4_desc",
+  "value5_title", "value5_desc",
+  "value6_title", "value6_desc",
 ];
 const SINGLE = ["about_image_url"];
 
@@ -162,8 +164,8 @@ export default function AboutPageTab() {
         <BilingualField label="Heading" name="about_values_h2" form={form} onChange={update} />
       </Section>
 
-      <Section title="Values (4 cards)">
-        {[1, 2, 3, 4].map((i) => (
+      <Section title="Values (6 cards)">
+        {[1, 2, 3, 4, 5, 6].map((i) => (
           <div key={i} className="space-y-3 pb-3 border-b border-white/5 last:border-0 last:pb-0">
             <p className="text-[11px] uppercase tracking-widest text-white/40">Value {i}</p>
             <BilingualField label="Title" name={`value${i}_title`} form={form} onChange={update} />

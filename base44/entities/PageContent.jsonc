@@ -206,6 +206,38 @@
       "type": "string",
       "title": "Value 4 \u2014 Description (Arabic)"
     },
+    "value5_title_en": {
+      "type": "string",
+      "title": "Value 5 \u2014 Title (English)"
+    },
+    "value5_title_ar": {
+      "type": "string",
+      "title": "Value 5 \u2014 Title (Arabic)"
+    },
+    "value5_desc_en": {
+      "type": "string",
+      "title": "Value 5 \u2014 Description (English)"
+    },
+    "value5_desc_ar": {
+      "type": "string",
+      "title": "Value 5 \u2014 Description (Arabic)"
+    },
+    "value6_title_en": {
+      "type": "string",
+      "title": "Value 6 \u2014 Title (English)"
+    },
+    "value6_title_ar": {
+      "type": "string",
+      "title": "Value 6 \u2014 Title (Arabic)"
+    },
+    "value6_desc_en": {
+      "type": "string",
+      "title": "Value 6 \u2014 Description (English)"
+    },
+    "value6_desc_ar": {
+      "type": "string",
+      "title": "Value 6 \u2014 Description (Arabic)"
+    },
     "contact_label_en": {
       "type": "string",
       "title": "Contact \u2014 Eyebrow (English)"

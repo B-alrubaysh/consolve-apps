@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { base44 } from "@/api/base44Client";
 import AnimatedSection from "../components/AnimatedSection";
-import { Eye, Lightbulb, Wrench, TrendingUp } from "lucide-react";
+import { Search, Users, Network, BarChart3, TrendingUp, UserCheck } from "lucide-react";
 import { useLanguage } from "../lib/useLanguage";
 import t from "../lib/translations";
 
@@ -27,10 +27,12 @@ export default function About() {
     (isAr ? rec?.[`${key}_ar`] : rec?.[`${key}_en`]) || fallback;
 
   const VALUES = [
-    { icon: Eye,        title: pick("value1_title", tx.val_1_title), desc: pick("value1_desc", tx.val_1_desc) },
-    { icon: Lightbulb,  title: pick("value2_title", tx.val_2_title), desc: pick("value2_desc", tx.val_2_desc) },
-    { icon: Wrench,     title: pick("value3_title", tx.val_3_title), desc: pick("value3_desc", tx.val_3_desc) },
-    { icon: TrendingUp, title: pick("value4_title", tx.val_4_title), desc: pick("value4_desc", tx.val_4_desc) },
+    { icon: Search,     title: pick("value1_title", tx.val_1_title), desc: pick("value1_desc", tx.val_1_desc) },
+    { icon: Users,      title: pick("value2_title", tx.val_2_title), desc: pick("value2_desc", tx.val_2_desc) },
+    { icon: Network,    title: pick("value3_title", tx.val_3_title), desc: pick("value3_desc", tx.val_3_desc) },
+    { icon: BarChart3,  title: pick("value4_title", tx.val_4_title), desc: pick("value4_desc", tx.val_4_desc) },
+    { icon: TrendingUp, title: pick("value5_title", tx.val_5_title), desc: pick("value5_desc", tx.val_5_desc) },
+    { icon: UserCheck,  title: pick("value6_title", tx.val_6_title), desc: pick("value6_desc", tx.val_6_desc) },
   ];
 
   const aboutImage = rec?.about_image_url || DEFAULT_ABOUT_IMAGE;
