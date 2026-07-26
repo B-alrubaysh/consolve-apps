@@ -4,6 +4,8 @@ import { motion } from "framer-motion";
 import { Menu, X, Linkedin, Twitter, Instagram } from "lucide-react";
 import { base44 } from "@/api/base44Client";
 import LanguageSwitcher from "./LanguageSwitcher";
+import WhatsAppFloat from "./WhatsAppFloat";
+import { BookingPopup, BookingBand } from "./BookingPromo";
 import { useLanguage } from "../lib/useLanguage";
 import t from "../lib/translations";
 
@@ -286,7 +288,10 @@ export default function Layout() {
       <main>
         <Outlet />
       </main>
+      <BookingBand />
       <Footer />
+      <WhatsAppFloat />
+      <BookingPopup />
     </div>);
 
 }
