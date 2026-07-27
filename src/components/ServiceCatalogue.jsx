@@ -1,255 +1,48 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronDown } from "lucide-react";
+import { base44 } from "@/api/base44Client";
 import { useLanguage } from "../lib/useLanguage";
+import { SERVICES_FALLBACK } from "../lib/servicesData";
 
-const SERVICES = [
-  {
-    id: "strategy",
-    nameEn: "Strategy Consulting",
-    nameAr: "الاستشارات الاستراتيجية",
-    goalEn: "We build strategies that drive growth and turn goals into actionable plans.",
-    goalAr: "نبني استراتيجيات تدعم النمو وتحول الأهداف إلى خطط قابلة للتنفيذ.",
-    descEn: "We build strategies that help companies make clearer decisions and turn goals into actionable plans.",
-    descAr: "نبني استراتيجيات تساعد الشركات على اتخاذ قرارات أكثر وضوحًا وتحويل الأهداف إلى خطط قابلة للتنفيذ.",
-    subEn: [
-      "Corporate Strategy Development",
-      "Strategic Planning",
-      "Business Model Development",
-      "Market Entry Strategies",
-      "Market and Competitor Analysis",
-      "Vision, Mission, and Values Formulation",
-      "Organizational Transformation and Growth Management",
-      "Sustainability and Business Continuity",
-    ],
-    subAr: [
-      "تطوير الاستراتيجية المؤسسية",
-      "التخطيط الاستراتيجي",
-      "تطوير نماذج الأعمال",
-      "استراتيجيات دخول الأسواق",
-      "تحليل السوق والمنافسين",
-      "صياغة الرؤية والرسالة والقيم",
-      "التحول المؤسسي وإدارة النمو",
-      "الاستدامة واستمرارية الأعمال",
-    ],
-  },
-  {
-    id: "management",
-    nameEn: "Management Consulting",
-    nameAr: "الاستشارات الإدارية",
-    goalEn: "Improve organizational effectiveness",
-    goalAr: "رفع كفاءة المنظمة",
-    subEn: [
-      "Organizational Design & Restructuring",
-      "Performance Management Systems",
-      "Change Management & Transformation",
-      "Leadership Advisory & Executive Coaching",
-      "Policy & Procedure Development",
-      "Decision-Making Frameworks",
-    ],
-    subAr: [
-      "الهيكل التنظيمي وإعادة الهيكلة",
-      "إدارة الأداء",
-      "إدارة التغيير والتحول",
-      "تطوير القيادات والتوجيه التنفيذي",
-      "السياسات والإجراءات",
-      "أطر اتخاذ القرار",
-    ],
-  },
-  {
-    id: "grc",
-    nameEn: "GRC (Governance, Risk & Compliance)",
-    nameAr: "الحوكمة والمخاطر والامتثال",
-    goalEn: "Ensure compliance and risk control",
-    goalAr: "ضمان الامتثال وتقليل المخاطر",
-    subEn: [
-      "Governance Framework Design",
-      "Risk Management",
-      "Internal Audit & Controls",
-      "Compliance Programs",
-      "Fraud Risk Management",
-      "Business Continuity",
-      "ESG Governance",
-    ],
-    subAr: [
-      "أطر الحوكمة",
-      "إدارة المخاطر",
-      "التدقيق الداخلي والضوابط",
-      "برامج الامتثال",
-      "مخاطر الاحتيال",
-      "استمرارية الأعمال",
-      "حوكمة الاستدامة",
-    ],
-  },
-  {
-    id: "operations",
-    nameEn: "Operations Consulting",
-    nameAr: "استشارات العمليات",
-    goalEn: "Optimize efficiency and cost",
-    goalAr: "تحسين الكفاءة والتكاليف",
-    subEn: [
-      "Operating Model Design",
-      "Process Reengineering",
-      "Lean & Six Sigma",
-      "Supply Chain Optimization",
-      "Procurement Optimization",
-      "Cost Reduction Programs",
-      "Service Delivery Optimization",
-      "Quality Management Systems",
-    ],
-    subAr: [
-      "نموذج التشغيل",
-      "إعادة هندسة العمليات",
-      "لين وسيجما",
-      "سلاسل الإمداد",
-      "تحسين المشتريات",
-      "برامج خفض التكاليف",
-      "تحسين الخدمات",
-      "أنظمة الجودة",
-    ],
-  },
-  {
-    id: "marketing",
-    nameEn: "Marketing Consulting",
-    nameAr: "الاستشارات التسويقية",
-    goalEn: "Drive brand growth",
-    goalAr: "تعزيز نمو العلامة",
-    subEn: [
-      "Marketing Strategy",
-      "Brand Positioning",
-      "Digital Marketing",
-      "Customer Experience Design",
-      "Market Research",
-      "Pricing Strategy",
-      "Campaign Optimization",
-      "CRM Strategy",
-    ],
-    subAr: [
-      "استراتيجية التسويق",
-      "تموضع العلامة التجارية",
-      "التسويق الرقمي",
-      "تصميم تجربة العميل",
-      "أبحاث السوق",
-      "استراتيجية التسعير",
-      "تحسين الحملات",
-      "إدارة علاقات العملاء",
-    ],
-  },
-  {
-    id: "financial",
-    nameEn: "Financial Advisory",
-    nameAr: "الاستشارات المالية",
-    goalEn: "Strengthen financial decisions",
-    goalAr: "دعم القرارات المالية",
-    subEn: [
-      "FP&A",
-      "Budgeting & Forecasting",
-      "Cost & Profitability",
-      "Financial Modeling",
-      "Feasibility Studies",
-      "Capital Structuring",
-      "M&A Advisory",
-      "IPO Readiness",
-    ],
-    subAr: [
-      "التخطيط والتحليل المالي",
-      "الميزانيات والتوقعات",
-      "التكاليف والربحية",
-      "النمذجة المالية",
-      "دراسات الجدوى",
-      "هيكلة رأس المال",
-      "الاندماجات والاستحواذات",
-      "الاستعداد للطرح العام",
-    ],
-  },
-  {
-    id: "legal",
-    nameEn: "Legal Consulting",
-    nameAr: "الاستشارات القانونية",
-    goalEn: "Ensure legal protection",
-    goalAr: "حماية المصالح القانونية",
-    subEn: [
-      "Corporate Structuring",
-      "Contract Drafting",
-      "Regulatory Compliance",
-      "Governance Legal Frameworks",
-      "Labor Law Advisory",
-      "Dispute Resolution",
-      "Intellectual Property",
-      "Commercial Law",
-    ],
-    subAr: [
-      "تأسيس الشركات",
-      "صياغة العقود",
-      "الامتثال التنظيمي",
-      "الأطر القانونية للحوكمة",
-      "نظام العمل",
-      "حل النزاعات",
-      "الملكية الفكرية",
-      "القانون التجاري",
-    ],
-  },
-  {
-    id: "bizdev",
-    nameEn: "Business Development",
-    nameAr: "تطوير الأعمال",
-    goalEn: "Unlock growth opportunities",
-    goalAr: "فتح فرص النمو",
-    subEn: [
-      "Growth Strategy",
-      "Partnerships",
-      "Sales Funnel Optimization",
-      "Go-To-Market Strategy",
-      "New Business Launch",
-      "Client Acquisition",
-      "Proposal Development",
-    ],
-    subAr: [
-      "استراتيجيات النمو",
-      "الشراكات",
-      "تحسين مسار المبيعات",
-      "دخول السوق",
-      "إطلاق مشاريع جديدة",
-      "اكتساب العملاء",
-      "تطوير العروض",
-    ],
-  },
-  {
-    id: "rnd",
-    nameEn: "R&D and Innovation",
-    nameAr: "البحث والتطوير والابتكار",
-    goalEn: "Build future capabilities",
-    goalAr: "بناء قدرات مستقبلية",
-    subEn: [
-      "Innovation Strategy",
-      "Product Development",
-      "R&D Programs",
-      "Technology Scouting",
-      "Design Thinking",
-      "Prototyping",
-      "Digital Transformation",
-      "AI & Data Innovation",
-    ],
-    subAr: [
-      "استراتيجيات الابتكار",
-      "تطوير المنتجات",
-      "برامج البحث والتطوير",
-      "استكشاف التقنية",
-      "التفكير التصميمي",
-      "النماذج الأولية",
-      "التحول الرقمي",
-      "الذكاء الاصطناعي والبيانات",
-    ],
-  },
-];
+function normalize(rows) {
+  return (rows || []).map((r) => ({
+    id: r.service_id || "",
+    nameEn: r.name_en || "",
+    nameAr: r.name_ar || "",
+    goalEn: r.tagline_en || "",
+    goalAr: r.tagline_ar || "",
+    descEn: r.description_en || "",
+    descAr: r.description_ar || "",
+    subEn: Array.isArray(r.sub_services_en) ? r.sub_services_en : [],
+    subAr: Array.isArray(r.sub_services_ar) ? r.sub_services_ar : [],
+  }));
+}
 
 export default function ServiceCatalogue() {
   const { lang, dir, isAr } = useLanguage();
   const [activeId, setActiveId] = useState("strategy");
   const [open, setOpen] = useState(false);
+  const [services, setServices] = useState(() => normalize(SERVICES_FALLBACK));
 
-  const active = SERVICES.find((s) => s.id === activeId);
-  const subs = isAr ? active.subAr : active.subEn;
+  useEffect(() => {
+    let cancelled = false;
+    base44.entities.Service.list("display_order", 200)
+      .then((rows) => {
+        if (cancelled) return;
+        const activeRows = (rows || []).filter((r) => r.is_active !== false);
+        if (activeRows.length > 0) setServices(normalize(activeRows));
+      })
+      .catch(() => {});
+    return () => { cancelled = true; };
+  }, []);
+
+  // Fall back to the first service if the selected one is hidden or missing —
+  // without this the component would crash when a service is deactivated.
+  const active = services.find((s) => s.id === activeId) || services[0];
+  const subs = active ? (isAr ? active.subAr : active.subEn) : [];
+
+  if (!active) return null;
 
   return (
     <section className="py-24 md:py-36 bg-card border-b border-border" dir={dir}>
@@ -312,7 +105,7 @@ export default function ServiceCatalogue() {
                     className="absolute z-20 top-full mt-1.5 w-full bg-card border border-border rounded-xl shadow-xl overflow-hidden"
                     dir={dir}
                   >
-                    {SERVICES.map((s) => {
+                    {services.map((s) => {
                       const isActive = s.id === activeId;
                       return (
                         <button

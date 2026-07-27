@@ -1,98 +1,43 @@
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight, Target, Users, Scale, Settings, Megaphone, DollarSign, Gavel, Rocket, Lightbulb } from "lucide-react";
+import { base44 } from "@/api/base44Client";
 import AnimatedSection from "../components/AnimatedSection";
 import { useLanguage } from "../lib/useLanguage";
 import t from "../lib/translations";
+import { SERVICES_FALLBACK } from "../lib/servicesData";
 
-// Services catalogue — content taken verbatim from the Consolve company
-// profile 2026 (كتالوج الخدمات): 9 services, each with its goal and sub-services.
-const CATALOGUE = [
-  {
-    icon: Target,
-    nameAr: "الاستشارات الاستراتيجية",
-    nameEn: "Strategy Consulting",
-    goalAr: "تحديد الاتجاه الاستراتيجي، ودعم النمو، وتعزيز المكانة التنافسية للكيان.",
-    goalEn: "Set the strategic direction, support growth, and strengthen the organization's competitive position.",
-    subAr: ["تطوير الاستراتيجية المؤسسية", "بناء استراتيجيات وحدات الأعمال", "إعداد استراتيجيات دخول الأسواق والتوسع", "التخطيط الاستراتيجي وبناء خرائط التنفيذ", "التحليل السوقي والمقارنات التنافسية", "صياغة الرؤية والرسالة والقيم", "استراتيجيات التحول الرقمي والابتكار", "استراتيجيات الاستدامة والمسؤولية"],
-    subEn: ["Corporate strategy development", "Business unit strategy building", "Market entry and expansion strategies", "Strategic planning and execution roadmaps", "Market analysis and competitive benchmarking", "Vision, mission, and values formulation", "Digital transformation and innovation strategies", "Sustainability and responsibility strategies"],
-  },
-  {
-    icon: Users,
-    nameAr: "الاستشارات الإدارية",
-    nameEn: "Management Consulting",
-    goalAr: "رفع كفاءة المنظمة، وتعزيز مواءمة القيادة، وتحسين فاعلية الإدارة.",
-    goalEn: "Raise organizational efficiency, strengthen leadership alignment, and improve management effectiveness.",
-    subAr: ["تصميم الهيكل التنظيمي وإعادة الهيكلة", "بناء أنظمة إدارة الأداء ومؤشرات القياس", "إدارة التغيير والتحول", "الاستشارات القيادية وتطوير التنفيذيين", "تطوير السياسات والإجراءات", "بناء أطر ومنهجيات اتخاذ القرار"],
-    subEn: ["Organizational structure design and restructuring", "Performance management systems and KPIs", "Change and transformation management", "Leadership advisory and executive development", "Policy and procedure development", "Decision-making frameworks and methodologies"],
-  },
-  {
-    icon: Scale,
-    nameAr: "الحوكمة والمخاطر والامتثال",
-    nameEn: "Governance, Risk & Compliance",
-    goalAr: "تعزيز الحوكمة والرقابة والامتثال، وتقليل المخاطر المؤسسية.",
-    goalEn: "Strengthen governance, control, and compliance, and reduce enterprise risks.",
-    subAr: ["تصميم أطر الحوكمة", "إدارة المخاطر المؤسسية وسجلات المخاطر", "التدقيق الداخلي وتقييم الضوابط", "تصميم برامج الامتثال", "إدارة مخاطر الاحتيال", "استمرارية الأعمال وإدارة الأزمات", "الاستدامة وإعداد تقاريرها"],
-    subEn: ["Governance framework design", "Enterprise risk management and risk registers", "Internal audit and controls assessment", "Compliance program design", "Fraud risk management", "Business continuity and crisis management", "Sustainability and its reporting"],
-  },
-  {
-    icon: Settings,
-    nameAr: "استشارات إدارة العمليات",
-    nameEn: "Operations Management Consulting",
-    goalAr: "تحسين الكفاءة التشغيلية، ورفع الإنتاجية، وتقليل الهدر والتكاليف.",
-    goalEn: "Improve operational efficiency, raise productivity, and reduce waste and costs.",
-    subAr: ["تصميم نموذج التشغيل", "تحليل العمليات وإعادة هندستها", "تطبيق منهجيات لين وسيجما", "تحسين سلاسل الإمداد", "تحسين المشتريات", "برامج خفض التكاليف", "تحسين تقديم الخدمات", "أنظمة إدارة الجودة"],
-    subEn: ["Operating model design", "Process analysis and re-engineering", "Lean and Six Sigma implementation", "Supply chain optimization", "Procurement optimization", "Cost reduction programs", "Service delivery improvement", "Quality management systems"],
-  },
-  {
-    icon: Megaphone,
-    nameAr: "الاستشارات التسويقية",
-    nameEn: "Marketing Consulting",
-    goalAr: "دعم نمو العلامة التجارية، وتعزيز اكتساب العملاء، وتحسين الحضور السوقي.",
-    goalEn: "Support brand growth, strengthen customer acquisition, and improve market presence.",
-    subAr: ["إعداد استراتيجية وخطة التسويق", "بناء وتموضع العلامة التجارية", "استراتيجيات التسويق الرقمي", "تصميم تجربة العميل", "أبحاث السوق وتحليل العملاء", "استراتيجيات التسعير", "إدارة الحملات وتحسين الأداء", "استراتيجيات إدارة علاقات العملاء وتطبيقها"],
-    subEn: ["Marketing strategy and plan development", "Brand building and positioning", "Digital marketing strategies", "Customer experience design", "Market research and customer analysis", "Pricing strategies", "Campaign management and performance optimization", "CRM strategies and implementation"],
-  },
-  {
-    icon: DollarSign,
-    nameAr: "الاستشارات المالية",
-    nameEn: "Financial Advisory",
-    goalAr: "تعزيز الوضع المالي، ودعم اتخاذ القرار، وتحسين الكفاءة المالية.",
-    goalEn: "Strengthen the financial position, support decision-making, and improve financial efficiency.",
-    subAr: ["التخطيط والتحليل المالي", "إعداد الميزانيات والتوقعات", "تحليل التكاليف والربحية", "النمذجة المالية والتقييم", "دراسات الجدوى", "هيكلة رأس المال وجذب التمويل", "الاستشارات في الاندماجات والاستحواذات", "التأهيل للطرح العام"],
-    subEn: ["Financial planning and analysis", "Budgeting and forecasting", "Cost and profitability analysis", "Financial modeling and valuation", "Feasibility studies", "Capital structuring and fundraising", "Mergers and acquisitions advisory", "IPO readiness"],
-  },
-  {
-    icon: Gavel,
-    nameAr: "الاستشارات القانونية",
-    nameEn: "Legal Consulting",
-    goalAr: "حماية مصالح الشركة، وضمان الامتثال القانوني، وتقليل المخاطر النظامية.",
-    goalEn: "Protect the company's interests, ensure legal compliance, and reduce regulatory risks.",
-    subAr: ["تأسيس وهيكلة الشركات", "صياغة العقود ومراجعتها", "الامتثال للأنظمة والتشريعات", "الأطر القانونية للحوكمة", "استشارات نظام العمل", "دعم حل النزاعات", "حماية الملكية الفكرية", "الاستشارات في الأنظمة التجارية"],
-    subEn: ["Company formation and structuring", "Contract drafting and review", "Regulatory and legislative compliance", "Legal governance frameworks", "Labor law advisory", "Dispute resolution support", "Intellectual property protection", "Commercial regulations advisory"],
-  },
-  {
-    icon: Rocket,
-    nameAr: "تطوير الأعمال",
-    nameEn: "Business Development",
-    goalAr: "فتح فرص النمو، وتوسيع الشراكات، وتعزيز التوسع التجاري.",
-    goalEn: "Open growth opportunities, expand partnerships, and strengthen commercial expansion.",
-    subAr: ["استراتيجيات النمو ونماذج الإيرادات", "بناء الشراكات والتحالفات", "استراتيجيات المبيعات وتحسين القنوات", "استراتيجيات دخول السوق", "دعم إطلاق المشاريع الجديدة", "استراتيجيات اكتساب العملاء", "إعداد العروض التجارية والتقديمية"],
-    subEn: ["Growth strategies and revenue models", "Partnership and alliance building", "Sales strategies and channel optimization", "Market entry strategies", "New venture launch support", "Customer acquisition strategies", "Commercial proposals and presentations"],
-  },
-  {
-    icon: Lightbulb,
-    nameAr: "البحث والتطوير والابتكار",
-    nameEn: "R&D and Innovation",
-    goalAr: "تعزيز الابتكار، ودعم تطوير الحلول، ورفع الجاهزية للمستقبل.",
-    goalEn: "Foster innovation, support solution development, and raise future readiness.",
-    subAr: ["استراتيجيات الابتكار وأطره", "دعم تطوير المنتجات", "تصميم برامج البحث والتطوير", "استكشاف التقنيات وتقييمها", "ورش التفكير التصميمي", "تطوير النماذج الأولية القابلة للإطلاق", "مبادرات التحول الرقمي", "الابتكار في الذكاء الاصطناعي والبيانات"],
-    subEn: ["Innovation strategies and frameworks", "Product development support", "R&D program design", "Technology scouting and assessment", "Design thinking workshops", "Launch-ready prototype development", "Digital transformation initiatives", "AI and data innovation"],
-  },
-];
+const ICONS = { Target, Users, Scale, Settings, Megaphone, DollarSign, Gavel, Rocket, Lightbulb };
+
+function normalize(rows) {
+  return (rows || []).map((r) => ({
+    icon: ICONS[r.icon] || Target,
+    nameEn: r.name_en || "",
+    nameAr: r.name_ar || "",
+    goalEn: r.goal_en || "",
+    goalAr: r.goal_ar || "",
+    subEn: Array.isArray(r.sub_services_en) ? r.sub_services_en : [],
+    subAr: Array.isArray(r.sub_services_ar) ? r.sub_services_ar : [],
+  }));
+}
 
 export default function Services() {
   const { lang, dir, isAr } = useLanguage();
   const tx = t[lang];
+
+  const [catalogue, setCatalogue] = useState(() => normalize(SERVICES_FALLBACK));
+
+  useEffect(() => {
+    let cancelled = false;
+    base44.entities.Service.list("display_order", 200)
+      .then((rows) => {
+        if (cancelled) return;
+        const active = (rows || []).filter((r) => r.is_active !== false);
+        if (active.length > 0) setCatalogue(normalize(active));
+      })
+      .catch(() => {});
+    return () => { cancelled = true; };
+  }, []);
 
   return (
     <div dir={dir}>
@@ -109,7 +54,7 @@ export default function Services() {
       <section className="pb-16 md:pb-24">
         <div className="max-w-7xl mx-auto px-6">
           <div className="space-y-4">
-            {CATALOGUE.map((service, i) => (
+            {catalogue.map((service, i) => (
               <AnimatedSection key={i} delay={i * 60}>
                 <div className="group border border-border rounded-2xl bg-card hover:border-primary/30 hover:shadow-lg transition-all duration-500 overflow-hidden">
                   <div className="p-8 md:p-10">
