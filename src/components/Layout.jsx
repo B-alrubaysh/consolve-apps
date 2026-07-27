@@ -234,8 +234,8 @@ function Footer() {
               {contactHeader}
             </h4>
             <div className="flex flex-col gap-3 text-sm text-secondary-foreground/60">
-              <span>{email}</span>
-              <span>{phone}</span>
+              <span dir="ltr">{email}</span>
+              <span dir="ltr">{phone}</span>
               {socials.length > 0 &&
               <div className="flex items-center gap-3 mt-1">
                   {socials.map(({ url, Icon, label }) =>

@@ -72,9 +72,10 @@ export default function AdminBlogEditorPage() {
     if (!allowed) return;
     let cancelled = false;
     (async () => {
-      const userList = await base44.entities.User.list("-created_date", 500).catch(() => []);
+      const res = await base44.functions.invoke("listAdminUsers").catch(() => null);
       if (cancelled) return;
-      setUsers(userList || []);
+      const userList = res?.users || res?.data?.users || [];
+      setUsers(userList.filter((u) => u && u.id));
 
       if (!id) {
         const tpls = await base44.entities.BlogTemplate.list("-updated_date", 200).catch(() => []);

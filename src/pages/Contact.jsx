@@ -110,8 +110,8 @@ export default function Contact() {
               <AnimatedSection delay={200}>
                 <div className="space-y-8">
                   {[
-                    { icon: Mail, label: tx.contact_email_label, val: email },
-                    { icon: Phone, label: tx.contact_phone_label, val: phone },
+                    { icon: Mail, label: tx.contact_email_label, val: <span dir="ltr">{email}</span> },
+                    { icon: Phone, label: tx.contact_phone_label, val: <span dir="ltr">{phone}</span> },
                     { icon: MapPin, label: tx.contact_office_label, val: pick("contact_office", tx.contact_office_val) },
                   ].map((item, i) => (
                     <div key={i} className="flex gap-4">
