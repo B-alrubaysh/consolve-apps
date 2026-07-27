@@ -1,7 +1,6 @@
 import { base44 } from "@/api/base44Admin";
 import { Button } from "@/components/ui/button";
-import { Switch } from "@/components/ui/switch";
-import { Pencil, Trash2 } from "lucide-react";
+import { Pencil, Trash2, Eye, EyeOff } from "lucide-react";
 
 export default function ServiceRow({ service, onEdit, onToggleActive, onDelete }) {
   const subEnCount = Array.isArray(service.sub_services_en) ? service.sub_services_en.length : 0;
@@ -38,11 +37,28 @@ export default function ServiceRow({ service, onEdit, onToggleActive, onDelete }
         {service.display_order ?? 0}
       </div>
 
-      <div className="flex items-center gap-2">
-        <Switch checked={!!service.is_active} onCheckedChange={handleToggle} />
+      <div className="hidden md:block">
+        <span
+          className={`px-2 py-1 rounded-full text-xs border ${
+            service.is_active
+              ? "bg-green-500/10 text-green-400 border-green-500/30"
+              : "bg-white/5 text-white/40 border-white/10"
+          }`}
+        >
+          {service.is_active ? "Active" : "Inactive"}
+        </span>
       </div>
 
       <div className="flex items-center gap-1">
+        <Button
+          size="sm"
+          variant="ghost"
+          className={service.is_active ? "text-yellow-400 hover:text-yellow-300" : "text-green-400 hover:text-green-300"}
+          onClick={() => handleToggle(!service.is_active)}
+          title={service.is_active ? "Deactivate" : "Activate"}
+        >
+          {service.is_active ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+        </Button>
         <Button size="sm" variant="ghost" className="text-white/60 hover:text-white" onClick={() => onEdit(service)}>
           <Pencil className="w-4 h-4" />
         </Button>
