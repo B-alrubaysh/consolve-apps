@@ -3,11 +3,13 @@ import { useNavigate } from "react-router-dom";
 import { base44 } from "@/api/base44Admin";
 import { Loader2, Plus, Layout as LayoutIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { useAdminUser } from "../../components/admin/ProtectedAdminLayout";
 import { requireRole, ROLES } from "../../lib/rbac";
 import AccessDenied from "../../components/admin/AccessDenied";
 import LandingPageRow from "../../components/admin/landing/LandingPageRow";
 import NewLandingPageDialog from "../../components/admin/landing/NewLandingPageDialog";
+import LandingLeadsTab from "../../components/admin/landing/LandingLeadsTab";
 
 export default function AdminLandingPagesPage() {
   const me = useAdminUser();
@@ -68,60 +70,74 @@ export default function AdminLandingPagesPage() {
 
   return (
     <div className="p-8">
-      <div className="flex items-center justify-between mb-8">
-        <div>
-          <h1 className="text-2xl font-bold text-white">Landing Pages</h1>
-          <p className="text-sm text-white/40 mt-1">Build and publish standalone landing pages</p>
-        </div>
-        <Button onClick={() => setDialogOpen(true)} className="gap-2">
-          <Plus className="w-4 h-4" /> New Landing Page
-        </Button>
+      <div className="mb-8">
+        <h1 className="text-2xl font-bold text-white">Landing Pages</h1>
+        <p className="text-sm text-white/40 mt-1">Build and publish standalone landing pages</p>
       </div>
 
-      {loading ? (
-        <div className="py-20 text-center">
-          <Loader2 className="w-6 h-6 animate-spin text-primary mx-auto" />
-          <p className="text-sm text-white/40 mt-3">Loading landing pages…</p>
-        </div>
-      ) : pages.length === 0 ? (
-        <div className="py-16 px-8 text-center bg-white/5 border border-white/10 rounded-xl">
-          <LayoutIcon className="w-12 h-12 text-white/20 mx-auto mb-4" />
-          <p className="text-white font-semibold mb-2">No landing pages yet</p>
-          <p className="text-white/40 text-sm max-w-md mx-auto mb-6">
-            Create your first landing page — a standalone page with custom HTML, CSS and JavaScript
-            reachable at /p/&lt;slug&gt;.
-          </p>
-          <Button onClick={() => setDialogOpen(true)} className="gap-2">
-            <Plus className="w-4 h-4" /> New Landing Page
-          </Button>
-        </div>
-      ) : (
-        <div className="bg-white/5 border border-white/10 rounded-xl overflow-hidden">
-          <div className="flex items-center gap-4 px-4 py-3 text-xs uppercase tracking-widest text-white/40 bg-white/5">
-            <span className="flex-1">Name</span>
-            <span className="hidden md:block w-28 text-right">Updated</span>
-            <span className="w-24 text-right">Status</span>
-            <span className="w-48 text-right">Actions</span>
-          </div>
-          {pages.map((p) => (
-            <LandingPageRow
-              key={p.id}
-              page={p}
-              onTogglePublished={onTogglePublished}
-              onEdit={onEdit}
-              onDuplicate={onDuplicate}
-              onDelete={onDelete}
-            />
-          ))}
-        </div>
-      )}
+      <Tabs defaultValue="pages" className="w-full">
+        <TabsList className="bg-white/5 border border-white/10 mb-6">
+          <TabsTrigger value="pages">Pages</TabsTrigger>
+          <TabsTrigger value="leads">Leads</TabsTrigger>
+        </TabsList>
 
-      <NewLandingPageDialog
-        open={dialogOpen}
-        onOpenChange={setDialogOpen}
-        existingSlugs={existingSlugs}
-        onCreated={onCreated}
-      />
+        <TabsContent value="pages">
+          <div className="flex items-center justify-end mb-4">
+            <Button onClick={() => setDialogOpen(true)} className="gap-2">
+              <Plus className="w-4 h-4" /> New Landing Page
+            </Button>
+          </div>
+
+          {loading ? (
+            <div className="py-20 text-center">
+              <Loader2 className="w-6 h-6 animate-spin text-primary mx-auto" />
+              <p className="text-sm text-white/40 mt-3">Loading landing pages…</p>
+            </div>
+          ) : pages.length === 0 ? (
+            <div className="py-16 px-8 text-center bg-white/5 border border-white/10 rounded-xl">
+              <LayoutIcon className="w-12 h-12 text-white/20 mx-auto mb-4" />
+              <p className="text-white font-semibold mb-2">No landing pages yet</p>
+              <p className="text-white/40 text-sm max-w-md mx-auto mb-6">
+                Create your first landing page — a standalone page with custom HTML, CSS and JavaScript
+                reachable at /p/&lt;slug&gt;.
+              </p>
+              <Button onClick={() => setDialogOpen(true)} className="gap-2">
+                <Plus className="w-4 h-4" /> New Landing Page
+              </Button>
+            </div>
+          ) : (
+            <div className="bg-white/5 border border-white/10 rounded-xl overflow-hidden">
+              <div className="flex items-center gap-4 px-4 py-3 text-xs uppercase tracking-widest text-white/40 bg-white/5">
+                <span className="flex-1">Name</span>
+                <span className="hidden md:block w-28 text-right">Updated</span>
+                <span className="w-24 text-right">Status</span>
+                <span className="w-48 text-right">Actions</span>
+              </div>
+              {pages.map((p) => (
+                <LandingPageRow
+                  key={p.id}
+                  page={p}
+                  onTogglePublished={onTogglePublished}
+                  onEdit={onEdit}
+                  onDuplicate={onDuplicate}
+                  onDelete={onDelete}
+                />
+              ))}
+            </div>
+          )}
+
+          <NewLandingPageDialog
+            open={dialogOpen}
+            onOpenChange={setDialogOpen}
+            existingSlugs={existingSlugs}
+            onCreated={onCreated}
+          />
+        </TabsContent>
+
+        <TabsContent value="leads">
+          <LandingLeadsTab />
+        </TabsContent>
+      </Tabs>
     </div>
   );
 }
