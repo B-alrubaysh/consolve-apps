@@ -103,11 +103,28 @@ export default function BlogEditorSidebar({ form, setField, users, errors }) {
         <AccordionTrigger className="text-white">{"Hero & Media"}</AccordionTrigger>
         <AccordionContent className="space-y-4">
           <ImageUploader
-            label="Hero Image"
+            label="Hero Image (English)"
             value={form.hero_image_url}
             onChange={(v) => setField("hero_image_url", v)}
           />
           {errors?.hero_image_url && <p className="text-xs text-destructive">{errors.hero_image_url}</p>}
+
+          <div className="flex items-center justify-between gap-3 py-1">
+            <label className="text-xs text-white/60">Use the same image for Arabic</label>
+            <Switch
+              checked={form.hero_image_same_for_both !== false}
+              onCheckedChange={(v) => setField("hero_image_same_for_both", v)}
+            />
+          </div>
+
+          {form.hero_image_same_for_both === false && (
+            <ImageUploader
+              label="Hero Image (Arabic)"
+              value={form.hero_image_url_ar}
+              onChange={(v) => setField("hero_image_url_ar", v)}
+            />
+          )}
+
           <ImageUploader
             label="Open Graph Image"
             value={form.og_image_url}

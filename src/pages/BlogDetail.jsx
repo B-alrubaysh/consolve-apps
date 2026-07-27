@@ -7,6 +7,7 @@ import { useLanguage } from "../lib/useLanguage";
 import PageNotFound from "../lib/PageNotFound";
 import BlogCard from "../components/blog/BlogCard";
 import EmailGateModal from "../components/blog/EmailGateModal";
+import { heroImageFor } from "../lib/blogUtils";
 
 function fmt(d) {
   if (!d) return "";
@@ -95,7 +96,7 @@ export default function BlogDetail() {
     if (!post) return;
     const title = (isAr ? post.seo_title_ar : post.seo_title_en) || (isAr ? post.title_ar : post.title_en) || "Consolve";
     const desc = (isAr ? post.seo_description_ar : post.seo_description_en) || (isAr ? post.excerpt_ar : post.excerpt_en) || "";
-    const ogImg = post.og_image_url || post.hero_image_url || "";
+    const ogImg = post.og_image_url || heroImageFor(post, isAr) || "";
     const canonical = post.canonical_url || "";
 
     const prevTitle = document.title;
@@ -163,6 +164,7 @@ export default function BlogDetail() {
   if (post.status !== "published" && !isPreview) return <PageNotFound />;
 
   const title = (isAr ? post.title_ar : post.title_en) || post.title_en || post.title_ar || "";
+  const heroImage = heroImageFor(post, isAr);
   const content = (isAr ? post.content_ar : post.content_en) || post.content_en || post.content_ar || "";
   const displayAuthor = authorName || (isAr ? "فريق كونسولف" : "Consolve Team");
 
@@ -171,9 +173,9 @@ export default function BlogDetail() {
   return (
     <div dir={dir} className="min-h-screen bg-background">
       <article ref={articleRef} className="max-w-3xl mx-auto px-6 py-16 md:py-24">
-        {post.hero_image_url && (
+        {heroImage && (
           <img
-            src={post.hero_image_url}
+            src={heroImage}
             alt={title}
             className="w-full aspect-video object-cover rounded-2xl mb-10"
           />

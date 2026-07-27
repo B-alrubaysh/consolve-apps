@@ -34,6 +34,15 @@
       "type": "string",
       "title": "Hero Image URL"
     },
+    "hero_image_url_ar": {
+      "type": "string",
+      "title": "Hero Image URL (Arabic)"
+    },
+    "hero_image_same_for_both": {
+      "type": "boolean",
+      "title": "Use Same Hero Image For Both Languages",
+      "default": true
+    },
     "og_image_url": {
       "type": "string",
       "title": "Open Graph Image URL"

@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { format } from "date-fns";
+import { heroImageFor } from "../../lib/blogUtils";
 
 function fmt(d) {
   if (!d) return "";
@@ -11,14 +12,15 @@ function fmt(d) {
 export default function BlogCard({ post, isAr }) {
   const title = isAr ? (post.title_ar || post.title_en) : (post.title_en || post.title_ar);
   const excerpt = isAr ? (post.excerpt_ar || post.excerpt_en) : (post.excerpt_en || post.excerpt_ar);
+  const heroImage = heroImageFor(post, isAr);
 
   return (
     <Link
       to={`/blog/${post.slug}`}
       className="group flex flex-col bg-card border border-border rounded-2xl overflow-hidden hover:border-primary/40 hover:shadow-md transition-all duration-200"
     >
-      {post.hero_image_url ? (
-        <img src={post.hero_image_url} alt={title || ""} className="aspect-video w-full object-cover" />
+      {heroImage ? (
+        <img src={heroImage} alt={title || ""} className="aspect-video w-full object-cover" />
       ) : (
         <div className="aspect-video w-full bg-gradient-to-br from-primary/20 via-secondary/30 to-accent/20" />
       )}

@@ -21,6 +21,8 @@ const EMPTY = {
   content_en: "",
   content_ar: "",
   hero_image_url: "",
+  hero_image_url_ar: "",
+  hero_image_same_for_both: true,
   og_image_url: "",
   author_id: "",
   category: "",
