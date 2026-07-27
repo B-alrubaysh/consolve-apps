@@ -8,6 +8,30 @@ import { Switch } from "@/components/ui/switch";
 import { Slider } from "@/components/ui/slider";
 import { Loader2, Upload } from "lucide-react";
 
+function CopyShareLinkButton({ label, url, disabled }) {
+  const [copied, setCopied] = useState(false);
+  const onClick = async () => {
+    if (disabled) return;
+    try {
+      await navigator.clipboard.writeText(url);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch {
+      // clipboard denied — no-op
+    }
+  };
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      disabled={disabled}
+      className="flex-1 inline-flex items-center justify-center gap-2 px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-sm text-white hover:bg-white/10 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+    >
+      {copied ? "Copied!" : label}
+    </button>
+  );
+}
+
 function ImageUploader({ value, onChange, label }) {
   const inputRef = useRef(null);
   const [uploading, setUploading] = useState(false);
@@ -96,6 +120,30 @@ export default function BlogEditorSidebar({ form, setField, users, errors }) {
               className="bg-white/5 border-white/10 text-white"
             />
           </Field>
+        </AccordionContent>
+      </AccordionItem>
+
+      <AccordionItem value="share" className="border-white/10">
+        <AccordionTrigger className="text-white">{"Share link (for social media)"}</AccordionTrigger>
+        <AccordionContent className="space-y-3">
+          <p className="text-xs text-white/60">
+            Use this link when sharing on WhatsApp, LinkedIn or X so the post's own image and title appear.
+          </p>
+          <div className="flex gap-2">
+            <CopyShareLinkButton
+              label="Copy English link"
+              url={`https://consolve.sa/functions/sharePost?slug=${form.slug || ""}`}
+              disabled={!form.slug}
+            />
+            <CopyShareLinkButton
+              label="Copy Arabic link"
+              url={`https://consolve.sa/functions/sharePost?slug=${form.slug || ""}&lang=ar`}
+              disabled={!form.slug}
+            />
+          </div>
+          {!form.slug && (
+            <p className="text-xs text-white/40">Add a slug on the post first to generate a share link.</p>
+          )}
         </AccordionContent>
       </AccordionItem>
 

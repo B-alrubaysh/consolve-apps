@@ -12,7 +12,7 @@ import { createClientFromRequest } from 'npm:@base44/sdk@0.8.31';
 const SITE_ORIGIN = 'https://consolve.sa';
 const DEFAULT_TITLE = 'Consolve — Management Consulting';
 const DEFAULT_DESCRIPTION = 'Consolve helps organizations grow through practical management consulting.';
-const DEFAULT_IMAGE = 'https://consolve.sa/og-default.jpg';
+const DEFAULT_IMAGE = 'https://media.base44.com/images/public/69c6e2cf0b61fa041c4eb06c/df2296388_Cover1.png';
 
 function escapeHtml(value: unknown): string {
   const s = value == null ? '' : String(value);
