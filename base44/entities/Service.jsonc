@@ -1,0 +1,129 @@
+{
+  "name": "Service",
+  "type": "object",
+  "properties": {
+    "service_id": {
+      "type": "string",
+      "title": "Service ID"
+    },
+    "name_en": {
+      "type": "string",
+      "title": "Name (English)"
+    },
+    "name_ar": {
+      "type": "string",
+      "title": "Name (Arabic)"
+    },
+    "tagline_en": {
+      "type": "string",
+      "title": "Tagline (English)"
+    },
+    "tagline_ar": {
+      "type": "string",
+      "title": "Tagline (Arabic)"
+    },
+    "goal_en": {
+      "type": "string",
+      "title": "Goal (English)"
+    },
+    "goal_ar": {
+      "type": "string",
+      "title": "Goal (Arabic)"
+    },
+    "description_en": {
+      "type": "string",
+      "title": "Description (English)"
+    },
+    "description_ar": {
+      "type": "string",
+      "title": "Description (Arabic)"
+    },
+    "sub_services_en": {
+      "type": "array",
+      "title": "Sub-services (English)",
+      "items": {
+        "type": "string"
+      }
+    },
+    "sub_services_ar": {
+      "type": "array",
+      "title": "Sub-services (Arabic)",
+      "items": {
+        "type": "string"
+      }
+    },
+    "icon": {
+      "type": "string",
+      "title": "Icon",
+      "enum": [
+        "Target",
+        "Users",
+        "Scale",
+        "Settings",
+        "Megaphone",
+        "DollarSign",
+        "Gavel",
+        "Rocket",
+        "Lightbulb"
+      ]
+    },
+    "display_order": {
+      "type": "number",
+      "title": "Display Order",
+      "default": 0
+    },
+    "is_active": {
+      "type": "boolean",
+      "title": "Active",
+      "default": true
+    }
+  },
+  "required": [
+    "name_en"
+  ],
+  "rls": {
+    "read": true,
+    "create": {
+      "$or": [
+        {
+          "user_condition": {
+            "role": "owner"
+          }
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "update": {
+      "$or": [
+        {
+          "user_condition": {
+            "role": "owner"
+          }
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "delete": {
+      "$or": [
+        {
+          "user_condition": {
+            "role": "owner"
+          }
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    }
+  }
+}
