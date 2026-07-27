@@ -16,6 +16,7 @@ import Assessment from './pages/Assessment';
 import Careers from './pages/Careers';
 import BlogList from './pages/Blog';
 import BlogDetail from './pages/BlogDetail';
+import LandingPage from './pages/LandingPage';
 
 // Admin
 import ProtectedAdminLayout from './components/admin/ProtectedAdminLayout';
@@ -57,6 +58,9 @@ function App() {
               <Route path="/blog/:slug" element={<BlogDetail />} />
               <Route path="/admin/invite/:token" element={<AdminInvitePage />} />
             </Route>
+
+            {/* Public landing pages — standalone, no site layout */}
+            <Route path="/p/:slug" element={<LandingPage />} />
 
             {/* Admin login — standalone, no layout */}
             <Route path="/admin/login" element={<AdminLoginPage />} />
