@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Briefcase, MapPin, Clock, Loader2 } from "lucide-react";
+import { Briefcase, MapPin, Clock, Loader2, X } from "lucide-react";
 import { base44 } from "@/api/base44Client";
 import { useLanguage } from "../lib/useLanguage";
 
@@ -18,52 +18,144 @@ function getEmploymentLabel(value, isAr) {
   return isAr ? (EMPLOYMENT_TYPE_AR[value] || value) : value;
 }
 
+const WORK_TYPE_AR = { onsite: "من المقر", hybrid: "هجين", remote: "عن بُعد" };
+const WORK_TYPE_EN = { onsite: "Onsite", hybrid: "Hybrid", remote: "Remote" };
+
+function getWorkTypeLabel(value, isAr) {
+  if (!value) return "";
+  return isAr ? (WORK_TYPE_AR[value] || value) : (WORK_TYPE_EN[value] || value);
+}
+
 function isJobClosed(job) {
   return job.application_limit != null && (job.application_count || 0) >= job.application_limit;
 }
 
-function JobCard({ job, isAr, onApply }) {
+function JobCard({ job, isAr, onOpen }) {
   const closed = isJobClosed(job);
   return (
-    <div className="flex flex-col justify-between bg-card border border-border rounded-2xl p-6 hover:border-primary/40 hover:shadow-md transition-all duration-200">
+    <div
+      role="button"
+      tabIndex={0}
+      onClick={() => onOpen(job)}
+      onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); onOpen(job); } }}
+      className={`cursor-pointer flex flex-col justify-between bg-card border border-border rounded-2xl p-6 hover:border-primary/40 hover:shadow-md transition-all duration-200 ${isAr ? "text-right" : "text-left"}`}
+    >
       <div>
         <div className={`flex items-center gap-2 mb-3 ${isAr ? 'flex-row-reverse' : ''}`}>
           <span className="text-xs font-semibold uppercase tracking-widest text-primary bg-primary/10 px-2.5 py-1 rounded-full">
             {isAr ? (job.department_ar || job.department_en) : (job.department_en || job.department_ar)}
           </span>
         </div>
-        <h3 className="font-bold text-foreground text-lg leading-snug mb-3">
+        <h3 className="font-bold text-foreground text-lg leading-snug mb-4">
           {isAr ? (job.title_ar || job.title_en) : (job.title_en || job.title_ar)}
         </h3>
-        <div className={`flex flex-col gap-1.5 mb-4 ${isAr ? 'items-end' : ''}`}>
-          <span className="flex items-center gap-1.5 text-xs text-muted-foreground">
-            <MapPin className="w-3.5 h-3.5 shrink-0" />
-            {isAr ? (job.location_ar || job.location_en) : (job.location_en || job.location_ar)}
-          </span>
-          <span className="flex items-center gap-1.5 text-xs text-muted-foreground">
-            <Clock className="w-3.5 h-3.5 shrink-0" />
-            {getEmploymentLabel(job.employment_type, isAr)}
-          </span>
+        <div className={`flex flex-wrap gap-2 ${isAr ? 'justify-end' : ''}`}>
+          {job.work_type && (
+            <span className="inline-flex items-center gap-1.5 text-xs text-muted-foreground bg-muted px-2.5 py-1 rounded-full">
+              <MapPin className="w-3.5 h-3.5 shrink-0" />
+              {getWorkTypeLabel(job.work_type, isAr)}
+            </span>
+          )}
+          {job.employment_type && (
+            <span className="inline-flex items-center gap-1.5 text-xs text-muted-foreground bg-muted px-2.5 py-1 rounded-full">
+              <Clock className="w-3.5 h-3.5 shrink-0" />
+              {getEmploymentLabel(job.employment_type, isAr)}
+            </span>
+          )}
         </div>
-        <p className="text-sm text-muted-foreground leading-relaxed">
-          {isAr ? (job.description_ar || job.description_en) : (job.description_en || job.description_ar)}
-        </p>
       </div>
-      {closed ? (
-        <div
-          className="mt-6 w-full bg-muted text-muted-foreground text-sm font-bold py-2.5 rounded-xl tracking-wide uppercase text-center cursor-not-allowed"
-          aria-disabled="true"
-        >
-          {isAr ? 'أُغلق التقديم' : 'Applications closed'}
+      <span className={`mt-6 text-sm font-semibold ${closed ? "text-muted-foreground" : "text-primary"}`}>
+        {closed
+          ? (isAr ? 'أُغلق التقديم' : 'Applications closed')
+          : (isAr ? 'عرض التفاصيل ←' : 'View details →')}
+      </span>
+    </div>
+  );
+}
+
+function JobDetailModal({ job, isAr, dir, onClose, onApply }) {
+  const closed = isJobClosed(job);
+  const pickL = (ar, en) => (isAr ? (ar || en) : (en || ar));
+  const description = pickL(job.description_ar, job.description_en);
+  const requirements = pickL(job.requirements_ar, job.requirements_en);
+  const responsibilities = pickL(job.responsibilities_ar, job.responsibilities_en);
+  const location = pickL(job.location_ar, job.location_en);
+
+  const Block = ({ heading, body }) =>
+    body ? (
+      <div>
+        <h4 className="text-sm font-bold text-foreground mb-2">{heading}</h4>
+        <p className="text-sm text-muted-foreground leading-relaxed whitespace-pre-line">{body}</p>
+      </div>
+    ) : null;
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center px-4 bg-black/50 backdrop-blur-sm" onClick={onClose}>
+      <motion.div
+        initial={{ opacity: 0, scale: 0.96, y: 20 }}
+        animate={{ opacity: 1, scale: 1, y: 0 }}
+        exit={{ opacity: 0, scale: 0.96, y: 20 }}
+        transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
+        className="bg-card border border-border rounded-2xl w-full max-w-2xl shadow-2xl max-h-[90vh] overflow-y-auto"
+        dir={dir}
+        onClick={(e) => e.stopPropagation()}
+      >
+        <div className="px-7 py-6 border-b border-border relative">
+          <button
+            type="button"
+            onClick={onClose}
+            aria-label={isAr ? "إغلاق" : "Close"}
+            className={`absolute top-5 ${isAr ? "left-5" : "right-5"} w-9 h-9 rounded-full bg-muted flex items-center justify-center text-muted-foreground hover:text-foreground transition-colors`}
+          >
+            <X className="w-4 h-4" />
+          </button>
+          <p className="text-xs font-semibold uppercase tracking-widest text-primary mb-1">
+            {pickL(job.department_ar, job.department_en)}
+          </p>
+          <h3 className={`text-xl font-bold text-foreground ${isAr ? "pl-12" : "pr-12"}`}>
+            {pickL(job.title_ar, job.title_en)}
+          </h3>
+          <div className={`flex flex-wrap gap-2 mt-3 ${isAr ? "justify-end" : ""}`}>
+            {location && (
+              <span className="inline-flex items-center gap-1.5 text-xs text-muted-foreground bg-muted px-2.5 py-1 rounded-full">
+                <MapPin className="w-3.5 h-3.5 shrink-0" />{location}
+              </span>
+            )}
+            {job.work_type && (
+              <span className="inline-flex items-center gap-1.5 text-xs text-muted-foreground bg-muted px-2.5 py-1 rounded-full">
+                <Briefcase className="w-3.5 h-3.5 shrink-0" />{getWorkTypeLabel(job.work_type, isAr)}
+              </span>
+            )}
+            {job.employment_type && (
+              <span className="inline-flex items-center gap-1.5 text-xs text-muted-foreground bg-muted px-2.5 py-1 rounded-full">
+                <Clock className="w-3.5 h-3.5 shrink-0" />{getEmploymentLabel(job.employment_type, isAr)}
+              </span>
+            )}
+          </div>
         </div>
-      ) : (
-        <button
-          onClick={() => onApply(job)}
-          className="mt-6 w-full bg-primary text-primary-foreground text-sm font-bold py-2.5 rounded-xl hover:opacity-90 transition-opacity tracking-wide uppercase"
-        >
-          {isAr ? 'تقدم الآن' : 'Apply Now'}
-        </button>
-      )}
+
+        <div className="px-7 py-6 flex flex-col gap-6">
+          <Block heading={isAr ? "نبذة عن الوظيفة" : "About the role"} body={description} />
+          <Block heading={isAr ? "المسؤوليات" : "Responsibilities"} body={responsibilities} />
+          <Block heading={isAr ? "المتطلبات" : "Requirements"} body={requirements} />
+        </div>
+
+        <div className="px-7 pb-7">
+          {closed ? (
+            <div className="w-full bg-muted text-muted-foreground text-sm font-bold py-3 rounded-xl tracking-wide uppercase text-center cursor-not-allowed" aria-disabled="true">
+              {isAr ? 'أُغلق التقديم' : 'Applications closed'}
+            </div>
+          ) : (
+            <button
+              type="button"
+              onClick={() => onApply(job)}
+              className="w-full bg-primary text-primary-foreground text-sm font-bold py-3 rounded-xl hover:opacity-90 transition-opacity tracking-wide uppercase"
+            >
+              {isAr ? 'تقدم الآن' : 'Apply Now'}
+            </button>
+          )}
+        </div>
+      </motion.div>
     </div>
   );
 }
@@ -155,11 +247,19 @@ function ApplicationForm({ job, isAr, dir, lang, onClose, onSuccess }) {
         dir={dir}
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="px-7 py-6 border-b border-border">
+        <div className="px-7 py-6 border-b border-border relative">
+          <button
+            type="button"
+            onClick={onClose}
+            aria-label={isAr ? "إغلاق" : "Close"}
+            className={`absolute top-5 ${isAr ? "left-5" : "right-5"} w-9 h-9 rounded-full bg-muted flex items-center justify-center text-muted-foreground hover:text-foreground transition-colors`}
+          >
+            <X className="w-4 h-4" />
+          </button>
           <p className="text-xs font-semibold uppercase tracking-widest text-primary mb-1">
             {isAr ? "تقديم للوظيفة" : "Applying for"}
           </p>
-          <h3 className="text-xl font-bold text-foreground">{isAr ? (job.title_ar || job.title_en) : (job.title_en || job.title_ar)}</h3>
+          <h3 className={`text-xl font-bold text-foreground ${isAr ? "pl-12" : "pr-12"}`}>{isAr ? (job.title_ar || job.title_en) : (job.title_en || job.title_ar)}</h3>
         </div>
 
         {submitted ? (
@@ -393,6 +493,7 @@ function GeneralForm({ isAr, dir, lang }) {
 export default function Careers() {
   const { lang, dir, isAr } = useLanguage();
   const [selectedJob, setSelectedJob] = useState(null);
+  const [detailJob, setDetailJob] = useState(null);
   const [jobs, setJobs] = useState([]);
   const [loadingJobs, setLoadingJobs] = useState(true);
 
@@ -462,7 +563,7 @@ export default function Careers() {
                   viewport={{ once: true, margin: "-40px" }}
                   transition={{ duration: 0.5, delay: i * 0.07, ease: [0.16, 1, 0.3, 1] }}
                 >
-                  <JobCard job={job} isAr={isAr} onApply={setSelectedJob} />
+                  <JobCard job={job} isAr={isAr} onOpen={setDetailJob} />
                 </motion.div>
               ))}
             </div>
@@ -493,6 +594,18 @@ export default function Careers() {
           </motion.div>
         </div>
       </section>
+
+      <AnimatePresence>
+        {detailJob && (
+          <JobDetailModal
+            job={detailJob}
+            isAr={isAr}
+            dir={dir}
+            onClose={() => setDetailJob(null)}
+            onApply={(job) => { setDetailJob(null); setSelectedJob(job); }}
+          />
+        )}
+      </AnimatePresence>
 
       <AnimatePresence>
         {selectedJob && (
