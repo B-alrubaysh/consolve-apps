@@ -1,0 +1,88 @@
+{
+  "name": "Testimonial",
+  "type": "object",
+  "properties": {
+    "quote_en": {
+      "type": "string",
+      "title": "Quote (English)"
+    },
+    "quote_ar": {
+      "type": "string",
+      "title": "Quote (Arabic)"
+    },
+    "author_en": {
+      "type": "string",
+      "title": "Author (English)"
+    },
+    "author_ar": {
+      "type": "string",
+      "title": "Author (Arabic)"
+    },
+    "company_en": {
+      "type": "string",
+      "title": "Company (English)"
+    },
+    "company_ar": {
+      "type": "string",
+      "title": "Company (Arabic)"
+    },
+    "display_order": {
+      "type": "number",
+      "title": "Display Order",
+      "default": 0
+    },
+    "is_active": {
+      "type": "boolean",
+      "title": "Active",
+      "default": true
+    }
+  },
+  "required": [
+    "quote_en"
+  ],
+  "rls": {
+    "read": true,
+    "create": {
+      "$or": [
+        {
+          "user_condition": {
+            "role": "owner"
+          }
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "update": {
+      "$or": [
+        {
+          "user_condition": {
+            "role": "owner"
+          }
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "delete": {
+      "$or": [
+        {
+          "user_condition": {
+            "role": "owner"
+          }
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    }
+  }
+}

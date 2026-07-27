@@ -1,0 +1,96 @@
+{
+  "name": "CaseStudy",
+  "type": "object",
+  "properties": {
+    "industry_en": {
+      "type": "string",
+      "title": "Industry (English)"
+    },
+    "industry_ar": {
+      "type": "string",
+      "title": "Industry (Arabic)"
+    },
+    "challenge_en": {
+      "type": "string",
+      "title": "Challenge (English)"
+    },
+    "challenge_ar": {
+      "type": "string",
+      "title": "Challenge (Arabic)"
+    },
+    "solution_en": {
+      "type": "string",
+      "title": "Solution (English)"
+    },
+    "solution_ar": {
+      "type": "string",
+      "title": "Solution (Arabic)"
+    },
+    "result_en": {
+      "type": "string",
+      "title": "Result (English)"
+    },
+    "result_ar": {
+      "type": "string",
+      "title": "Result (Arabic)"
+    },
+    "display_order": {
+      "type": "number",
+      "title": "Display Order",
+      "default": 0
+    },
+    "is_active": {
+      "type": "boolean",
+      "title": "Active",
+      "default": true
+    }
+  },
+  "required": [
+    "industry_en"
+  ],
+  "rls": {
+    "read": true,
+    "create": {
+      "$or": [
+        {
+          "user_condition": {
+            "role": "owner"
+          }
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "update": {
+      "$or": [
+        {
+          "user_condition": {
+            "role": "owner"
+          }
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "delete": {
+      "$or": [
+        {
+          "user_condition": {
+            "role": "owner"
+          }
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    }
+  }
+}
