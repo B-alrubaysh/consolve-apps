@@ -1,4 +1,68 @@
-@import url('https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,200..900;1,200..900&display=swap');
+/* base44-workspace-fonts:start */
+@font-face {
+  font-family: 'Ping AR + LT';
+  font-weight: 200;
+  font-style: normal;
+  font-display: swap;
+  src: url('./assets/fonts/ping-ar-lt-81fd72c7-200-normal.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Ping AR + LT';
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  src: url('./assets/fonts/ping-ar-lt-81fd72c7-400-normal.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Ping AR + LT';
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+  src: url('./assets/fonts/ping-ar-lt-81fd72c7-500-normal.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Ping AR + LT';
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+  src: url('./assets/fonts/ping-ar-lt-81fd72c7-300-normal.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Ping AR + LT';
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+  src: url('./assets/fonts/ping-ar-lt-81fd72c7-800-normal.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Ping AR + LT';
+  font-weight: 100;
+  font-style: normal;
+  font-display: swap;
+  src: url('./assets/fonts/ping-ar-lt-81fd72c7-100-normal.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Ping AR + LT';
+  font-weight: 250;
+  font-style: normal;
+  font-display: swap;
+  src: url('./assets/fonts/ping-ar-lt-81fd72c7-250-normal.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Ping AR + LT';
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+  src: url('./assets/fonts/ping-ar-lt-81fd72c7-700-normal.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Ping AR + LT';
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+  src: url('./assets/fonts/ping-ar-lt-81fd72c7-900-normal.woff2') format('woff2');
+}
+/* base44-workspace-fonts:end */
 
 @tailwind base;
 @tailwind components;
@@ -6,7 +70,7 @@
 
 @layer base {
   :root {
-    --font-inter: 'Source Sans 3', sans-serif;
+    --font-inter: 'Ping AR + LT', sans-serif;
     --background: 210 14% 96%;
     --foreground: 190 43% 10%;
     --card: 0 0% 100%;
