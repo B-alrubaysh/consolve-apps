@@ -1,0 +1,96 @@
+{
+  "name": "LandingPage",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "title": "Name"
+    },
+    "slug": {
+      "type": "string",
+      "title": "Slug"
+    },
+    "html_content": {
+      "type": "string",
+      "title": "HTML"
+    },
+    "css_content": {
+      "type": "string",
+      "title": "CSS"
+    },
+    "js_content": {
+      "type": "string",
+      "title": "JavaScript"
+    },
+    "seo_title": {
+      "type": "string",
+      "title": "SEO Title"
+    },
+    "seo_description": {
+      "type": "string",
+      "title": "SEO Description"
+    },
+    "og_image_url": {
+      "type": "string",
+      "title": "Share Image URL"
+    },
+    "is_published": {
+      "type": "boolean",
+      "title": "Published",
+      "default": false
+    },
+    "notes": {
+      "type": "string",
+      "title": "Internal Notes"
+    }
+  },
+  "required": [
+    "name",
+    "slug"
+  ],
+  "rls": {
+    "read": true,
+    "create": {
+      "$or": [
+        {
+          "user_condition": {
+            "role": "owner"
+          }
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "update": {
+      "$or": [
+        {
+          "user_condition": {
+            "role": "owner"
+          }
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "delete": {
+      "$or": [
+        {
+          "user_condition": {
+            "role": "owner"
+          }
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    }
+  }
+}

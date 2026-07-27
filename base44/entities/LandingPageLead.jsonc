@@ -1,0 +1,94 @@
+{
+  "name": "LandingPageLead",
+  "type": "object",
+  "properties": {
+    "page_slug": {
+      "type": "string",
+      "title": "Landing Page Slug"
+    },
+    "page_name": {
+      "type": "string",
+      "title": "Landing Page Name"
+    },
+    "name": {
+      "type": "string",
+      "title": "Name"
+    },
+    "email": {
+      "type": "string",
+      "title": "Email"
+    },
+    "phone": {
+      "type": "string",
+      "title": "Phone"
+    },
+    "company": {
+      "type": "string",
+      "title": "Company"
+    },
+    "message": {
+      "type": "string",
+      "title": "Message"
+    },
+    "raw_data": {
+      "type": "string",
+      "title": "All Submitted Fields (JSON)"
+    },
+    "status": {
+      "type": "string",
+      "title": "Status",
+      "enum": [
+        "New",
+        "Read",
+        "Replied"
+      ],
+      "default": "New"
+    }
+  },
+  "required": [],
+  "rls": {
+    "create": true,
+    "read": {
+      "$or": [
+        {
+          "user_condition": {
+            "role": "owner"
+          }
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "update": {
+      "$or": [
+        {
+          "user_condition": {
+            "role": "owner"
+          }
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "delete": {
+      "$or": [
+        {
+          "user_condition": {
+            "role": "owner"
+          }
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    }
+  }
+}
