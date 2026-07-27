@@ -5,6 +5,7 @@ import { DragDropContext, Droppable } from "@hello-pangea/dnd";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { useAdminUser } from "../../components/admin/ProtectedAdminLayout";
 import { requireRole, ROLES } from "../../lib/rbac";
 import AccessDenied from "../../components/admin/AccessDenied";
@@ -99,15 +100,25 @@ export default function AdminClientsPage() {
 
   return (
     <div className="p-8">
-      <div className="flex items-center justify-between mb-8">
-        <div>
-          <h1 className="text-2xl font-bold text-white">Clients</h1>
-          <p className="text-sm text-white/40 mt-1">Manage homepage logo carousel</p>
-        </div>
-        <Button onClick={onAdd} className="gap-2"><Plus className="w-4 h-4" /> Add Client</Button>
+      <div className="mb-8">
+        <h1 className="text-2xl font-bold text-white">Clients</h1>
+        <p className="text-sm text-white/40 mt-1">Manage client logos, industries, testimonials and case studies</p>
       </div>
 
-      {/* Filters */}
+      <Tabs defaultValue="logos">
+        <TabsList className="bg-white/5 border border-white/10">
+          <TabsTrigger value="logos">Logos</TabsTrigger>
+          <TabsTrigger value="industries">Industries</TabsTrigger>
+          <TabsTrigger value="testimonials">Testimonials</TabsTrigger>
+          <TabsTrigger value="cases">Case Studies</TabsTrigger>
+        </TabsList>
+
+        <TabsContent value="logos" className="mt-6">
+          <div className="flex items-center justify-end mb-4">
+            <Button onClick={onAdd} className="gap-2"><Plus className="w-4 h-4" /> Add Client</Button>
+          </div>
+
+          {/* Filters */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-3 mb-4">
         <div className="relative md:col-span-3">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-white/30" />
@@ -187,13 +198,33 @@ export default function AdminClientsPage() {
         </div>
       )}
 
-      <ClientFormDialog
-        open={formOpen}
-        onOpenChange={setFormOpen}
-        initialClient={editing}
-        defaultDisplayOrder={maxOrder + 10}
-        onSaved={load}
-      />
+          <ClientFormDialog
+            open={formOpen}
+            onOpenChange={setFormOpen}
+            initialClient={editing}
+            defaultDisplayOrder={maxOrder + 10}
+            onSaved={load}
+          />
+        </TabsContent>
+
+        <TabsContent value="industries" className="mt-6">
+          <div className="py-20 text-center bg-white/5 border border-white/10 rounded-xl text-white/40 text-sm">
+            Coming next.
+          </div>
+        </TabsContent>
+
+        <TabsContent value="testimonials" className="mt-6">
+          <div className="py-20 text-center bg-white/5 border border-white/10 rounded-xl text-white/40 text-sm">
+            Coming next.
+          </div>
+        </TabsContent>
+
+        <TabsContent value="cases" className="mt-6">
+          <div className="py-20 text-center bg-white/5 border border-white/10 rounded-xl text-white/40 text-sm">
+            Coming next.
+          </div>
+        </TabsContent>
+      </Tabs>
     </div>
   );
 }
