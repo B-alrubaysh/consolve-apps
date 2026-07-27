@@ -1,28 +1,52 @@
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight, Quote } from "lucide-react";
+import { base44 } from "@/api/base44Client";
 import AnimatedSection from "../components/AnimatedSection";
 import { useLanguage } from "../lib/useLanguage";
 import t from "../lib/translations";
-
-const INDUSTRIES_EN = ["Technology", "Healthcare", "Financial Services", "Manufacturing", "Retail & E-commerce", "Energy", "Real Estate", "Education", "Logistics", "Professional Services", "Government", "Hospitality"];
-const INDUSTRIES_AR = ["التكنولوجيا", "الرعاية الصحية", "الخدمات المالية", "التصنيع", "التجزئة والتجارة الإلكترونية", "الطاقة", "العقارات", "التعليم", "الخدمات اللوجستية", "الخدمات المهنية", "الحكومة", "الضيافة"];
+import { INDUSTRIES_FALLBACK, TESTIMONIALS_FALLBACK, CASE_STUDIES_FALLBACK } from "../lib/clientsData";
 
 export default function Clients() {
   const { lang, dir } = useLanguage();
   const tx = t[lang];
-  const industries = lang === "ar" ? INDUSTRIES_AR : INDUSTRIES_EN;
+  const isAr = lang === "ar";
 
-  const TESTIMONIALS = [
-    { quote: tx.t1_quote, author: tx.t1_author, company: tx.t1_company },
-    { quote: tx.t2_quote, author: tx.t2_author, company: tx.t2_company },
-    { quote: tx.t3_quote, author: tx.t3_author, company: tx.t3_company },
-  ];
+  const [industryRows, setIndustryRows] = useState(INDUSTRIES_FALLBACK);
+  const [testimonialRows, setTestimonialRows] = useState(TESTIMONIALS_FALLBACK);
+  const [caseRows, setCaseRows] = useState(CASE_STUDIES_FALLBACK);
 
-  const CASE_STUDIES = [
-    { industry: tx.cs1_industry, challenge: tx.cs1_challenge, solution: tx.cs1_solution, result: tx.cs1_result },
-    { industry: tx.cs2_industry, challenge: tx.cs2_challenge, solution: tx.cs2_solution, result: tx.cs2_result },
-    { industry: tx.cs3_industry, challenge: tx.cs3_challenge, solution: tx.cs3_solution, result: tx.cs3_result },
-  ];
+  useEffect(() => {
+    let cancelled = false;
+    const onlyActive = (rows) => (rows || []).filter((r) => r.is_active !== false);
+    Promise.all([
+      base44.entities.Industry.list("display_order", 200).catch(() => []),
+      base44.entities.Testimonial.list("display_order", 200).catch(() => []),
+      base44.entities.CaseStudy.list("display_order", 200).catch(() => []),
+    ]).then(([inds, tes, cs]) => {
+      if (cancelled) return;
+      const a = onlyActive(inds), b = onlyActive(tes), c = onlyActive(cs);
+      if (a.length > 0) setIndustryRows(a);
+      if (b.length > 0) setTestimonialRows(b);
+      if (c.length > 0) setCaseRows(c);
+    });
+    return () => { cancelled = true; };
+  }, []);
+
+  const pickL = (ar, en) => (isAr ? (ar || en) : (en || ar)) || "";
+
+  const industries = industryRows.map((r) => pickL(r.name_ar, r.name_en));
+  const TESTIMONIALS = testimonialRows.map((r) => ({
+    quote: pickL(r.quote_ar, r.quote_en),
+    author: pickL(r.author_ar, r.author_en),
+    company: pickL(r.company_ar, r.company_en),
+  }));
+  const CASE_STUDIES = caseRows.map((r) => ({
+    industry: pickL(r.industry_ar, r.industry_en),
+    challenge: pickL(r.challenge_ar, r.challenge_en),
+    solution: pickL(r.solution_ar, r.solution_en),
+    result: pickL(r.result_ar, r.result_en),
+  }));
 
   return (
     <div dir={dir}>
@@ -36,6 +60,7 @@ export default function Clients() {
         </div>
       </section>
 
+      {industries.length > 0 && (
       <section className="pb-20 md:pb-28">
         <div className="max-w-7xl mx-auto px-6">
           <AnimatedSection>
@@ -52,7 +77,9 @@ export default function Clients() {
           </div>
         </div>
       </section>
+      )}
 
+      {TESTIMONIALS.length > 0 && (
       <section className="py-20 md:py-28 bg-secondary">
         <div className="max-w-7xl mx-auto px-6">
           <AnimatedSection>
@@ -75,7 +102,9 @@ export default function Clients() {
           </div>
         </div>
       </section>
+      )}
 
+      {CASE_STUDIES.length > 0 && (
       <section className="py-28 md:py-40">
         <div className="max-w-7xl mx-auto px-6">
           <AnimatedSection>
@@ -105,8 +134,14 @@ export default function Clients() {
               </AnimatedSection>
             ))}
           </div>
+        </div>
+      </section>
+      )}
+
+      <section className="pb-28 md:pb-40">
+        <div className="max-w-7xl mx-auto px-6">
           <AnimatedSection delay={300}>
-            <div className="mt-16 text-center">
+            <div className="text-center">
               <Link to="/assessment" className="inline-flex items-center gap-2 bg-primary text-primary-foreground px-8 py-4 rounded-full font-semibold text-sm hover:opacity-90 transition-opacity">
                 {tx.clients_cta}
                 <ArrowRight className="w-4 h-4" />
