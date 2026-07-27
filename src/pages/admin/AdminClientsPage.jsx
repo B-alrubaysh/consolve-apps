@@ -12,6 +12,8 @@ import AccessDenied from "../../components/admin/AccessDenied";
 import ClientFormDialog from "../../components/admin/clients/ClientFormDialog";
 import ClientRow from "../../components/admin/clients/ClientRow";
 import IndustriesTab from "../../components/admin/clients/IndustriesTab";
+import TestimonialsTab from "../../components/admin/clients/TestimonialsTab";
+import CaseStudiesTab from "../../components/admin/clients/CaseStudiesTab";
 
 export default function AdminClientsPage() {
   // Hooks first — before any early return.
@@ -213,15 +215,11 @@ export default function AdminClientsPage() {
         </TabsContent>
 
         <TabsContent value="testimonials" className="mt-6">
-          <div className="py-20 text-center bg-white/5 border border-white/10 rounded-xl text-white/40 text-sm">
-            Coming next.
-          </div>
+          <TestimonialsTab />
         </TabsContent>
 
         <TabsContent value="cases" className="mt-6">
-          <div className="py-20 text-center bg-white/5 border border-white/10 rounded-xl text-white/40 text-sm">
-            Coming next.
-          </div>
+          <CaseStudiesTab />
         </TabsContent>
       </Tabs>
     </div>
