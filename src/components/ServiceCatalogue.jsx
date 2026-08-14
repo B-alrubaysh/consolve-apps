@@ -48,8 +48,11 @@ export default function ServiceCatalogue() {
     <section className="py-24 md:py-36 bg-card border-b border-border" dir={dir}>
       <div className="max-w-7xl mx-auto px-6">
 
-        {/* Main split layout */}
-        <div className={`flex flex-col ${isAr ? "md:flex-row-reverse" : "md:flex-row"} gap-6 md:gap-10 md:items-start`}>
+        {/* Main split layout.
+            RTL already reverses the visual order via `dir=rtl`, so we keep
+            `md:flex-row` for both languages — header+selector end up on the
+            right and the content panel on the left in Arabic. */}
+        <div className="flex flex-col md:flex-row gap-6 md:gap-10 md:items-start">
 
           {/* Left column — header + selector */}
           <div className="md:w-[40%] flex flex-col gap-8">

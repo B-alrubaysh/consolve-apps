@@ -512,7 +512,7 @@ export default function DiagnosisSection() {
         {/* Headline + intro | report preview */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center mb-20">
           <AnimatedSection>
-            <h2 className="text-3xl md:text-5xl font-black text-foreground leading-tight tracking-tight mb-6 text-center lg:text-start">
+            <h2 className={`${lang === "ar" ? "ar-display-heading" : "leading-tight"} text-3xl md:text-5xl font-black text-foreground tracking-tight mb-6 text-center lg:text-start`}>
               {c.h2_plain}<br /><span className="text-primary">{c.h2_accent}</span>
             </h2>
             <p className="text-muted-foreground text-base md:text-lg leading-[1.9] mb-8 text-center lg:text-start">{c.intro}</p>

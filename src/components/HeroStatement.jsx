@@ -59,7 +59,7 @@ export default function HeroStatement() {
   );
 
   const headlineAR = (
-    <h2 className="text-4xl md:text-5xl lg:text-6xl font-black text-foreground leading-[1.15] tracking-tight" dir="rtl">
+    <h2 className="ar-display-heading text-4xl md:text-5xl lg:text-6xl font-black text-foreground tracking-tight" dir="rtl">
       <span className="text-primary">نمكّن</span>
       {" المؤسسات من تحقيق أداء أكثر كفاءة "}
       <span className="text-primary">واستدامة</span>
@@ -73,8 +73,11 @@ export default function HeroStatement() {
     <section className="py-24 md:py-36 bg-background border-b border-border" dir={dir}>
       <div className="max-w-7xl mx-auto px-6">
 
-        {/* Section 1 — Split layout */}
-        <div className={`flex flex-col ${isAr ? "md:flex-row-reverse" : "md:flex-row"} gap-16 md:gap-24 items-start mb-24 md:mb-32`}>
+        {/* Section 1 — Split layout.
+            In RTL the flex order is already reversed by `dir=rtl`, so we use
+            `md:flex-row` for both languages — that puts the headline on the
+            right and the supporting content on the left in Arabic. */}
+        <div className="flex flex-col md:flex-row gap-16 md:gap-24 items-start mb-24 md:mb-32">
 
           {/* Headline side */}
           <motion.div

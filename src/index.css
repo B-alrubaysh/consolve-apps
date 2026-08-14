@@ -153,3 +153,11 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* Arabic large multi-line display headings.
+   The Ping AR + LT glyphs (dots + diacritics) collide with the previous line
+   at very tight leading. Bump line-height here — scoped to this class only
+   so paragraphs, buttons and small headings elsewhere are untouched. */
+.ar-display-heading {
+  line-height: 1.55;
+}
