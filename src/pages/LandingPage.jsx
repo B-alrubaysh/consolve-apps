@@ -73,6 +73,21 @@ export default function LandingPage() {
     return () => { document.title = previous; };
   }, [page]);
 
+  // GA4 — fire a page_view for this landing page (used as the denominator when
+  // computing conversion rate against generate_lead events below).
+  useEffect(() => {
+    if (!page || !page.is_published) return;
+    if (typeof window === "undefined" || typeof window.gtag !== "function") return;
+    window.gtag("event", "page_view", {
+      page_title: page.seo_title || page.name || "",
+      page_location: window.location.href,
+      page_path: window.location.pathname,
+      page_slug: slug || "",
+      page_name: page.name || "",
+      landing_page: true,
+    });
+  }, [page, slug]);
+
   // Lead bridge listener
   useEffect(() => {
     if (!page || !page.is_published) return;
@@ -91,6 +106,16 @@ export default function LandingPage() {
           raw_data: JSON.stringify(d),
           status: "New",
         });
+        // GA4 — fire a generate_lead conversion event. Pair with the page_view
+        // above to compute conversion rate per landing page in GA (Explore →
+        // event_count of generate_lead ÷ page_view, grouped by page_slug).
+        if (typeof window !== "undefined" && typeof window.gtag === "function") {
+          window.gtag("event", "generate_lead", {
+            page_slug: slug || "",
+            page_name: page.name || "",
+            landing_page: true,
+          });
+        }
       } catch {
         /* never break the page */
       }
