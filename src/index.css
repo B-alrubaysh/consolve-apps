@@ -154,6 +154,45 @@
   }
 }
 
+/* ───────────────────────────────────────────────────────────────────────────
+   Alias "PingAR" → same "Ping AR + LT" font files, so the landing page's
+   font-['PingAR'] utility renders correctly without editing the page source.
+   ─────────────────────────────────────────────────────────────────────────── */
+@font-face {
+  font-family: 'PingAR';
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+  src: url('./assets/fonts/ping-ar-lt-81fd72c7-700-normal.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'PingAR';
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  src: url('./assets/fonts/ping-ar-lt-81fd72c7-400-normal.woff2') format('woff2');
+}
+
+/* Landing-page primary CTA sheen (used by CTAButton with variant="primary" + cta) */
+.cta-shine { position: relative; overflow: hidden; isolation: isolate; }
+.cta-shine::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background: linear-gradient(115deg, transparent 32%, rgba(255, 255, 255, 0.35) 50%, transparent 68%);
+  transform: translateX(-130%);
+  animation: ctaShine 5s ease-in-out infinite;
+}
+@keyframes ctaShine {
+  0%, 18% { transform: translateX(-130%); }
+  60%, 100% { transform: translateX(130%); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .cta-shine::after { animation: none; opacity: 0; }
+}
+
 /* Arabic large multi-line display headings.
    The Ping AR + LT glyphs (dots + diacritics) collide with the previous line
    at very tight leading. Bump line-height here — scoped to this class only

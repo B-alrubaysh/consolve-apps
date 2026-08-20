@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useLanguage } from "../lib/useLanguage";
 
-const WHATSAPP_URL = "https://wa.me/message/M6AP4IL4RCJIO1";
+export const WHATSAPP_URL = "https://wa.me/message/M6AP4IL4RCJIO1";
 
 // Official WhatsApp glyph (lucide has no brand icons).
 function WhatsAppIcon({ className }) {
