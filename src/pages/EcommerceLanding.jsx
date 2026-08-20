@@ -1183,42 +1183,57 @@ function FAQSection() {
   );
 }
 
-// ─── Landing header (this page's own top bar — the page is rendered outside
-// the site PublicLayout, so we ship a minimal header of our own with a home
-// link back to "/"). Keep it lightweight — no navigation to internal admin. ─
+// ─── Landing header ──────────────────────────────────────────────────────────
+// This page renders outside the site PublicLayout, so we ship the header
+// ourselves — matched to the main site's floating dark bar exactly:
+//   • floating pill: bg-secondary/80, rounded-[14px], px-4 pt-4 outer padding
+//   • backdrop-blur-md + shadow-md + white/10 border
+//   • image logo with mixBlendMode: 'screen' so it reads clean on the dark bar
+//   • language toggle only (no other nav) — the "back to main site" link is
+//     intentionally moved out of the top bar and lives in a tiny page footer
+//     below the WhatsApp CTA, so no exit link competes with the offer.
 function LandingHeader() {
   const { lang, setLang, isAr } = useLanguage();
   return (
-    <header className="fixed top-0 inset-x-0 z-40 backdrop-blur-md bg-[#F7F7F5]/85 border-b border-[#0D2528]/10">
-      <div className="max-w-[1200px] mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
-        {/* Brand — image logo (same asset used across the main site), linked to
-            "/". Kept minimal on purpose: this page is a paid-traffic landing,
-            so no full nav; only lang toggle + main-site link remain. */}
-        <a href="/" aria-label="Consolve">
-          <img
-            src="https://media.base44.com/images/public/69c6e2cf0b61fa041c4eb06c/4c25434d1_Consolve_identity_compressed_HQai.png"
-            alt="Consolve"
-            className="h-9 w-auto object-contain"
-            loading="eager"
-            decoding="async"
-          />
-        </a>
-        <div className="flex items-center gap-2">
+    <div className="fixed top-0 left-0 right-0 z-50 flex justify-center px-4 pt-4">
+      <header className="bg-secondary/80 py-3 opacity-75 rounded-[14px] w-full max-w-6xl transition-all duration-500 backdrop-blur-md shadow-md border border-white/10">
+        <div className="px-6 flex items-center justify-between">
+          <a href="/" className="flex items-center shrink-0" aria-label="Consolve">
+            <img
+              src="https://media.base44.com/images/public/69c6e2cf0b61fa041c4eb06c/4c25434d1_Consolve_identity_compressed_HQai.png"
+              alt="Consolve"
+              className="h-8 w-auto"
+              style={{ mixBlendMode: "screen" }}
+            />
+          </a>
           <button
             onClick={() => setLang(isAr ? "en" : "ar")}
-            className="text-xs font-semibold text-[#0D2528] hover:text-[#E87B59] transition-colors px-2 py-1"
+            className="text-sm font-medium text-white/90 hover:text-primary transition-colors"
           >
             {isAr ? "EN" : "AR"}
           </button>
-          <a
-            href="/"
-            className="text-xs font-semibold text-[#0D2528] hover:text-[#E87B59] transition-colors px-3 py-1.5 rounded-lg border border-[#0D2528]/15 hover:border-[#E87B59]/50"
-          >
-            {isAr ? "الموقع الرئيسي" : "Main site"}
-          </a>
         </div>
+      </header>
+    </div>
+  );
+}
+
+// ─── Minimal page footer ─────────────────────────────────────────────────────
+// The only exit link on the page. Placed at the very bottom so the visitor
+// only encounters it after the offer + form. Keep it quiet on purpose.
+function LandingFooter() {
+  const { isAr } = useLanguage();
+  return (
+    <footer className="py-10 border-t border-[#0D2528]/10 bg-[#F7F7F5]">
+      <div className="max-w-[1200px] mx-auto px-4 sm:px-6 text-center">
+        <a
+          href="/"
+          className="inline-block text-sm text-[#3D4D4F] hover:text-[#E87B59] transition-colors underline underline-offset-4 decoration-[#0D2528]/20 hover:decoration-[#E87B59]"
+        >
+          {isAr ? "الانتقال إلى موقع كونسولف" : "Go to the Consolve website"}
+        </a>
       </div>
-    </header>
+    </footer>
   );
 }
 
@@ -1283,6 +1298,7 @@ export default function EcommerceLanding() {
       <PricingSection />
       <DecisionTreeSection />
       <FAQSection />
+      <LandingFooter />
     </div>
   );
 }
