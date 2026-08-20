@@ -502,7 +502,7 @@ export default function Careers() {
     title: isAr ? "الوظائف" : "Careers",
     description: isAr
       ? "انضم إلى فريق كونسولف — فرص عمل في الاستشارات الإدارية والتشغيلية."
-      : "Join the ConSolve team — open roles in management and operations consulting.",
+      : "Join the Consolve team — open roles in management and operations consulting.",
   });
 
   useEffect(() => {

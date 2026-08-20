@@ -2,7 +2,7 @@ import { useEffect } from "react";
 
 // Shared brand — never override; this is what shows as the small header line
 // above the title in WhatsApp / LinkedIn / Slack link previews.
-const SITE_NAME = "ConSolve Management Solutions";
+const SITE_NAME = "Consolve Management Solutions";
 const DEFAULT_IMAGE =
   "https://base44.app/api/apps/69c6e2cf0b61fa041c4eb06c/files/mp/public/69c6e2cf0b61fa041c4eb06c/8df118fe6_Logo3.png";
 
@@ -26,7 +26,7 @@ function upsertMeta(key, attr, content) {
  * usePageMetadata — sets <title>, og:title, twitter:title, og:description,
  * og:image, og:url, og:type and twitter:description on mount, and restores
  * the previous values on unmount. Every public page uses this so social
- * previews carry that page's real title with the ConSolve brand as
+ * previews carry that page's real title with the Consolve brand as
  * og:site_name (defined once in index.html, never overridden here).
  *
  * @param {object} opts

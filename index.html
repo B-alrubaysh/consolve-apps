@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <!-- Favicon / app icons — ConSolve brand (no Base44 fallback) -->
+    <!-- Favicon / app icons — Consolve brand (no Base44 fallback) -->
     <link
       rel="icon"
       type="image/png"
@@ -15,26 +15,28 @@
       href="https://base44.app/api/apps/69c6e2cf0b61fa041c4eb06c/files/mp/public/69c6e2cf0b61fa041c4eb06c/8df118fe6_Logo3.png"
     />
 
-    <!-- Default document title. Each page overrides this at runtime via
-         usePageMetadata() — kept as the ConSolve brand string so crawlers that
-         don't execute JS (WhatsApp preview, some Twitter renders) never fall
-         back to a generic or Base44 name. -->
-    <title>ConSolve Management Solutions</title>
+    <!-- Default document title + OG metadata. IMPORTANT: this is a client-rendered
+         SPA served from a single index.html for every route, so per-page
+         usePageMetadata() overrides only reach clients that execute JavaScript
+         (browsers, LinkedIn Post Inspector, in-app browser previews).
+         Crawlers that do NOT execute JS — WhatsApp, Slack, Telegram, iMessage —
+         will always see the defaults below no matter which URL is shared.
+         Per-URL OG requires SSR / prerendering at the hosting layer; that is
+         a platform limitation, not something the app code can fix.
+         The defaults are therefore written to be brand-safe and never
+         misleading on any URL. -->
+    <title>Consolve Management Solutions</title>
     <meta
       name="description"
-      content="ConSolve — استشارات إدارية عملية للشركات والمؤسسات في المملكة العربية السعودية."
+      content="Consolve — استشارات إدارية عملية للشركات والمؤسسات في المملكة العربية السعودية."
     />
 
-    <!-- Default Open Graph / Twitter Card metadata. Per-page components override
-         og:title, twitter:title, og:description, og:image, og:url dynamically.
-         og:site_name stays constant across the whole domain — it's what shows as
-         the small line above the title in WhatsApp / LinkedIn / Slack previews. -->
-    <meta property="og:site_name" content="ConSolve Management Solutions" />
+    <meta property="og:site_name" content="Consolve Management Solutions" />
     <meta property="og:type" content="website" />
-    <meta property="og:title" content="ConSolve Management Solutions" />
+    <meta property="og:title" content="Consolve Management Solutions" />
     <meta
       property="og:description"
-      content="ConSolve — استشارات إدارية عملية للشركات والمؤسسات في المملكة العربية السعودية."
+      content="Consolve — استشارات إدارية عملية للشركات والمؤسسات في المملكة العربية السعودية."
     />
     <meta
       property="og:image"
@@ -46,10 +48,10 @@
 
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:site" content="@consolve" />
-    <meta name="twitter:title" content="ConSolve Management Solutions" />
+    <meta name="twitter:title" content="Consolve Management Solutions" />
     <meta
       name="twitter:description"
-      content="ConSolve — استشارات إدارية عملية للشركات والمؤسسات في المملكة العربية السعودية."
+      content="Consolve — استشارات إدارية عملية للشركات والمؤسسات في المملكة العربية السعودية."
     />
     <meta
       name="twitter:image"

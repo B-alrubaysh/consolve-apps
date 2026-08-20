@@ -15,7 +15,7 @@ export default function BlogList() {
     title: isAr ? "المدونة" : "Blog",
     description: isAr
       ? "مقالات وأفكار عملية من كونسولف في الاستشارات الإدارية والتشغيلية."
-      : "Practical articles and insights from ConSolve on management and operations consulting.",
+      : "Practical articles and insights from Consolve on management and operations consulting.",
   });
 
   useEffect(() => {

@@ -1247,7 +1247,7 @@ export default function EcommerceLanding() {
   // Share-preview metadata. The audience for this page is Saudi ecommerce stores
   // (Arabic-first), so we ship the Arabic title as the primary and pair it with
   // the English label when the visitor is in English mode. og:site_name stays
-  // "ConSolve Management Solutions" via index.html + the hook re-assertion.
+  // "Consolve Management Solutions" via index.html + the hook re-assertion.
   usePageMetadata({
     title:
       lang === "ar"

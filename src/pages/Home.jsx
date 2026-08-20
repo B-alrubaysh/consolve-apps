@@ -18,7 +18,7 @@ export default function Home() {
   const tx = t[lang];
 
   // Share-preview: page-specific title in the big line, og:site_name
-  // ("ConSolve Management Solutions") in the small line above it — the small
+  // ("Consolve Management Solutions") in the small line above it — the small
   // line is set once in index.html and re-asserted by the hook.
   usePageMetadata({
     title: isAr ? "الرئيسية" : "Home",

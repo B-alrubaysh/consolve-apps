@@ -94,7 +94,7 @@ export default function BlogDetail() {
   // SEO meta
   useEffect(() => {
     if (!post) return;
-    const title = (isAr ? post.seo_title_ar : post.seo_title_en) || (isAr ? post.title_ar : post.title_en) || "ConSolve Management Solutions";
+    const title = (isAr ? post.seo_title_ar : post.seo_title_en) || (isAr ? post.title_ar : post.title_en) || "Consolve Management Solutions";
     const desc = (isAr ? post.seo_description_ar : post.seo_description_en) || (isAr ? post.excerpt_ar : post.excerpt_en) || "";
     const ogImg = post.og_image_url || heroImageFor(post, isAr) || "";
     const canonical = post.canonical_url || "";
@@ -113,8 +113,8 @@ export default function BlogDetail() {
       setMeta("og:type", "article", "property"),
       // og:site_name stays constant across the whole site. Re-asserted here so
       // the small line above the title in WhatsApp / LinkedIn previews always
-      // reads "ConSolve Management Solutions".
-      setMeta("og:site_name", "ConSolve Management Solutions", "property"),
+      // reads "Consolve Management Solutions".
+      setMeta("og:site_name", "Consolve Management Solutions", "property"),
       setCanonical(canonical),
     ].filter(Boolean);
 
