@@ -14,6 +14,7 @@ import CTAButton from "@/components/CTAButton";
 import { useLanguage, setGlobalLang } from "@/lib/useLanguage";
 import t from "@/lib/translations";
 import { SALLA, ZID, SHOPIFY, SNAPCHAT, META, ANALYTICS, CASE_STUDY } from "@/lib/landing-images";
+import { usePageMetadata } from "@/lib/usePageMetadata";
 
 // ─── Hooks ───────────────────────────────────────────────────────────────────
 
@@ -1218,6 +1219,22 @@ export default function EcommerceLanding() {
   // Direction follows the active language; sync <html dir/lang> here since this
   // page renders outside the site's PublicLayout (which normally does this).
   const { lang, dir } = useLanguage();
+
+  // Share-preview metadata. The audience for this page is Saudi ecommerce stores
+  // (Arabic-first), so we ship the Arabic title as the primary and pair it with
+  // the English label when the visitor is in English mode. og:site_name stays
+  // "ConSolve Management Solutions" via index.html + the hook re-assertion.
+  usePageMetadata({
+    title:
+      lang === "ar"
+        ? "تصميم وتطوير صفحات الهبوط للمتاجر الإلكترونية"
+        : "Landing pages designed and built for e-commerce stores",
+    description:
+      lang === "ar"
+        ? "نصمّم ونبني صفحات هبوط للمتاجر الإلكترونية تربط رسالة الإعلان بتجربة شراء تزيد احتمالية التحويل."
+        : "We design and build landing pages that connect your ad's message to a buying experience that lifts conversion.",
+    image: CASE_STUDY,
+  });
 
   // Arabic-first for this landing page only: the audience is Saudi stores and
   // it will receive traffic from Arabic ad campaigns. If the visitor has never

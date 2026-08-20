@@ -4,11 +4,19 @@ import { Loader2 } from "lucide-react";
 import { base44 } from "@/api/base44Client";
 import { useLanguage } from "../lib/useLanguage";
 import BlogCard from "../components/blog/BlogCard";
+import { usePageMetadata } from "../lib/usePageMetadata";
 
 export default function BlogList() {
   const { dir, isAr } = useLanguage();
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
+
+  usePageMetadata({
+    title: isAr ? "المدونة" : "Blog",
+    description: isAr
+      ? "مقالات وأفكار عملية من كونسولف في الاستشارات الإدارية والتشغيلية."
+      : "Practical articles and insights from ConSolve on management and operations consulting.",
+  });
 
   useEffect(() => {
     let cancelled = false;

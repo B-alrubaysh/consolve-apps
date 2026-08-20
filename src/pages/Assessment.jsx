@@ -4,13 +4,21 @@ import AssessmentStep2 from "../components/assessment/AssessmentStep2";
 import AssessmentStep3 from "../components/assessment/AssessmentStep3";
 import { useLanguage } from "../lib/useLanguage";
 import t from "../lib/translations";
+import { usePageMetadata } from "../lib/usePageMetadata";
 
 export default function Assessment() {
   const [step, setStep] = useState(1);
   const [clientInfo, setClientInfo] = useState(null);
   const [answers, setAnswers] = useState([]);
-  const { lang, dir } = useLanguage();
+  const { lang, dir, isAr } = useLanguage();
   const tx = t[lang];
+
+  usePageMetadata({
+    title: isAr ? "التقييم الذكي" : "Smart Assessment",
+    description: isAr
+      ? "أجرِ تقييماً ذكياً واحصل على تشخيص شامل لأعمالك في دقائق."
+      : "Take our AI-powered assessment and receive a comprehensive business diagnosis in minutes.",
+  });
 
   return (
     <div className="min-h-screen pt-24 pb-20" dir={dir}>

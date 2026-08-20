@@ -7,6 +7,7 @@ import { base44 } from "@/api/base44Client";
 import AnimatedSection from "../components/AnimatedSection";
 import { useLanguage } from "../lib/useLanguage";
 import t from "../lib/translations";
+import { usePageMetadata } from "../lib/usePageMetadata";
 
 export default function Contact() {
   const [form, setForm] = useState({ name: "", email: "", phone: "", company: "", message: "" });
@@ -14,6 +15,11 @@ export default function Contact() {
   const [submitted, setSubmitted] = useState(false);
   const { lang, dir, isAr } = useLanguage();
   const tx = t[lang];
+
+  usePageMetadata({
+    title: tx.contact_h1,
+    description: tx.contact_sub,
+  });
 
   // PageContent → editable bilingual hero / office / aside text.
   // SiteSettings → real contact email + phone (same source the Footer uses).

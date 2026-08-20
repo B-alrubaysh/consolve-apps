@@ -6,6 +6,7 @@ import AnimatedSection from "../components/AnimatedSection";
 import { useLanguage } from "../lib/useLanguage";
 import t from "../lib/translations";
 import { SERVICES_FALLBACK } from "../lib/servicesData";
+import { usePageMetadata } from "../lib/usePageMetadata";
 
 const ICONS = { Target, Users, Scale, Settings, Megaphone, DollarSign, Gavel, Rocket, Lightbulb };
 
@@ -24,6 +25,11 @@ function normalize(rows) {
 export default function Services() {
   const { lang, dir, isAr } = useLanguage();
   const tx = t[lang];
+
+  usePageMetadata({
+    title: tx.services_h1,
+    description: tx.services_sub,
+  });
 
   const [catalogue, setCatalogue] = useState(() => normalize(SERVICES_FALLBACK));
 

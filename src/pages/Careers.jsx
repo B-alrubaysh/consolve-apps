@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Briefcase, MapPin, Clock, Loader2, X } from "lucide-react";
 import { base44 } from "@/api/base44Client";
 import { useLanguage } from "../lib/useLanguage";
+import { usePageMetadata } from "../lib/usePageMetadata";
 
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -496,6 +497,13 @@ export default function Careers() {
   const [detailJob, setDetailJob] = useState(null);
   const [jobs, setJobs] = useState([]);
   const [loadingJobs, setLoadingJobs] = useState(true);
+
+  usePageMetadata({
+    title: isAr ? "الوظائف" : "Careers",
+    description: isAr
+      ? "انضم إلى فريق كونسولف — فرص عمل في الاستشارات الإدارية والتشغيلية."
+      : "Join the ConSolve team — open roles in management and operations consulting.",
+  });
 
   useEffect(() => {
     let cancelled = false;

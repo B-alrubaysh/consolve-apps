@@ -11,10 +11,19 @@ import ClientLogoCarousel from "../components/ClientLogoCarousel";
 import RecentBlogs from "../components/RecentBlogs";
 import { useLanguage } from "../lib/useLanguage";
 import t from "../lib/translations";
+import { usePageMetadata } from "../lib/usePageMetadata";
 
 export default function Home() {
-  const { lang, dir } = useLanguage();
+  const { lang, dir, isAr } = useLanguage();
   const tx = t[lang];
+
+  // Share-preview: page-specific title in the big line, og:site_name
+  // ("ConSolve Management Solutions") in the small line above it — the small
+  // line is set once in index.html and re-asserted by the hook.
+  usePageMetadata({
+    title: isAr ? "الرئيسية" : "Home",
+    description: tx.home_sub,
+  });
 
   const WHY_ITEMS = [
   { icon: Brain, title: tx.why_1_title, desc: tx.why_1_desc },

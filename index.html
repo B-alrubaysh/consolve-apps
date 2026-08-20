@@ -1,11 +1,61 @@
 <!doctype html>
-<html lang="en">
+<html lang="ar" dir="rtl">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="https://base44.com/logo_v2.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="manifest" href="/manifest.json" />
-    <title>Base44 APP</title>
+
+    <!-- Favicon / app icons — ConSolve brand (no Base44 fallback) -->
+    <link
+      rel="icon"
+      type="image/png"
+      href="https://base44.app/api/apps/69c6e2cf0b61fa041c4eb06c/files/mp/public/69c6e2cf0b61fa041c4eb06c/8df118fe6_Logo3.png"
+    />
+    <link
+      rel="apple-touch-icon"
+      href="https://base44.app/api/apps/69c6e2cf0b61fa041c4eb06c/files/mp/public/69c6e2cf0b61fa041c4eb06c/8df118fe6_Logo3.png"
+    />
+
+    <!-- Default document title. Each page overrides this at runtime via
+         usePageMetadata() — kept as the ConSolve brand string so crawlers that
+         don't execute JS (WhatsApp preview, some Twitter renders) never fall
+         back to a generic or Base44 name. -->
+    <title>ConSolve Management Solutions</title>
+    <meta
+      name="description"
+      content="ConSolve — استشارات إدارية عملية للشركات والمؤسسات في المملكة العربية السعودية."
+    />
+
+    <!-- Default Open Graph / Twitter Card metadata. Per-page components override
+         og:title, twitter:title, og:description, og:image, og:url dynamically.
+         og:site_name stays constant across the whole domain — it's what shows as
+         the small line above the title in WhatsApp / LinkedIn / Slack previews. -->
+    <meta property="og:site_name" content="ConSolve Management Solutions" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="ConSolve Management Solutions" />
+    <meta
+      property="og:description"
+      content="ConSolve — استشارات إدارية عملية للشركات والمؤسسات في المملكة العربية السعودية."
+    />
+    <meta
+      property="og:image"
+      content="https://base44.app/api/apps/69c6e2cf0b61fa041c4eb06c/files/mp/public/69c6e2cf0b61fa041c4eb06c/8df118fe6_Logo3.png"
+    />
+    <meta property="og:url" content="https://consolve.sa/" />
+    <meta property="og:locale" content="ar_SA" />
+    <meta property="og:locale:alternate" content="en_US" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@consolve" />
+    <meta name="twitter:title" content="ConSolve Management Solutions" />
+    <meta
+      name="twitter:description"
+      content="ConSolve — استشارات إدارية عملية للشركات والمؤسسات في المملكة العربية السعودية."
+    />
+    <meta
+      name="twitter:image"
+      content="https://base44.app/api/apps/69c6e2cf0b61fa041c4eb06c/files/mp/public/69c6e2cf0b61fa041c4eb06c/8df118fe6_Logo3.png"
+    />
+
     <!-- Google Analytics (GA4) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-GYSGQYT7RV"></script>
     <script>

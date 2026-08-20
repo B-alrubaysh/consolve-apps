@@ -4,6 +4,7 @@ import AnimatedSection from "../components/AnimatedSection";
 import { Search, Users, Network, BarChart3, TrendingUp, UserCheck } from "lucide-react";
 import { useLanguage } from "../lib/useLanguage";
 import t from "../lib/translations";
+import { usePageMetadata } from "../lib/usePageMetadata";
 
 const DEFAULT_ABOUT_IMAGE =
   "https://media.base44.com/images/public/69c6e2cf0b61fa041c4eb06c/1986b039b_generated_cca2089a.png";
@@ -12,6 +13,11 @@ export default function About() {
   const { lang, dir, isAr } = useLanguage();
   const tx = t[lang];
   const [rec, setRec] = useState(null);
+
+  usePageMetadata({
+    title: isAr ? "من نحن" : "About",
+    description: tx.about_p1,
+  });
 
   // Read the single PageContent record anonymously — same pattern Footer uses for SiteSettings.
   useEffect(() => {

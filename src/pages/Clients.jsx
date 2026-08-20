@@ -6,11 +6,17 @@ import AnimatedSection from "../components/AnimatedSection";
 import { useLanguage } from "../lib/useLanguage";
 import t from "../lib/translations";
 import { INDUSTRIES_FALLBACK, TESTIMONIALS_FALLBACK, CASE_STUDIES_FALLBACK } from "../lib/clientsData";
+import { usePageMetadata } from "../lib/usePageMetadata";
 
 export default function Clients() {
   const { lang, dir } = useLanguage();
   const tx = t[lang];
   const isAr = lang === "ar";
+
+  usePageMetadata({
+    title: tx.clients_h1,
+    description: tx.clients_sub,
+  });
 
   const [industryRows, setIndustryRows] = useState(INDUSTRIES_FALLBACK);
   const [testimonialRows, setTestimonialRows] = useState(TESTIMONIALS_FALLBACK);

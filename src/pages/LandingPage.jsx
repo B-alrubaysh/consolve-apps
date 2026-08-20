@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { base44 } from "@/api/base44Client";
 import { Loader2 } from "lucide-react";
+import { usePageMetadata } from "@/lib/usePageMetadata";
 
 const BRIDGE = `
 (function(){
@@ -65,13 +66,16 @@ export default function LandingPage() {
     return () => { cancelled = true; };
   }, [slug]);
 
-  // Tab title
-  useEffect(() => {
-    if (!page || !page.is_published) return;
-    const previous = document.title;
-    document.title = page.seo_title || page.name || previous;
-    return () => { document.title = previous; };
-  }, [page]);
+  // Share-preview metadata — set from the LandingPage record (seo_title,
+  // seo_description, og_image_url). The old inline useEffect only set the
+  // browser tab title; the hook now also sets og:title, twitter:title, and
+  // og:site_name so WhatsApp / LinkedIn previews show the right thing.
+  const pageTitle = page?.is_published ? (page.seo_title || page.name || "") : "";
+  usePageMetadata({
+    title: pageTitle,
+    description: page?.is_published ? page.seo_description : undefined,
+    image: page?.is_published ? page.og_image_url : undefined,
+  });
 
   // GA4 — fire a page_view for this landing page (used as the denominator when
   // computing conversion rate against generate_lead events below).
