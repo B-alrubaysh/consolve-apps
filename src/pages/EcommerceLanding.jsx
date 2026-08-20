@@ -1191,8 +1191,17 @@ function LandingHeader() {
   return (
     <header className="fixed top-0 inset-x-0 z-40 backdrop-blur-md bg-[#F7F7F5]/85 border-b border-[#0D2528]/10">
       <div className="max-w-[1200px] mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
-        <a href="/" className="text-sm font-bold text-[#0D2528] tracking-tight" aria-label="Consolve">
-          Consolve
+        {/* Brand — image logo (same asset used across the main site), linked to
+            "/". Kept minimal on purpose: this page is a paid-traffic landing,
+            so no full nav; only lang toggle + main-site link remain. */}
+        <a href="/" aria-label="Consolve">
+          <img
+            src="https://media.base44.com/images/public/69c6e2cf0b61fa041c4eb06c/4c25434d1_Consolve_identity_compressed_HQai.png"
+            alt="Consolve"
+            className="h-9 w-auto object-contain"
+            loading="eager"
+            decoding="async"
+          />
         </a>
         <div className="flex items-center gap-2">
           <button
