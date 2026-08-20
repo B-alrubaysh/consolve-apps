@@ -11,8 +11,9 @@ import {
 import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@/components/ui/accordion";
 import { WHATSAPP_URL } from "@/components/WhatsAppFloat";
 import CTAButton from "@/components/CTAButton";
-import { useLanguage } from "@/lib/useLanguage";
+import { useLanguage, setGlobalLang } from "@/lib/useLanguage";
 import t from "@/lib/translations";
+import { SALLA, ZID, SHOPIFY, SNAPCHAT, META, ANALYTICS, CASE_STUDY } from "@/lib/landing-images";
 
 // ─── Hooks ───────────────────────────────────────────────────────────────────
 
@@ -219,12 +220,12 @@ function HeroSection() {
   const { lang } = useLanguage();
   const E = t[lang].ecom;
   const IMG = {
-    snapchat: "/images/platforms/snapchat-ads.png",
-    meta: "/images/platforms/meta-ads.jpg",
-    salla: "/images/platforms/salla.jpg",
-    zid: "/images/platforms/zid.png",
-    shopify: "/images/platforms/shopify.jpg",
-    analytics: "/images/platforms/google-analytics.webp",
+    snapchat: SNAPCHAT,
+    meta: META,
+    salla: SALLA,
+    zid: ZID,
+    shopify: SHOPIFY,
+    analytics: ANALYTICS,
   };
 
   return (
@@ -492,7 +493,7 @@ function MockupWindow({ children, className = "" }) {
 // Non-translatable per-case metadata; all case copy lives in translations.js
 // (ecom.cases) and is merged in by index inside CaseStudiesSection.
 const CASE_META = [
-  { id: "remover", real: true, image: "/images/case-studies/remover-landing-full.png", accent: "#2E7D6B" },
+  { id: "remover", real: true, image: CASE_STUDY, accent: "#2E7D6B" },
   { id: "skincare", real: false, image: null, accent: "#E87B59" },
   { id: "accessories", real: false, image: null, accent: "#0D2528" },
   { id: "launch", real: false, image: null, accent: "#3D4D4F" },
@@ -852,9 +853,9 @@ function PricingSection() {
   const pageTypes = PAGE_TYPE_META.map((m, i) => ({ ...m, ...E.pageTypes[i] }));
 
   const PLATFORM_META = [
-    { id: "salla", src: "/images/platforms/salla.jpg" },
-    { id: "zid", src: "/images/platforms/zid.png" },
-    { id: "shopify", src: "/images/platforms/shopify.jpg" },
+    { id: "salla", src: SALLA },
+    { id: "zid", src: ZID },
+    { id: "shopify", src: SHOPIFY },
     { id: "other", icon: <Store className="w-6 h-6 text-[#718487]" /> },
   ];
   const platforms = PLATFORM_META.map((m, i) => ({ ...m, label: E.platforms[i] }));
@@ -1217,6 +1218,21 @@ export default function EcommerceLanding() {
   // Direction follows the active language; sync <html dir/lang> here since this
   // page renders outside the site's PublicLayout (which normally does this).
   const { lang, dir } = useLanguage();
+
+  // Arabic-first for this landing page only: the audience is Saudi stores and
+  // it will receive traffic from Arabic ad campaigns. If the visitor has never
+  // picked a language on this device (no stored preference), we switch them to
+  // Arabic on arrival. Once they've explicitly chosen a language (stored in
+  // consolve_lang), we respect that on every future visit — including the rest
+  // of the site — so this override is one-shot per device, not per-page.
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    if (!localStorage.getItem("consolve_lang")) {
+      setGlobalLang("ar");
+    }
+    // Run once on mount only.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     const prevDir = document.documentElement.dir;
