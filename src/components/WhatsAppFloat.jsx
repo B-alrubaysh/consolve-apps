@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { useLocation } from "react-router-dom";
 import { useLanguage } from "../lib/useLanguage";
 
 export const WHATSAPP_URL = "https://wa.me/message/M6AP4IL4RCJIO1";
@@ -15,23 +14,17 @@ function WhatsAppIcon({ className }) {
 }
 
 // Floating WhatsApp button with a message bubble that pops out and re-appears
-// every 15 seconds on regular pages. On /ecommerce-landing the bubble is
-// suppressed and the button only appears after the visitor scrolls 20%.
+// every 15 seconds. Rendered on all public pages via the public Layout.
 export default function WhatsAppFloat() {
   const { lang, isAr } = useLanguage();
-  const location = useLocation();
-  const isEcommerce = location.pathname === "/ecommerce-landing";
-
   const [showBubble, setShowBubble] = useState(false);
-  const [scrollVisible, setScrollVisible] = useState(!isEcommerce);
 
   const message = isAr
     ? "موجودين لخدمتك عبر الواتساب"
     : "We're here for you on WhatsApp";
 
-  // Default bubble cycling on non-ecommerce pages: visible 6s, hidden 9s.
+  // Cycle: bubble visible for 6s, hidden for 9s (a full round every 15s).
   useEffect(() => {
-    if (isEcommerce) return;
     let hideTimer;
     const appear = () => {
       setShowBubble(true);
@@ -40,21 +33,7 @@ export default function WhatsAppFloat() {
     const firstTimer = setTimeout(appear, 2000);
     const cycleTimer = setInterval(appear, 15000);
     return () => { clearTimeout(firstTimer); clearTimeout(hideTimer); clearInterval(cycleTimer); };
-  }, [isEcommerce]);
-
-  // Scroll-gated visibility on the landing page.
-  useEffect(() => {
-    if (!isEcommerce) { setScrollVisible(true); return; }
-    const onScroll = () => {
-      const pct = window.scrollY / (document.documentElement.scrollHeight - window.innerHeight);
-      setScrollVisible(pct >= 0.2);
-    };
-    window.addEventListener("scroll", onScroll, { passive: true });
-    onScroll();
-    return () => window.removeEventListener("scroll", onScroll);
-  }, [isEcommerce]);
-
-  if (isEcommerce && !scrollVisible) return null;
+  }, []);
 
   return (
     // dir is forced to ltr so the flex order is stable: the button stays pinned
@@ -71,7 +50,7 @@ export default function WhatsAppFloat() {
       </a>
 
       <AnimatePresence>
-        {!isEcommerce && showBubble && (
+        {showBubble && (
           <motion.a
             href={WHATSAPP_URL}
             target="_blank"
