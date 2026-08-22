@@ -733,7 +733,7 @@ function PricingSection() {
   const includedServices = E.included;
 
   return (
-    <section className="py-16 sm:py-20" style={{ background: "#F7F7F5" }}>
+    <section id={ORDER_FORM_ID} className="py-16 sm:py-20" style={{ background: "#F7F7F5" }}>
       <div className="max-w-[1200px] mx-auto px-4 sm:px-6">
         <FadeUp><SectionTitle className="text-center mb-3">{E.price_title}</SectionTitle></FadeUp>
         <FadeUp delay={100}><p className="text-center text-[#718487] text-sm sm:text-base max-w-3xl mx-auto mb-10">{E.price_sub}</p></FadeUp>
