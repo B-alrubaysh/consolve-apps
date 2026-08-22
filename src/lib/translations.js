@@ -305,7 +305,7 @@ const t = {
       sum_tracking_val: (pages) => `+800 SAR × ${pages}`,
       tracking_cost_label: "Performance‑tracking cost only",
       price_note2: "The price of designing and building the pages is set within the quote sent over WhatsApp.",
-      submit_btn: "6. Send the quote request via WhatsApp",
+      submit_btn: "Send the quote request via WhatsApp",
       currency: "SAR",
       mixed_types_short: "Different types",
 
@@ -650,7 +650,7 @@ const t = {
       sum_tracking_val: (pages) => `+800 ريال × ${pages}`,
       tracking_cost_label: "تكلفة متابعة الأداء فقط",
       price_note2: "سعر تصميم وبناء الصفحات يُحدَّد ضمن عرض السعر المُرسَل عبر الواتساب.",
-      submit_btn: "٦. أرسل طلب عرض السعر عبر الواتساب",
+      submit_btn: "أرسل طلب عرض السعر عبر الواتساب",
       currency: "ريال",
       mixed_types_short: "أنواع مختلفة",
 

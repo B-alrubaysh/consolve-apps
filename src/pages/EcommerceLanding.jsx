@@ -15,6 +15,13 @@ import { useLanguage, setGlobalLang } from "@/lib/useLanguage";
 import t from "@/lib/translations";
 import { SALLA, ZID, SHOPIFY, SNAPCHAT, META, ANALYTICS, CASE_STUDY } from "@/lib/landing-images";
 import { usePageMetadata } from "@/lib/usePageMetadata";
+import { HeroRail, RailBadge, heroRailStyles } from "@/components/ecom/HeroRails";
+
+// Anchor id on the quote-request form section. The hero CTA scrolls to this.
+export const ORDER_FORM_ID = "order-form";
+function scrollToOrderForm() {
+  document.getElementById(ORDER_FORM_ID)?.scrollIntoView({ behavior: "smooth", block: "start" });
+}
 
 // ─── Hooks ───────────────────────────────────────────────────────────────────
 
@@ -50,20 +57,14 @@ function useCountUp(end, duration = 1600, active = false) {
 // ─── Helpers ─────────────────────────────────────────────────────────────────
 
 const WA = WHATSAPP_URL;
-// wa.me/message/<id> links don't accept a ?text= parameter, so anywhere we
-// need a prefilled message we build a direct wa.me/<phone> link instead.
-// ACTION REQUIRED: replace the placeholder below with the real business number
-// in full international format, e.g. "9665XXXXXXXX" (country code + number, no +
-// or spaces). Until it is filled in, the order form falls back to the working
-// general WhatsApp link (WA) so no lead is ever dropped — see buildWaLink().
-const WHATSAPP_PHONE = "966XXXXXXXXX";
-// True while WHATSAPP_PHONE is still the unfilled placeholder (contains an X).
-const WHATSAPP_PHONE_READY = !/x/i.test(WHATSAPP_PHONE);
+// Business WhatsApp number in full international format — country code + number,
+// no "+" and no spaces. This is used to build wa.me/<phone>?text=<message>
+// deep-links for the prefilled order form (wa.me/message/<id> links do NOT
+// accept a ?text= parameter, so we cannot reuse the general WA link here).
+const WHATSAPP_PHONE = "966593092097";
 
-// Prefilled order link when a real number exists; otherwise the working general
-// WhatsApp link, so the highest-intent action always reaches a real inbox.
 function buildWaLink(message) {
-  return WHATSAPP_PHONE_READY ? `https://wa.me/${WHATSAPP_PHONE}?text=${message}` : WA;
+  return `https://wa.me/${WHATSAPP_PHONE}?text=${message}`;
 }
 const PING = "font-['PingAR'] font-bold";
 
