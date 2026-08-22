@@ -135,86 +135,17 @@ function WhatsAppIcon({ className = "w-5 h-5" }) {
   );
 }
 
-// ─── Hero orbit system (adapted from orbiting-circles technique) ─────────────
-// Pure CSS transform/opacity. Each item counter-rotates so logos stay upright.
-// The inline `transform` equals the animation's 0% frame, so under
-// prefers-reduced-motion (animation disabled) items keep their ring position.
+// ─── Hero rails (horizontal replacement for the old orbit system) ───────────
+// See @/components/ecom/HeroRails for the reusable rail primitives. The old
+// concentric orbits collided with the headline on mobile — three horizontal
+// rails above the copy are in the layout flow, cannot overlap the text, and
+// stay legible because logos travel in a straight line.
 
-function OrbitLine({ radius, color, opacity }) {
-  return (
-    <div
-      className="absolute rounded-full pointer-events-none"
-      style={{ width: radius * 2, height: radius * 2, left: -radius, top: -radius, border: `1px solid ${color}`, opacity }}
-      aria-hidden="true"
-    />
-  );
-}
+/* Old orbit primitives removed — replaced by HeroRail / RailBadge from
+   @/components/ecom/HeroRails. Kept this block empty on purpose so the diff
+   is easy to review. */
 
-// A single logo/icon badge placed on a ring. depth (0..1) drives opacity/blur/scale
-// so each orbit layer reads at a different distance. Premium frosted-glass card.
-function OrbitBadge({ src, sizePx = 80, depth = 0.8, children }) {
-  const opacity = 0.55 + depth * 0.45;         // 0.55 – 1.00
-  const blur = depth < 0.4 ? 2 : depth < 0.62 ? 1 : 0; // 0 – 2px
-  const scale = 0.86 + depth * 0.14;           // 0.86 – 1.00
-  return (
-    <div
-      className="hero-orbit-badge rounded-[20px] flex items-center justify-center"
-      style={{ width: sizePx, height: sizePx, opacity, filter: blur ? `blur(${blur}px)` : undefined, transform: `scale(${scale})` }}
-    >
-      {src
-        ? <img src={src} alt="" className="object-contain rounded-[14px]" style={{ width: sizePx * 0.56, height: sizePx * 0.56 }} loading="lazy" />
-        : children}
-    </div>
-  );
-}
 
-// Positions a child on a ring and orbits it. reverse flips direction.
-function OrbitItem({ radius, angle, duration, reverse, fx, fy, fdur, children }) {
-  return (
-    <div
-      className="absolute left-0 top-0 hero-orbit-item"
-      style={{
-        "--r": radius,
-        "--a": angle,
-        "--dur": `${duration}s`,
-        animationDirection: reverse ? "reverse" : "normal",
-        // base transform = animation 0% frame → static fallback for reduced motion
-        transform: `rotate(${angle}deg) translateY(${-radius}px) rotate(${-angle}deg)`,
-      }}
-    >
-      <div className="hero-orbit-float" style={{ "--fx": `${fx}px`, "--fy": `${fy}px`, "--fdur": `${fdur}s` }}>
-        {children}
-      </div>
-    </div>
-  );
-}
-
-// Central destination node — "صفحة الهبوط" (replaces the reference particle sphere).
-// Real offset+blur shadow carries the depth; a separate radial layer breathes the
-// coral glow via opacity (not a zero-offset box-shadow halo).
-function HeroCenterNode() {
-  const { lang } = useLanguage();
-  const E = t[lang].ecom;
-  return (
-    <div className="absolute left-0 top-0 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center gap-2.5">
-      <div className="relative">
-        <div className="hero-node-glow absolute -inset-6 rounded-[32px]" aria-hidden="true" />
-        <div
-          className="relative w-[72px] h-[72px] sm:w-20 sm:h-20 rounded-[22px] bg-[#F7F7F5] flex items-center justify-center"
-          style={{
-            border: "1px solid rgba(13,37,40,0.22)",
-            boxShadow: "0 12px 32px -8px rgba(13,37,40,0.22), 0 3px 8px -3px rgba(13,37,40,0.14), inset 0 1px 0 rgba(255,255,255,0.9)",
-          }}
-        >
-          <PanelsTopLeft className="w-8 h-8 sm:w-9 sm:h-9 text-[#0D2528]" strokeWidth={1.5} />
-        </div>
-      </div>
-      <span className="text-[11px] font-semibold text-[#0D2528] bg-white/85 px-2.5 py-0.5 rounded-full border border-[#0D2528]/10 whitespace-nowrap">
-        {E.hero_center}
-      </span>
-    </div>
-  );
-}
 
 // ─── Section 1: Hero ─────────────────────────────────────────────────────────
 
@@ -253,143 +184,43 @@ function HeroSection() {
         }}
       />
 
-      {/* 3) Animated orbit ecosystem — an over-sized network that continues past every edge.
-           The whole system is nudged down so its center sits behind the headline. */}
-      <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none" aria-hidden="true">
-        {/* Desktop / tablet: concentric depth layers — inner rings hold the logos,
-            outer mega-rings sweep far past every edge for the "infinite system" read.
-            Angles are deliberately uneven so it feels authored, not clock-face symmetric. */}
-        <div className="hidden md:block">
-          <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
-            {/* orbit lines — thin, elegant; the two outer ones live mostly off-screen */}
-            <OrbitLine radius={410} color="#E87B59" opacity={0.22} />
-            <OrbitLine radius={590} color="#0D2528" opacity={0.15} />
-            <OrbitLine radius={770} color="#E87B59" opacity={0.1} />
-            <OrbitLine radius={970} color="#0D2528" opacity={0.06} />
-            <OrbitLine radius={1180} color="#E87B59" opacity={0.04} />
-
-            {/* Center node — behind the headline */}
-            <HeroCenterNode />
-
-            {/* Layer 1 — closest — Advertising — large, high opacity — 46s clockwise */}
-            <OrbitItem radius={410} angle={18} duration={46} reverse={false} fx={3} fy={-4} fdur={6}>
-              <OrbitBadge src={IMG.snapchat} sizePx={92} depth={0.98} />
-            </OrbitItem>
-            <OrbitItem radius={410} angle={83} duration={46} reverse={false} fx={-3} fy={3} fdur={7}>
-              <OrbitBadge sizePx={86} depth={0.92}><TikTokIcon className="w-9 h-9 text-[#0D2528]" /></OrbitBadge>
-            </OrbitItem>
-            <OrbitItem radius={410} angle={168} duration={46} reverse={false} fx={4} fy={3} fdur={6.5}>
-              <OrbitBadge src={IMG.meta} sizePx={90} depth={0.94} />
-            </OrbitItem>
-            <OrbitItem radius={410} angle={252} duration={46} reverse={false} fx={-2} fy={-3} fdur={5.5}>
-              <OrbitBadge sizePx={88} depth={0.88}><GoogleAdsIcon className="w-11 h-11" /></OrbitBadge>
-            </OrbitItem>
-
-            {/* Layer 2 — middle — Commerce — medium — 64s counter-clockwise */}
-            <OrbitItem radius={590} angle={44} duration={64} reverse fx={3} fy={-3} fdur={7}>
-              <OrbitBadge src={IMG.salla} sizePx={74} depth={0.7} />
-            </OrbitItem>
-            <OrbitItem radius={590} angle={122} duration={64} reverse fx={-4} fy={2} fdur={6}>
-              <OrbitBadge src={IMG.zid} sizePx={70} depth={0.66} />
-            </OrbitItem>
-            <OrbitItem radius={590} angle={214} duration={64} reverse fx={2} fy={4} fdur={7.5}>
-              <OrbitBadge src={IMG.shopify} sizePx={72} depth={0.62} />
-            </OrbitItem>
-            <OrbitItem radius={590} angle={300} duration={64} reverse fx={-3} fy={-2} fdur={6.5}>
-              <OrbitBadge sizePx={68} depth={0.6}><WooCommerceIcon className="w-8 h-8 text-[#0D2528]" /></OrbitBadge>
-            </OrbitItem>
-
-            {/* Layer 3 — farthest — Measurement / conversion — small, low opacity, blurred — 88s clockwise */}
-            <OrbitItem radius={770} angle={8} duration={88} reverse={false} fx={2} fy={-3} fdur={8}>
-              <OrbitBadge src={IMG.analytics} sizePx={60} depth={0.44} />
-            </OrbitItem>
-            <OrbitItem radius={770} angle={100} duration={88} reverse={false} fx={-2} fy={2} fdur={7}>
-              <OrbitBadge sizePx={58} depth={0.4}><ShoppingCart className="w-6 h-6 text-[#0D2528]" /></OrbitBadge>
-            </OrbitItem>
-            <OrbitItem radius={770} angle={176} duration={88} reverse={false} fx={3} fy={3} fdur={8.5}>
-              <OrbitBadge sizePx={58} depth={0.38}><CreditCard className="w-6 h-6 text-[#0D2528]" /></OrbitBadge>
-            </OrbitItem>
-            <OrbitItem radius={770} angle={286} duration={88} reverse={false} fx={-2} fy={-2} fdur={7.5}>
-              <OrbitBadge sizePx={58} depth={0.35}><PackageCheck className="w-6 h-6 text-[#0D2528]" /></OrbitBadge>
-            </OrbitItem>
-          </div>
-        </div>
-
-        {/* Mobile: 2 rings, fewer logos, large radii so only arcs show — nothing near the copy */}
-        <div className="md:hidden">
-          <div className="absolute left-1/2 top-[66%] -translate-x-1/2 -translate-y-1/2">
-            <OrbitLine radius={270} color="#E87B59" opacity={0.18} />
-            <OrbitLine radius={430} color="#0D2528" opacity={0.1} />
-            <OrbitLine radius={600} color="#E87B59" opacity={0.05} />
-
-            <HeroCenterNode />
-
-            {/* Layer 1 — Advertising (3 logos) — kept to top/bottom arcs, clear of the copy */}
-            <OrbitItem radius={270} angle={8} duration={46} reverse={false} fx={2} fy={-3} fdur={6}>
-              <OrbitBadge src={IMG.snapchat} sizePx={72} depth={0.9} />
-            </OrbitItem>
-            <OrbitItem radius={270} angle={158} duration={46} reverse={false} fx={-2} fy={2} fdur={7}>
-              <OrbitBadge src={IMG.meta} sizePx={70} depth={0.8} />
-            </OrbitItem>
-            <OrbitItem radius={270} angle={205} duration={46} reverse={false} fx={2} fy={3} fdur={6.5}>
-              <OrbitBadge sizePx={68} depth={0.74}><TikTokIcon className="w-7 h-7 text-[#0D2528]" /></OrbitBadge>
-            </OrbitItem>
-
-            {/* Layer 2 — Commerce (3 logos) */}
-            <OrbitItem radius={430} angle={38} duration={64} reverse fx={2} fy={-2} fdur={7.5}>
-              <OrbitBadge src={IMG.salla} sizePx={58} depth={0.5} />
-            </OrbitItem>
-            <OrbitItem radius={430} angle={182} duration={64} reverse fx={-2} fy={2} fdur={6.5}>
-              <OrbitBadge src={IMG.zid} sizePx={56} depth={0.45} />
-            </OrbitItem>
-            <OrbitItem radius={430} angle={322} duration={64} reverse fx={2} fy={3} fdur={7}>
-              <OrbitBadge src={IMG.shopify} sizePx={56} depth={0.42} />
-            </OrbitItem>
-          </div>
-        </div>
-      </div>
-
-      {/* Hero-scoped animation CSS */}
-      <style>{`
-        @keyframes heroOrbit {
-          from { transform: rotate(calc(var(--a) * 1deg)) translateY(calc(var(--r) * -1px)) rotate(calc(var(--a) * -1deg)); }
-          to   { transform: rotate(calc(var(--a) * 1deg + 360deg)) translateY(calc(var(--r) * -1px)) rotate(calc(var(--a) * -1deg - 360deg)); }
-        }
-        .hero-orbit-item { animation: heroOrbit var(--dur) linear infinite; will-change: transform; }
-        @keyframes heroOrbitFloat { 0%, 100% { transform: translate(0, 0); } 50% { transform: translate(var(--fx), var(--fy)); } }
-        .hero-orbit-float { animation: heroOrbitFloat var(--fdur, 6s) ease-in-out infinite; will-change: transform; }
-        .hero-orbit-badge {
-          background: linear-gradient(155deg, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0.62) 100%);
-          -webkit-backdrop-filter: blur(5px);
-          backdrop-filter: blur(5px);
-          border: 1px solid rgba(255, 255, 255, 0.9);
-          box-shadow: inset 0 1px 0 rgba(255,255,255,0.85), 0 16px 34px -14px rgba(13,37,40,0.22), 0 4px 10px -6px rgba(13,37,40,0.12);
-          pointer-events: auto;
-          transition: box-shadow 0.35s ease;
-        }
-        .hero-orbit-badge:hover {
-          box-shadow: inset 0 1px 0 rgba(255,255,255,0.95), 0 22px 44px -16px rgba(232,123,89,0.34), 0 6px 14px -8px rgba(13,37,40,0.16);
-        }
-        .hero-node-glow {
-          background: radial-gradient(circle at 50% 50%, rgba(232,123,89,0.30) 0%, rgba(232,123,89,0.10) 45%, transparent 72%);
-          filter: blur(6px);
-          animation: heroNodeGlow 5s ease-in-out infinite;
-        }
-        @keyframes heroNodeGlow {
-          0%, 100% { opacity: 0.5; transform: scale(1); }
-          50% { opacity: 0.9; transform: scale(1.07); }
-        }
-        @media (prefers-reduced-motion: reduce) {
-          .hero-orbit-item, .hero-orbit-float, .hero-node-glow { animation: none !important; }
-        }
-      `}</style>
+      {/* Hero rails scoped animation CSS */}
+      <style>{heroRailStyles}</style>
 
       <div className="relative max-w-[1200px] mx-auto px-4 sm:px-6 py-16 sm:py-16 w-full">
-        {/* Center content — sits over the orbit's core, near optical center so the
-            headline + CTA stay above the fold on desktop; the network reads around it. */}
-        <div className="relative z-10 max-w-2xl mx-auto text-center translate-y-[120px] md:translate-y-[28px]">
-          {/* Readability veil — light touch so the orbits stay visible behind the copy */}
-          <div className="absolute -inset-x-16 -inset-y-12 -z-10 backdrop-blur-[1px]" style={{ background: "radial-gradient(ellipse 78% 72% at 50% 48%, rgba(247,247,245,0.55) 0%, rgba(247,247,245,0.34) 46%, rgba(247,247,245,0.08) 80%, transparent 100%)" }} />
+        <div className="relative z-10 max-w-2xl mx-auto text-center">
+          {/* Three horizontal rails ABOVE the headline. dir="ltr" fixes the motion
+              geometry across both languages (no text inside the rails). The negative
+              marginInline cancels the container's px-4/sm:px-6 so rails span edge
+              to edge on every viewport, in both LTR and RTL. */}
+          <FadeUp>
+            <div dir="ltr" className="flex flex-col gap-1 sm:gap-2 mb-8 sm:mb-10" style={{ marginInline: "calc(50% - 50vw)" }}>
+              {/* Rail 1 — Advertising platforms + Analytics */}
+              <HeroRail duration={100} delay={-18} heightPx={118} gap="clamp(52px, 11vw, 86px)">
+                <RailBadge src={IMG.snapchat} sizePx={62} depth={1} />
+                <RailBadge sizePx={58} depth={0.92}><TikTokIcon className="w-6 h-6 text-[#0D2528]" /></RailBadge>
+                <RailBadge src={IMG.meta} sizePx={60} depth={0.94} />
+                <RailBadge sizePx={58} depth={0.88}><GoogleAdsIcon className="w-7 h-7" /></RailBadge>
+                <RailBadge src={IMG.analytics} sizePx={58} depth={0.86} />
+              </HeroRail>
+
+              {/* Rail 2 — Store platforms — reverse direction */}
+              <HeroRail duration={90} reverse delay={-41} heightPx={108} gap="clamp(46px, 10vw, 76px)" lineColor="rgba(232,123,89,0.38)" inset="1.5%">
+                <RailBadge src={IMG.salla} sizePx={54} depth={0.72} />
+                <RailBadge src={IMG.zid} sizePx={52} depth={0.68} />
+                <RailBadge src={IMG.shopify} sizePx={52} depth={0.66} />
+                <RailBadge sizePx={50} depth={0.62}><WooCommerceIcon className="w-6 h-6 text-[#0D2528]" /></RailBadge>
+              </HeroRail>
+
+              {/* Rail 3 — Checkout — quietest and farthest */}
+              <HeroRail duration={72} delay={-3} heightPx={96} gap="clamp(42px, 9vw, 68px)" lineColor="rgba(13,37,40,0.18)" inset="2%">
+                <RailBadge sizePx={42} depth={0.4}><ShoppingCart className="w-5 h-5 text-[#0D2528]" /></RailBadge>
+                <RailBadge sizePx={42} depth={0.38}><CreditCard className="w-5 h-5 text-[#0D2528]" /></RailBadge>
+                <RailBadge sizePx={42} depth={0.36}><PackageCheck className="w-5 h-5 text-[#0D2528]" /></RailBadge>
+              </HeroRail>
+            </div>
+          </FadeUp>
+
           <FadeUp>
             <h1 className={`${PING} text-3xl sm:text-4xl md:text-5xl lg:text-[3.25rem] leading-[1.3] text-[#102629] mb-5`}>
               {E.hero_h1}
@@ -401,17 +232,12 @@ function HeroSection() {
             </p>
           </FadeUp>
           <FadeUp delay={300}>
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
-              <CTAButton asChild variant="primary" cta size="block" className="sm:w-auto">
-                <a href={WA} target="_blank" rel="noopener noreferrer">{E.hero_cta1}</a>
-              </CTAButton>
-              <CTAButton
-                variant="secondary"
-                size="block"
-                className="sm:w-auto"
-                onClick={() => document.getElementById("services-section")?.scrollIntoView({ behavior: "smooth" })}
-              >
-                {E.hero_cta2}
+            {/* Single CTA — scrolls to the order form. WhatsApp only opens
+                after the visitor picks their options, so we never receive an
+                empty message from the hero. */}
+            <div className="flex items-center justify-center">
+              <CTAButton variant="primary" cta size="block" className="sm:w-auto" onClick={scrollToOrderForm}>
+                {E.hero_cta1}
               </CTAButton>
             </div>
           </FadeUp>
