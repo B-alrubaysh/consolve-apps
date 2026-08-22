@@ -103,10 +103,25 @@ export function HeroRail({
   }, []);
 
   return (
+    // The mask lives on the wrapper (not on the track) so the horizontal fade
+    // is measured against the viewport width, not the ~3400px track width.
+    // overflow stays `visible` so a badge scaling up at mid-focus is never
+    // clipped from the top of the box — the mask height of 300% leaves a
+    // full box-height of headroom above and below.
     <div
       ref={wrapRef}
-      className="relative w-full overflow-hidden"
-      style={{ height: heightPx }}
+      className="relative w-full"
+      style={{
+        height: heightPx,
+        WebkitMaskImage: EDGE_FADE,
+        maskImage: EDGE_FADE,
+        WebkitMaskSize: "100% 300%",
+        maskSize: "100% 300%",
+        WebkitMaskPosition: "50% 50%",
+        maskPosition: "50% 50%",
+        WebkitMaskRepeat: "no-repeat",
+        maskRepeat: "no-repeat",
+      }}
       aria-hidden="true"
     >
       <div
@@ -123,10 +138,6 @@ export function HeroRail({
           gap,
           animationDirection: reverse ? "reverse" : "normal",
           animationDelay: `${delay}s`,
-          // Edge fade via a mask on the track itself — no colored overlays that
-          // would paint rectangles over the hero background.
-          WebkitMaskImage: EDGE_FADE,
-          maskImage: EDGE_FADE,
         }}
       >
         {[...half, ...half].map((child, i) => (

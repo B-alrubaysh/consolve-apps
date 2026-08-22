@@ -189,8 +189,8 @@ export function Footer() {
   const privacyLabel = (isAr ? settings?.footer_privacy_label_ar : settings?.footer_privacy_label_en) || tx.footer_privacy;
   const termsLabel = (isAr ? settings?.footer_terms_label_ar : settings?.footer_terms_label_en) || tx.footer_terms;
 
-  const email = settings?.contact_email || "info@consolve.com";
-  const phone = settings?.contact_phone || "+1 (800) 555-0199";
+  const email = settings?.contact_email || "info@consolve.sa";
+  const phone = settings?.contact_phone || "+966 59 309 2097";
   const socials = [
   { url: settings?.linkedin_url, Icon: Linkedin, label: "LinkedIn" },
   { url: settings?.twitter_url, Icon: Twitter, label: "Twitter" },
@@ -199,8 +199,8 @@ export function Footer() {
 
   return (
     <footer className="bg-secondary text-secondary-foreground" dir={dir}>
-      <div className="max-w-7xl mx-auto px-6 py-20">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
+      <div className="max-w-7xl mx-auto px-6 py-8 md:py-20">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 md:gap-12 mb-6 md:mb-16">
           <div className="md:col-span-2">
             <div className="mb-4">
               <img src={logoSrc} alt="Logo" className="h-9 w-auto" style={{ mixBlendMode: 'screen' }} />
@@ -213,7 +213,10 @@ export function Footer() {
             <h4 className="text-xs font-semibold uppercase tracking-widest text-secondary-foreground/40 mb-4">
               {navHeader}
             </h4>
-            <div className="flex flex-col gap-3">
+            {/* Two-column grid on mobile keeps the nav list from stretching a
+                whole extra screen; single column returns on md+ where there's
+                horizontal room. */}
+            <div className="grid grid-cols-2 gap-x-6 gap-y-2.5 md:flex md:flex-col md:gap-3">
               {navLinks.map((link, i) =>
               link.external ?
               <a key={link.id || `${link.to}-${i}`} href={link.to} target="_blank" rel="noopener noreferrer"
@@ -233,9 +236,13 @@ export function Footer() {
             <h4 className="text-xs font-semibold uppercase tracking-widest text-secondary-foreground/40 mb-4">
               {contactHeader}
             </h4>
-            <div className="flex flex-col gap-3 text-sm text-secondary-foreground/60">
-              <span dir="ltr">{email}</span>
-              <span dir="ltr">{phone}</span>
+            <div className="flex flex-col gap-2.5 md:gap-3 text-sm text-secondary-foreground/60">
+              {/* <bdi> isolates the Latin script so digits/@ read LTR internally
+                  without flipping the block's alignment. No dir="ltr" wrapper —
+                  the span inherits the footer's direction and sits on the same
+                  side as the rest of the column. */}
+              <span className="text-start"><bdi>{email}</bdi></span>
+              <span className="text-start"><bdi>{phone}</bdi></span>
               {socials.length > 0 &&
               <div className="flex items-center gap-3 mt-1">
                   {socials.map(({ url, Icon, label }) =>
@@ -250,7 +257,7 @@ export function Footer() {
             </div>
           </div>
         </div>
-        <div className="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
+        <div className="border-t border-white/10 pt-6 md:pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-xs text-secondary-foreground/30">{copyright}</p>
           <div className="flex items-center gap-6">
             {settings?.privacy_url ?
