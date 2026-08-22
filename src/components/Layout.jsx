@@ -139,7 +139,7 @@ function Navbar() {
 
 const DEFAULT_LOGO = "https://media.base44.com/images/public/69c6e2cf0b61fa041c4eb06c/4c25434d1_Consolve_identity_compressed_HQai.png";
 
-function Footer() {
+export function Footer() {
   const { lang, dir, isAr } = useLanguage();
   const tx = t[lang];
   const [settings, setSettings] = useState(null);

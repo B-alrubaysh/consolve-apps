@@ -16,6 +16,7 @@ import t from "@/lib/translations";
 import { SALLA, ZID, SHOPIFY, SNAPCHAT, META, ANALYTICS, CASE_STUDY } from "@/lib/landing-images";
 import { usePageMetadata } from "@/lib/usePageMetadata";
 import { HeroRail, RailBadge, heroRailStyles } from "@/components/ecom/HeroRails";
+import { Footer } from "@/components/Layout";
 
 // Anchor id on the quote-request form section. The hero CTA scrolls to this.
 export const ORDER_FORM_ID = "order-form";
@@ -1048,25 +1049,6 @@ function LandingHeader() {
   );
 }
 
-// ─── Minimal page footer ─────────────────────────────────────────────────────
-// The only exit link on the page. Placed at the very bottom so the visitor
-// only encounters it after the offer + form. Keep it quiet on purpose.
-function LandingFooter() {
-  const { isAr } = useLanguage();
-  return (
-    <footer className="py-10 border-t border-[#0D2528]/10 bg-[#F7F7F5]">
-      <div className="max-w-[1200px] mx-auto px-4 sm:px-6 text-center">
-        <a
-          href="/"
-          className="inline-block text-sm text-[#3D4D4F] hover:text-[#E87B59] transition-colors underline underline-offset-4 decoration-[#0D2528]/20 hover:decoration-[#E87B59]"
-        >
-          {isAr ? "الانتقال إلى موقع كونسولف" : "Go to the Consolve website"}
-        </a>
-      </div>
-    </footer>
-  );
-}
-
 // ─── Main Page ───────────────────────────────────────────────────────────────
 
 export default function EcommerceLanding() {
@@ -1081,12 +1063,12 @@ export default function EcommerceLanding() {
   usePageMetadata({
     title:
       lang === "ar"
-        ? "تصميم وتطوير صفحات الهبوط للمتاجر الإلكترونية"
-        : "Landing pages designed and built for e-commerce stores",
+        ? "صفحات هبوط مخصصة للمتاجر الإلكترونية | كونسولف"
+        : "Custom landing pages for e-commerce stores | Consolve",
     description:
       lang === "ar"
-        ? "نصمّم ونبني صفحات هبوط للمتاجر الإلكترونية تربط رسالة الإعلان بتجربة شراء تزيد احتمالية التحويل."
-        : "We design and build landing pages that connect your ad's message to a buying experience that lifts conversion.",
+        ? "نصمّم ونبني صفحات هبوط تربط رسالة إعلانك بتجربة شراء أوضح، ثم نتابع أداءها ونحسّنها بناءً على بيانات الزوّار."
+        : "We design and build landing pages that connect your ad's message to a clearer buying experience, then track and improve them based on visitor data.",
     image: CASE_STUDY,
   });
 
@@ -1128,7 +1110,7 @@ export default function EcommerceLanding() {
       <PricingSection />
       <DecisionTreeSection />
       <FAQSection />
-      <LandingFooter />
+      <Footer />
     </div>
   );
 }
