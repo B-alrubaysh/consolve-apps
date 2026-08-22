@@ -162,7 +162,7 @@ function HeroSection() {
   };
 
   return (
-    <section className="relative overflow-hidden flex items-center -mt-20" style={{ background: "#F7F7F5", minHeight: "100svh" }}>
+    <section className="relative overflow-hidden flex items-center -mt-20 pt-20" style={{ background: "#F7F7F5", minHeight: "calc(100svh + 5rem)" }}>
       {/* 1) Grid pattern */}
       <div className="absolute inset-0 pointer-events-none" style={{
         backgroundImage: "linear-gradient(rgba(13,37,40,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(13,37,40,0.05) 1px, transparent 1px)",
@@ -189,6 +189,9 @@ function HeroSection() {
 
       <div className="relative max-w-[1200px] mx-auto px-4 sm:px-6 py-16 sm:py-16 w-full">
         <div className="relative z-10 max-w-2xl mx-auto text-center">
+          {/* NOTE: no translate-y offset here. The old orbit layout needed the
+              content pushed down; with the horizontal rails the section is
+              centered by `flex items-center` + the -mt-20/pt-20 compensation. */}
           {/* Three horizontal rails ABOVE the headline. dir="ltr" fixes the motion
               geometry across both languages (no text inside the rails). The negative
               marginInline cancels the container's px-4/sm:px-6 so rails span edge
@@ -1023,7 +1026,7 @@ function LandingHeader() {
   const { lang, setLang, isAr } = useLanguage();
   return (
     <div className="fixed top-0 left-0 right-0 z-50 flex justify-center px-4 pt-4">
-      <header className="bg-secondary/80 py-3 opacity-75 rounded-[14px] w-full max-w-6xl transition-all duration-500 backdrop-blur-md shadow-md border border-white/10">
+      <header className="bg-secondary/80 py-3 rounded-[14px] w-full max-w-6xl transition-all duration-500 backdrop-blur-md shadow-md border border-white/10">
         <div className="px-6 flex items-center justify-between">
           <a href="/" className="flex items-center shrink-0" aria-label="Consolve">
             <img
