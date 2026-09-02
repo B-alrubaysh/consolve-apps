@@ -23,7 +23,7 @@ const HOME_URL = "https://consolve.sa";
 // Consultant portrait placeholder — user will upload the real one and swap
 // this URL. Sized square, centered subject, neutral background.
 const PORTRAIT_URL =
-  "https://media.base44.com/images/public/69c6e2cf0b61fa041c4eb06c/4c25434d1_Consolve_identity_compressed_HQai.png";
+  "https://media.base44.com/images/public/69c6e2cf0b61fa041c4eb06c/747068aa4_Mypic2025.jpg";
 
 // Consolve wordmark used on the header and footer (white/screen-blend).
 const LOGO_URL =
