@@ -440,27 +440,33 @@ function MobileMenu({ open, onClose, lang }) {
 
 // ─── Hero ────────────────────────────────────────────────────────────────────
 
-// Hero background image — the actual main-site hero from consolve.sa, uploaded
-// by the owner. The giant white "consolve" wordmark is baked into the image;
-// we render it as a full-bleed background anchored bottom-center so the mark
-// sits at the bottom exactly like the reference.
+// Hero background image — the actual main-site hero from consolve.sa. The
+// giant white "consolve" wordmark is baked into the image itself, so we do NOT
+// overlay any additional text. Rendered as a real <img> filling the section
+// (object-cover / anchored bottom-center) so the wordmark sits at the bottom
+// exactly like the reference.
 const HERO_BG_URL =
   "https://media.base44.com/images/public/69c6e2cf0b61fa041c4eb06c/hero-background.png";
 
-function Hero({ lang }) {
+function Hero() {
   return (
     <section
       id="top"
       aria-label="Consolve"
-      className="relative min-h-[92svh] w-full overflow-hidden"
-      style={{
-        backgroundImage: `url(${HERO_BG_URL})`,
-        backgroundSize: "cover",
-        backgroundPosition: "center bottom",
-        backgroundRepeat: "no-repeat",
-        backgroundColor: "#0d2528",
-      }}
-    />
+      className="relative w-full overflow-hidden"
+      style={{ minHeight: "100vh", backgroundColor: "#0d2528" }}
+    >
+      <img
+        src={HERO_BG_URL}
+        alt="Consolve"
+        className="absolute inset-0 w-full h-full"
+        style={{
+          objectFit: "cover",
+          objectPosition: "bottom center",
+          zIndex: 0,
+        }}
+      />
+    </section>
   );
 }
 
@@ -664,40 +670,39 @@ function Services({ lang }) {
 
 // ─── Marquee ─────────────────────────────────────────────────────────────────
 
-// A single infinite horizontal marquee row. duration in seconds; higher = slower.
+// A single infinite horizontal marquee row.
 //
-// Seamless loop requirement: the track must contain TWO identical halves, and
-// each half must be wider than the viewport. Otherwise translating by -50%
-// exposes an empty gap. We measure the viewport and one "set" of logos, then
-// repeat that set enough times so one half is >= viewport width, and put two
-// halves back-to-back on the track.
-function MarqueeRow({ items, duration = 40, reverse = false }) {
+// Seamless loop rule: the track contains EXACTLY TWO children (.marquee-group),
+// byte-for-byte identical. Each group is the item list repeated enough times
+// so one group is wider than the viewport (>=3 repeats for mobile safety).
+// Animating translateX(0) → translateX(-50%) with two identical groups makes
+// the loop seamless — the second group aligns exactly where the first started.
+function MarqueeRow({ items, duration = 40 }) {
   const viewportRef = useRef(null);
-  const measureRef = useRef(null);
-  const [repeats, setRepeats] = useState(2);
+  const groupRef = useRef(null);
+  const [repeats, setRepeats] = useState(3);
 
   useEffect(() => {
     const vp = viewportRef.current;
-    const measure = measureRef.current;
-    if (!vp || !measure) return;
+    const g = groupRef.current;
+    if (!vp || !g) return;
 
     const recompute = () => {
       const vpW = vp.clientWidth;
-      const setW = measure.scrollWidth;
-      if (!vpW || !setW) return;
-      // Each half must be wider than the viewport. Minimum 3 repeats so that
-      // even on the narrowest mobile (≤375px) with a partial set width the
-      // boxes never appear empty during the loop.
+      // One "set" width = groupWidth / current repeats.
+      const groupW = g.scrollWidth;
+      if (!vpW || !groupW) return;
+      const setW = groupW / repeats;
+      if (!setW) return;
       const needed = Math.max(3, Math.ceil(vpW / setW) + 1);
-      setRepeats((prev) => (prev !== needed ? needed : prev));
+      if (needed !== repeats) setRepeats(needed);
     };
 
     recompute();
     const ro = new ResizeObserver(recompute);
     ro.observe(vp);
-    ro.observe(measure);
     return () => ro.disconnect();
-  }, [items]);
+  }, [items, repeats]);
 
   const renderLogo = (it, key) => (
     <div
@@ -715,33 +720,20 @@ function MarqueeRow({ items, duration = 40, reverse = false }) {
     </div>
   );
 
-  // One "half" = the original items repeated `repeats` times so it's wider
-  // than the viewport. Track = half + half (identical), enabling a seamless
-  // translateX(-50%) loop with no gap.
-  const half = [];
+  // Build ONE group = items × repeats. Render it TWICE — identical children.
+  const group = [];
   for (let r = 0; r < repeats; r++) {
-    items.forEach((it, i) => half.push(renderLogo(it, `${r}-${i}`)));
+    items.forEach((it, i) => group.push(renderLogo(it, `${r}-${i}`)));
   }
 
   return (
     <div ref={viewportRef} className="marquee-viewport">
-      {/* Hidden measurement node: a single set of items used to compute set width. */}
-      <div
-        ref={measureRef}
-        aria-hidden="true"
-        style={{ position: "absolute", visibility: "hidden", pointerEvents: "none", display: "flex", whiteSpace: "nowrap" }}
-      >
-        {items.map((it, i) => renderLogo(it, `m-${i}`))}
-      </div>
       <div
         className="marquee-track"
-        style={{
-          animationDuration: `${duration}s`,
-          animationDirection: reverse ? "reverse" : "normal",
-        }}
+        style={{ animationDuration: `${duration}s` }}
       >
-        <div className="marquee-half">{half}</div>
-        <div className="marquee-half" aria-hidden="true">{half}</div>
+        <div ref={groupRef} className="marquee-group">{group}</div>
+        <div className="marquee-group" aria-hidden="true">{group}</div>
       </div>
     </div>
   );
@@ -927,7 +919,7 @@ function PageFooter({ lang }) {
 function WhatsAppIconSvg({ className = "w-6 h-6" }) {
   return (
     <svg viewBox="0 0 32 32" fill="currentColor" className={className} aria-hidden="true">
-      <path d="M16.004 4c-6.627 0-12 5.373-12 12 0 2.117.551 4.186 1.598 6.01L4 28l6.146-1.562A11.94 11.94 0 0 0 16.004 28c6.627 0 12-5.373 12-12s-5.373-12-12-12zm5.387 17.461c-.295-.148-1.746-.861-2.016-.96-.271-.099-.468-.148-.665.148-.198.296-.764.96-.937 1.158-.172.197-.345.222-.64.074-.296-.148-1.247-.46-2.375-1.465-.878-.783-1.47-1.75-1.643-2.046-.172-.296-.018-.456.13-.603.133-.132.295-.345.443-.518.148-.172.197-.296.296-.493.098-.197.049-.37-.025-.518-.074-.148-.665-1.602-.911-2.194-.24-.576-.484-.498-.665-.507l-.567-.01c-.197 0-.517.074-.788.37-.27.296-1.034 1.01-1.034 2.464 0 1.453 1.059 2.858 1.207 3.055.148.197 2.083 3.18 5.047 4.46.705.304 1.256.486 1.685.622.708.225 1.353.193 1.862.117.568-.085 1.746-.714 1.992-1.403.246-.69.246-1.28.172-1.404-.074-.123-.27-.197-.566-.345z" />
+      <path d="M16.004 4c-6.627 0-12 5.373-12 12 0 2.117.551 4.186 1.598 6.01L4 28l6.146-1.562A11.94 11.94 0 0 0 16.004 28c6.627 0 12-5.373 12-12s-5.373-12-12-12zm0 21.818a9.79 9.79 0 0 1-4.99-1.36l-.358-.213-3.647.927.973-3.557-.234-.366a9.78 9.78 0 0 1-1.51-5.249c0-5.418 4.408-9.826 9.826-9.826 5.417 0 9.825 4.408 9.825 9.826 0 5.417-4.408 9.818-9.825 9.818zm5.387-7.357c-.295-.148-1.746-.861-2.016-.96-.271-.099-.468-.148-.665.148-.198.296-.764.96-.937 1.158-.172.197-.345.222-.64.074-.296-.148-1.247-.46-2.375-1.465-.878-.783-1.47-1.75-1.643-2.046-.172-.296-.018-.456.13-.603.133-.132.295-.345.443-.518.148-.172.197-.296.296-.493.098-.197.049-.37-.025-.518-.074-.148-.665-1.602-.911-2.194-.24-.576-.484-.498-.665-.507l-.567-.01c-.197 0-.517.074-.788.37-.27.296-1.034 1.01-1.034 2.464 0 1.453 1.059 2.858 1.207 3.055.148.197 2.083 3.18 5.047 4.46.705.304 1.256.486 1.685.622.708.225 1.353.193 1.862.117.568-.085 1.746-.714 1.992-1.403.246-.69.246-1.28.172-1.404-.074-.123-.27-.197-.566-.345z" />
     </svg>
   );
 }
@@ -1074,7 +1066,7 @@ export default function Abdulaziz() {
           animation-timing-function: linear;
           animation-iteration-count: infinite;
         }
-        .marquee-half {
+        .marquee-group {
           display: flex;
           flex-shrink: 0;
         }
@@ -1091,7 +1083,7 @@ export default function Abdulaziz() {
       <Header lang={lang} setLang={setLang} onOpenMenu={() => setMenuOpen(true)} />
       <MobileMenu open={menuOpen} onClose={() => setMenuOpen(false)} lang={lang} />
 
-      <Hero lang={lang} />
+      <Hero />
       <Intro lang={lang} />
       <Problem lang={lang} />
       <Services lang={lang} />
