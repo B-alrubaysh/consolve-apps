@@ -447,16 +447,34 @@ function Hero({ lang }) {
       id="top"
       className="relative min-h-[92svh] flex flex-col justify-end overflow-hidden"
       style={{
+        // Base: deep near-black with a subtle diagonal warmth so the whole
+        // canvas isn't flat green/black like before.
         background:
-          "radial-gradient(ellipse 90% 60% at 50% 0%, #1a3d3f 0%, #0d2528 55%, #1a1512 100%)",
+          "linear-gradient(135deg, #0d2528 0%, #14201f 45%, #241612 100%)",
       }}
     >
-      {/* soft warm glow top-left, cool bloom top-right */}
+      {/* Deep teal bloom on the LEFT (cool side) */}
       <div
         className="absolute inset-0 pointer-events-none"
         style={{
           background:
-            "radial-gradient(circle at 10% 5%, rgba(232,123,89,0.18) 0%, transparent 40%), radial-gradient(circle at 90% 10%, rgba(46,125,107,0.18) 0%, transparent 45%)",
+            "radial-gradient(ellipse 70% 80% at 10% 30%, rgba(30,90,90,0.55) 0%, rgba(30,90,90,0.25) 30%, transparent 60%)",
+        }}
+      />
+      {/* Warm terracotta/brown glow on the RIGHT — the tone that was missing */}
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          background:
+            "radial-gradient(ellipse 75% 85% at 85% 55%, rgba(180,90,60,0.55) 0%, rgba(150,70,45,0.28) 32%, transparent 65%)",
+        }}
+      />
+      {/* Soft lift near the top-center so the wordmark area isn't crushed */}
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          background:
+            "radial-gradient(ellipse 60% 45% at 50% 15%, rgba(255,255,255,0.06) 0%, transparent 70%)",
         }}
       />
       <div className="relative pb-2 sm:pb-4">
