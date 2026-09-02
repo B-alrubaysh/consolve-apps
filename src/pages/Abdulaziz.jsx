@@ -33,32 +33,33 @@ const LOGO_URL =
 // logo assets on upload. Kept small and recognizable so the layout is right
 // even before final assets arrive.
 const TOOL_LOGOS = [
-  { name: "VS Code", src: "https://media.base44.com/images/public/69c6e2cf0b61fa041c4eb06c/5d7b487d7_vs22.webp" },
-  { name: "Python", src: "https://media.base44.com/images/public/69c6e2cf0b61fa041c4eb06c/98f99422e_pynew2.jpeg" },
+  { name: "Google Analytics", src: "https://cdn.simpleicons.org/googleanalytics/E37400" },
+  { name: "Microsoft Clarity", src: "https://media.base44.com/images/public/69c6e2cf0b61fa041c4eb06c/6e6928612_logo-microsoft-clarity.jpg" },
+  { name: "Meta Ads", src: "https://cdn.simpleicons.org/meta/0668E1" },
+  { name: "Snapchat Ads", src: "https://media.base44.com/images/public/69c6e2cf0b61fa041c4eb06c/5cad6c9c9_og_image.png" },
+  { name: "Salla", src: "https://media.base44.com/images/public/69c6e2cf0b61fa041c4eb06c/fac35738b_salla.jpg" },
+  { name: "Zid", src: "https://media.base44.com/images/public/69c6e2cf0b61fa041c4eb06c/58e2be714_images1.jpeg" },
+  { name: "Shopify", src: "https://media.base44.com/images/public/69c6e2cf0b61fa041c4eb06c/eb9a37276_shopyfy.jpg" },
+  { name: "SAP", src: "https://media.base44.com/images/public/69c6e2cf0b61fa041c4eb06c/334edf673_SAP.webp" },
   { name: "GitHub", src: "https://media.base44.com/images/public/69c6e2cf0b61fa041c4eb06c/3be8aca30_bslogo.jpg" },
+  { name: "Python", src: "https://media.base44.com/images/public/69c6e2cf0b61fa041c4eb06c/98f99422e_pynew2.jpeg" },
+  { name: "Visual Studio Code", src: "https://media.base44.com/images/public/69c6e2cf0b61fa041c4eb06c/5d7b487d7_vs22.webp" },
   { name: "Google Trends", src: "https://media.base44.com/images/public/69c6e2cf0b61fa041c4eb06c/2ad6b8328_Google-Trends-Logo-Square-Insight-Platforms.webp" },
   { name: "Hotjar", src: "https://media.base44.com/images/public/69c6e2cf0b61fa041c4eb06c/6c525637f_hotjar_logo.png" },
-  { name: "MS Dynamics 365", src: "https://media.base44.com/images/public/69c6e2cf0b61fa041c4eb06c/e69a47813_Microsoft_Dynamics_365_Logo_2021presentsvg.webp" },
+  { name: "Microsoft Dynamics 365", src: "https://media.base44.com/images/public/69c6e2cf0b61fa041c4eb06c/e69a47813_Microsoft_Dynamics_365_Logo_2021presentsvg.webp" },
   { name: "Power BI", src: "https://media.base44.com/images/public/69c6e2cf0b61fa041c4eb06c/d711ff515_Microsoft-Power-BI-Symbol.png" },
-  { name: "Snapchat Business", src: "https://media.base44.com/images/public/69c6e2cf0b61fa041c4eb06c/5cad6c9c9_og_image.png" },
-  { name: "HubSpot", src: "https://media.base44.com/images/public/69c6e2cf0b61fa041c4eb06c/236f1f14b_2111432.png" },
-  { name: "Salla", src: "https://media.base44.com/images/public/69c6e2cf0b61fa041c4eb06c/fac35738b_salla.jpg" },
-  { name: "Microsoft Clarity", src: "https://media.base44.com/images/public/69c6e2cf0b61fa041c4eb06c/6e6928612_logo-microsoft-clarity.jpg" },
-  { name: "SAP", src: "https://media.base44.com/images/public/69c6e2cf0b61fa041c4eb06c/334edf673_SAP.webp" },
-  { name: "Shopify", src: "https://media.base44.com/images/public/69c6e2cf0b61fa041c4eb06c/eb9a37276_shopyfy.jpg" },
-  { name: "Zid", src: "https://media.base44.com/images/public/69c6e2cf0b61fa041c4eb06c/58e2be714_images1.jpeg" },
 ];
 
 const COMPANY_LOGOS = [
-  { name: "Tela Home", src: "https://media.base44.com/images/public/69c6e2cf0b61fa041c4eb06c/b71e36cb0_1755129578_telahome.png" },
-  { name: "Mega Group", src: "https://media.base44.com/images/public/69c6e2cf0b61fa041c4eb06c/69641090f_mega_consult_logo.jpeg" },
-  { name: "Sleep High", src: "https://media.base44.com/images/public/69c6e2cf0b61fa041c4eb06c/3b2a92e05_MTcyMTcxMzg3ODY2OWY0NGQ2MzYwMjA.png" },
-  { name: "Option B", src: "https://media.base44.com/images/public/69c6e2cf0b61fa041c4eb06c/3e5bac055_Option-B-Promo-Code-logo-png.png" },
-  { name: "Unicode", src: "https://media.base44.com/images/public/69c6e2cf0b61fa041c4eb06c/413c02dbc_unicode_sa_logo.jpeg" },
-  { name: "Zeer", src: "https://media.base44.com/images/public/69c6e2cf0b61fa041c4eb06c/8e8b513f4_zeer.webp" },
-  { name: "SIDC", src: "https://media.base44.com/images/public/69c6e2cf0b61fa041c4eb06c/4991d7e67_.jpeg" },
-  { name: "Nice One", src: "https://media.base44.com/images/public/69c6e2cf0b61fa041c4eb06c/6c9584de8_.png" },
+  { name: "Saudi Industrial Development Co. (SIDC)", src: "https://media.base44.com/images/public/69c6e2cf0b61fa041c4eb06c/4991d7e67_.jpeg" },
+  { name: "MEGA Group", src: "https://media.base44.com/images/public/69c6e2cf0b61fa041c4eb06c/69641090f_mega_consult_logo.jpeg" },
   { name: "Neyam Group", src: "https://media.base44.com/images/public/69c6e2cf0b61fa041c4eb06c/6fa13f21e_.jpeg" },
+  { name: "Unicode", src: "https://media.base44.com/images/public/69c6e2cf0b61fa041c4eb06c/413c02dbc_unicode_sa_logo.jpeg" },
+  { name: "Nice One", src: "https://media.base44.com/images/public/69c6e2cf0b61fa041c4eb06c/6c9584de8_.png" },
+  { name: "Tela Home", src: "https://media.base44.com/images/public/69c6e2cf0b61fa041c4eb06c/b71e36cb0_1755129578_telahome.png" },
+  { name: "Option B", src: "https://media.base44.com/images/public/69c6e2cf0b61fa041c4eb06c/3e5bac055_Option-B-Promo-Code-logo-png.png" },
+  { name: "Sleep High", src: "https://media.base44.com/images/public/69c6e2cf0b61fa041c4eb06c/3b2a92e05_MTcyMTcxMzg3ODY2OWY0NGQ2MzYwMjA.png" },
+  { name: "Zeer", src: "https://media.base44.com/images/public/69c6e2cf0b61fa041c4eb06c/8e8b513f4_zeer.webp" },
 ];
 
 // ─── Localized copy ──────────────────────────────────────────────────────────
@@ -694,13 +695,14 @@ function MarqueeRow({ items, duration = 40, reverse = false }) {
         {set.map((it, i) => (
           <div
             key={i}
-            className="shrink-0 w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-white border border-border flex items-center justify-center mx-2 sm:mx-3 shadow-sm"
+            className="shrink-0 w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-white border border-gray-200 flex items-center justify-center mx-2 sm:mx-3 shadow-sm p-2"
             title={it.name}
           >
             <img
               src={it.src}
               alt={it.name}
-              className="w-9 h-9 sm:w-10 sm:h-10 object-contain"
+              className="object-contain"
+              style={{ maxHeight: "60%", maxWidth: "85%" }}
               loading="lazy"
             />
           </div>
@@ -733,8 +735,8 @@ function LogosBlock({ label, heading, subtitle, items }) {
         <Reveal delay={140}>
           <div className="bg-card border border-border rounded-3xl p-4 sm:p-6 marquee-mask">
             <div className="flex flex-col gap-4">
-              <MarqueeRow items={items} duration={45} />
-              <MarqueeRow items={items} duration={55} reverse />
+              <MarqueeRow items={items.filter((_, i) => i % 2 === 0)} duration={42} />
+              <MarqueeRow items={items.filter((_, i) => i % 2 === 1)} duration={54} />
             </div>
           </div>
         </Reveal>
