@@ -1034,17 +1034,20 @@ export default function Abdulaziz() {
 
         .mq {
           overflow: hidden;
+          direction: ltr !important;
           -webkit-mask-image: linear-gradient(to right, transparent, #000 8%, #000 92%, transparent);
                   mask-image: linear-gradient(to right, transparent, #000 8%, #000 92%, transparent);
         }
         .mq__track {
           display: flex;
           width: max-content;
+          direction: ltr !important;
           animation: mqScroll 42s linear infinite;
         }
         .mq__track:hover { animation-play-state: paused; }
         .mq__group {
           display: flex;
+          direction: ltr !important;
         }
         .logo-box {
           margin-inline-end: 16px;
