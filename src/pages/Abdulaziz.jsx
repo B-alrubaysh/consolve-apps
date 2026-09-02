@@ -42,6 +42,10 @@ const TOOL_LOGOS = [
   { name: "Power BI", src: "https://media.base44.com/images/public/69c6e2cf0b61fa041c4eb06c/d711ff515_Microsoft-Power-BI-Symbol.png" },
   { name: "Snapchat Business", src: "https://media.base44.com/images/public/69c6e2cf0b61fa041c4eb06c/5cad6c9c9_og_image.png" },
   { name: "HubSpot", src: "https://media.base44.com/images/public/69c6e2cf0b61fa041c4eb06c/236f1f14b_2111432.png" },
+  { name: "Salla", src: "https://media.base44.com/images/public/69c6e2cf0b61fa041c4eb06c/fac35738b_salla.jpg" },
+  { name: "Microsoft Clarity", src: "https://media.base44.com/images/public/69c6e2cf0b61fa041c4eb06c/6e6928612_logo-microsoft-clarity.jpg" },
+  { name: "SAP", src: "https://media.base44.com/images/public/69c6e2cf0b61fa041c4eb06c/334edf673_SAP.webp" },
+  { name: "Shopify", src: "https://media.base44.com/images/public/69c6e2cf0b61fa041c4eb06c/eb9a37276_shopyfy.jpg" },
 ];
 
 const COMPANY_LOGOS = [
