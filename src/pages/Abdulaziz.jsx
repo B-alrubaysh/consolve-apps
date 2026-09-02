@@ -985,28 +985,41 @@ export default function Abdulaziz() {
     <div dir={dir} className="bg-background text-foreground font-inter">
       {/* Scoped CSS: rotating glow ring on primary/white buttons + marquee. */}
       <style>{`
-        .abd-glow-wrap { position: relative; isolation: isolate; border-radius: 9999px; padding: 2px; }
+        /* Animatable angle for the traveling border glow. */
+        @property --cta-angle {
+          syntax: '<angle>';
+          inherits: false;
+          initial-value: 0deg;
+        }
+        .abd-glow-wrap {
+          position: relative;
+          isolation: isolate;
+          border-radius: 9999px;
+          padding: 2px;
+        }
         .abd-glow-wrap::before {
           content: "";
           position: absolute;
           inset: 0;
           border-radius: 9999px;
           padding: 2px;
-          background: conic-gradient(from 0deg,
-            rgba(232,123,89,0) 0deg,
-            rgba(232,123,89,0.75) 60deg,
-            rgba(255,255,255,0.4) 120deg,
-            rgba(232,123,89,0) 200deg,
-            rgba(232,123,89,0.75) 300deg,
-            rgba(232,123,89,0) 360deg);
+          background: conic-gradient(
+            from var(--cta-angle),
+            rgba(232,123,89,0.28) 0deg,
+            rgba(232,123,89,0.28) 250deg,
+            hsl(24 100% 72%) 330deg,
+            hsl(24 100% 72%) 345deg,
+            rgba(232,123,89,0.28) 360deg
+          );
           -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
           -webkit-mask-composite: xor;
-          mask-composite: exclude;
-          animation: abdGlowSpin 6s linear infinite;
+                  mask-composite: exclude;
+          animation: ctaRingSpin 5s linear infinite;
           pointer-events: none;
           z-index: -1;
         }
-        @keyframes abdGlowSpin { to { transform: rotate(360deg); } }
+        .abd-glow-wrap:hover::before { animation-duration: 3s; }
+        @keyframes ctaRingSpin { to { --cta-angle: 360deg; } }
         @media (prefers-reduced-motion: reduce) {
           .abd-glow-wrap::before { animation: none; }
         }
