@@ -673,37 +673,14 @@ function Services({ lang }) {
 // A single infinite horizontal marquee row.
 //
 // Seamless loop rule: the track contains EXACTLY TWO children (.marquee-group),
-// byte-for-byte identical. Each group is the item list repeated enough times
-// so one group is wider than the viewport (>=3 repeats for mobile safety).
-// Animating translateX(0) → translateX(-50%) with two identical groups makes
-// the loop seamless — the second group aligns exactly where the first started.
+// byte-for-byte identical. Each group repeats the item list a fixed number of
+// times so one group is wider than any viewport. Animating translateX(0) →
+// translateX(-50%) then makes the loop perfectly seamless — the second group's
+// start aligns exactly with the first group's start on wrap. Total logo count
+// on the track is 2 × REPEATS × items.length, always even.
+const REPEATS = 8;
+
 function MarqueeRow({ items, duration = 40 }) {
-  const viewportRef = useRef(null);
-  const groupRef = useRef(null);
-  const [repeats, setRepeats] = useState(3);
-
-  useEffect(() => {
-    const vp = viewportRef.current;
-    const g = groupRef.current;
-    if (!vp || !g) return;
-
-    const recompute = () => {
-      const vpW = vp.clientWidth;
-      // One "set" width = groupWidth / current repeats.
-      const groupW = g.scrollWidth;
-      if (!vpW || !groupW) return;
-      const setW = groupW / repeats;
-      if (!setW) return;
-      const needed = Math.max(3, Math.ceil(vpW / setW) + 1);
-      if (needed !== repeats) setRepeats(needed);
-    };
-
-    recompute();
-    const ro = new ResizeObserver(recompute);
-    ro.observe(vp);
-    return () => ro.disconnect();
-  }, [items, repeats]);
-
   const renderLogo = (it, key) => (
     <div
       key={key}
@@ -720,19 +697,15 @@ function MarqueeRow({ items, duration = 40 }) {
     </div>
   );
 
-  // Build ONE group = items × repeats. Render it TWICE — identical children.
   const group = [];
-  for (let r = 0; r < repeats; r++) {
+  for (let r = 0; r < REPEATS; r++) {
     items.forEach((it, i) => group.push(renderLogo(it, `${r}-${i}`)));
   }
 
   return (
-    <div ref={viewportRef} className="marquee-viewport">
-      <div
-        className="marquee-track"
-        style={{ animationDuration: `${duration}s` }}
-      >
-        <div ref={groupRef} className="marquee-group">{group}</div>
+    <div className="marquee-viewport">
+      <div className="marquee-track" style={{ animationDuration: `${duration}s` }}>
+        <div className="marquee-group">{group}</div>
         <div className="marquee-group" aria-hidden="true">{group}</div>
       </div>
     </div>
