@@ -32,32 +32,77 @@ const LOGO_URL =
 // Marquee sources. These are stand-in URLs — user will replace with the real
 // logo assets on upload. Kept small and recognizable so the layout is right
 // even before final assets arrive.
-const TOOL_LOGOS = [
-  { name: "Microsoft Clarity", src: "https://media.base44.com/images/public/69c6e2cf0b61fa041c4eb06c/6e6928612_logo-microsoft-clarity.jpg" },
-  { name: "Snapchat Ads", src: "https://media.base44.com/images/public/69c6e2cf0b61fa041c4eb06c/5cad6c9c9_og_image.png" },
-  { name: "Salla", src: "https://media.base44.com/images/public/69c6e2cf0b61fa041c4eb06c/fac35738b_salla.jpg" },
-  { name: "Zid", src: "https://media.base44.com/images/public/69c6e2cf0b61fa041c4eb06c/58e2be714_images1.jpeg" },
-  { name: "Shopify", src: "https://media.base44.com/images/public/69c6e2cf0b61fa041c4eb06c/eb9a37276_shopyfy.jpg" },
-  { name: "SAP", src: "https://media.base44.com/images/public/69c6e2cf0b61fa041c4eb06c/334edf673_SAP.webp" },
-  { name: "GitHub", src: "https://media.base44.com/images/public/69c6e2cf0b61fa041c4eb06c/3be8aca30_bslogo.jpg" },
-  { name: "Python", src: "https://media.base44.com/images/public/69c6e2cf0b61fa041c4eb06c/98f99422e_pynew2.jpeg" },
-  { name: "Visual Studio Code", src: "https://media.base44.com/images/public/69c6e2cf0b61fa041c4eb06c/5d7b487d7_vs22.webp" },
-  { name: "Google Trends", src: "https://media.base44.com/images/public/69c6e2cf0b61fa041c4eb06c/2ad6b8328_Google-Trends-Logo-Square-Insight-Platforms.webp" },
-  { name: "Hotjar", src: "https://media.base44.com/images/public/69c6e2cf0b61fa041c4eb06c/6c525637f_hotjar_logo.png" },
-  { name: "Microsoft Dynamics 365", src: "https://media.base44.com/images/public/69c6e2cf0b61fa041c4eb06c/e69a47813_Microsoft_Dynamics_365_Logo_2021presentsvg.webp" },
-  { name: "Power BI", src: "https://media.base44.com/images/public/69c6e2cf0b61fa041c4eb06c/d711ff515_Microsoft-Power-BI-Symbol.png" },
+// Tool logos — split across two marquee rows. A logo lives in EXACTLY ONE row.
+const TOOL_LOGO_ASSETS = {
+  clarity:    { name: "Microsoft Clarity",       src: "https://media.base44.com/images/public/69c6e2cf0b61fa041c4eb06c/6e6928612_logo-microsoft-clarity.jpg" },
+  snapchat:   { name: "Snapchat Ads",            src: "https://media.base44.com/images/public/69c6e2cf0b61fa041c4eb06c/5cad6c9c9_og_image.png" },
+  salla:      { name: "Salla",                   src: "https://media.base44.com/images/public/69c6e2cf0b61fa041c4eb06c/fac35738b_salla.jpg" },
+  zid:        { name: "Zid",                     src: "https://media.base44.com/images/public/69c6e2cf0b61fa041c4eb06c/58e2be714_images1.jpeg" },
+  shopify:    { name: "Shopify",                 src: "https://media.base44.com/images/public/69c6e2cf0b61fa041c4eb06c/eb9a37276_shopyfy.jpg" },
+  sap:        { name: "SAP",                     src: "https://media.base44.com/images/public/69c6e2cf0b61fa041c4eb06c/334edf673_SAP.webp" },
+  github:     { name: "GitHub",                  src: "https://media.base44.com/images/public/69c6e2cf0b61fa041c4eb06c/3be8aca30_bslogo.jpg" },
+  python:     { name: "Python",                  src: "https://media.base44.com/images/public/69c6e2cf0b61fa041c4eb06c/98f99422e_pynew2.jpeg" },
+  vscode:     { name: "Visual Studio Code",      src: "https://media.base44.com/images/public/69c6e2cf0b61fa041c4eb06c/5d7b487d7_vs22.webp" },
+  gtrends:    { name: "Google Trends",           src: "https://media.base44.com/images/public/69c6e2cf0b61fa041c4eb06c/2ad6b8328_Google-Trends-Logo-Square-Insight-Platforms.webp" },
+  hotjar:     { name: "Hotjar",                  src: "https://media.base44.com/images/public/69c6e2cf0b61fa041c4eb06c/6c525637f_hotjar_logo.png" },
+  dynamics:   { name: "Microsoft Dynamics 365",  src: "https://media.base44.com/images/public/69c6e2cf0b61fa041c4eb06c/e69a47813_Microsoft_Dynamics_365_Logo_2021presentsvg.webp" },
+  powerbi:    { name: "Power BI",                src: "https://media.base44.com/images/public/69c6e2cf0b61fa041c4eb06c/d711ff515_Microsoft-Power-BI-Symbol.png" },
+  // Google Analytics + Meta Ads keys kept in the top row list per spec, but we
+  // no longer have local assets for them — the row falls back to the remaining
+  // items and still loops smoothly. Add local files here to include them.
+};
+
+// TOP ROW (per spec): Google Analytics, Meta Ads, Salla, Shopify, GitHub, VS Code, Hotjar, Power BI.
+// Google Analytics + Meta Ads have no local assets, so this row ships the 6 available.
+const TOOL_LOGOS_TOP = [
+  TOOL_LOGO_ASSETS.salla,
+  TOOL_LOGO_ASSETS.shopify,
+  TOOL_LOGO_ASSETS.github,
+  TOOL_LOGO_ASSETS.vscode,
+  TOOL_LOGO_ASSETS.hotjar,
+  TOOL_LOGO_ASSETS.powerbi,
 ];
 
-const COMPANY_LOGOS = [
-  { name: "Saudi Industrial Development Co. (SIDC)", src: "https://media.base44.com/images/public/69c6e2cf0b61fa041c4eb06c/4991d7e67_.jpeg" },
-  { name: "MEGA Group", src: "https://media.base44.com/images/public/69c6e2cf0b61fa041c4eb06c/69641090f_mega_consult_logo.jpeg" },
-  { name: "Neyam Group", src: "https://media.base44.com/images/public/69c6e2cf0b61fa041c4eb06c/6fa13f21e_.jpeg" },
-  { name: "Unicode", src: "https://media.base44.com/images/public/69c6e2cf0b61fa041c4eb06c/413c02dbc_unicode_sa_logo.jpeg" },
-  { name: "Nice One", src: "https://media.base44.com/images/public/69c6e2cf0b61fa041c4eb06c/6c9584de8_.png" },
-  { name: "Tela Home", src: "https://media.base44.com/images/public/69c6e2cf0b61fa041c4eb06c/b71e36cb0_1755129578_telahome.png" },
-  { name: "Option B", src: "https://media.base44.com/images/public/69c6e2cf0b61fa041c4eb06c/3e5bac055_Option-B-Promo-Code-logo-png.png" },
-  { name: "Sleep High", src: "https://media.base44.com/images/public/69c6e2cf0b61fa041c4eb06c/3b2a92e05_MTcyMTcxMzg3ODY2OWY0NGQ2MzYwMjA.png" },
-  { name: "Zeer", src: "https://media.base44.com/images/public/69c6e2cf0b61fa041c4eb06c/8e8b513f4_zeer.webp" },
+// BOTTOM ROW: Microsoft Clarity, Snapchat Ads, Zid, SAP, Python, Google Trends, MS Dynamics 365.
+const TOOL_LOGOS_BOTTOM = [
+  TOOL_LOGO_ASSETS.clarity,
+  TOOL_LOGO_ASSETS.snapchat,
+  TOOL_LOGO_ASSETS.zid,
+  TOOL_LOGO_ASSETS.sap,
+  TOOL_LOGO_ASSETS.python,
+  TOOL_LOGO_ASSETS.gtrends,
+  TOOL_LOGO_ASSETS.dynamics,
+];
+
+// Company logos — split across two marquee rows. A logo lives in EXACTLY ONE row.
+const COMPANY_LOGO_ASSETS = {
+  sidc:      { name: "Saudi Industrial Development Co. (SIDC)", src: "https://media.base44.com/images/public/69c6e2cf0b61fa041c4eb06c/4991d7e67_.jpeg" },
+  mega:      { name: "MEGA Group",                              src: "https://media.base44.com/images/public/69c6e2cf0b61fa041c4eb06c/69641090f_mega_consult_logo.jpeg" },
+  neyam:     { name: "Neyam Group",                             src: "https://media.base44.com/images/public/69c6e2cf0b61fa041c4eb06c/6fa13f21e_.jpeg" },
+  unicode:   { name: "Unicode",                                 src: "https://media.base44.com/images/public/69c6e2cf0b61fa041c4eb06c/413c02dbc_unicode_sa_logo.jpeg" },
+  niceone:   { name: "Nice One",                                src: "https://media.base44.com/images/public/69c6e2cf0b61fa041c4eb06c/6c9584de8_.png" },
+  telahome:  { name: "Tela Home",                               src: "https://media.base44.com/images/public/69c6e2cf0b61fa041c4eb06c/b71e36cb0_1755129578_telahome.png" },
+  optionb:   { name: "Option B",                                src: "https://media.base44.com/images/public/69c6e2cf0b61fa041c4eb06c/3e5bac055_Option-B-Promo-Code-logo-png.png" },
+  sleephigh: { name: "Sleep High",                              src: "https://media.base44.com/images/public/69c6e2cf0b61fa041c4eb06c/3b2a92e05_MTcyMTcxMzg3ODY2OWY0NGQ2MzYwMjA.png" },
+  zeer:      { name: "Zeer",                                    src: "https://media.base44.com/images/public/69c6e2cf0b61fa041c4eb06c/8e8b513f4_zeer.webp" },
+  // Re Mover key is reserved for the bottom row per spec; no local asset yet.
+};
+
+// TOP ROW: SIDC, Neyam Group, Nice One, Option B, Zeer.
+const COMPANY_LOGOS_TOP = [
+  COMPANY_LOGO_ASSETS.sidc,
+  COMPANY_LOGO_ASSETS.neyam,
+  COMPANY_LOGO_ASSETS.niceone,
+  COMPANY_LOGO_ASSETS.optionb,
+  COMPANY_LOGO_ASSETS.zeer,
+];
+
+// BOTTOM ROW: MEGA Group, Unicode, Tela Home, Sleep High, Re Mover (asset pending).
+const COMPANY_LOGOS_BOTTOM = [
+  COMPANY_LOGO_ASSETS.mega,
+  COMPANY_LOGO_ASSETS.unicode,
+  COMPANY_LOGO_ASSETS.telahome,
+  COMPANY_LOGO_ASSETS.sleephigh,
 ];
 
 // ─── Localized copy ──────────────────────────────────────────────────────────
@@ -712,7 +757,7 @@ function MarqueeRow({ items, duration = 40 }) {
   );
 }
 
-function LogosBlock({ label, heading, subtitle, items }) {
+function LogosBlock({ label, heading, subtitle, itemsTop, itemsBottom }) {
   return (
     <section className="py-14 sm:py-20 bg-background" id={label}>
       <div className="max-w-6xl mx-auto px-5">
@@ -735,10 +780,10 @@ function LogosBlock({ label, heading, subtitle, items }) {
         <Reveal delay={140}>
           <div className="bg-card border border-border rounded-3xl p-4 sm:p-6">
             <div className="flex flex-col gap-4">
-              <MarqueeRow items={items} duration={60} />
-              <MarqueeRow items={[...items].reverse()} duration={75} />
-              {/* Both rows get the full logo set so the marquee stays continuously
-                  full; second row uses a reversed order for visual variety. */}
+              {/* Each row uses its OWN logo set — no logo appears in both rows.
+                  Within a row the set repeats to fill and loop seamlessly. */}
+              <MarqueeRow items={itemsTop} duration={42} />
+              <MarqueeRow items={itemsBottom} duration={54} />
             </div>
           </div>
         </Reveal>
