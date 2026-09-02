@@ -343,7 +343,7 @@ function GlowButton({ href, onClick, children, variant = "primary", className = 
     : { onClick, type: "button" };
 
   return (
-    <span className={`relative inline-flex ${withGlow ? "abd-glow-wrap" : ""} ${className}`}>
+    <span className={`relative inline-flex ${withGlow ? "cta" : ""} ${className}`}>
       <Comp className={`${base} ${styles[variant]}`} {...extra}>
         {children}
       </Comp>
@@ -989,43 +989,45 @@ export default function Abdulaziz() {
     <div dir={dir} className="bg-background text-foreground font-inter">
       {/* Scoped CSS: rotating glow ring on primary/white buttons + marquee. */}
       <style>{`
-        /* Animatable angle for the traveling border glow. */
+        /* Traveling conic-gradient border glow for booking CTAs.
+           The button, its fill and text stay perfectly still;
+           only a warm segment travels around the pill border. */
         @property --cta-angle {
-          syntax: '<angle>';
+          syntax: "<angle>";
           inherits: false;
           initial-value: 0deg;
         }
-        .abd-glow-wrap {
+        .cta {
           position: relative;
           isolation: isolate;
           border-radius: 9999px;
-          padding: 2px;
         }
-        .abd-glow-wrap::before {
+        .cta::before {
           content: "";
           position: absolute;
           inset: 0;
-          border-radius: 9999px;
+          border-radius: inherit;
           padding: 2px;
+          pointer-events: none;
           background: conic-gradient(
             from var(--cta-angle),
-            rgba(232,123,89,0.28) 0deg,
-            rgba(232,123,89,0.28) 250deg,
+            hsl(14 70% 62% / .28) 0deg,
+            hsl(14 70% 62% / .28) 250deg,
             hsl(24 100% 72%) 330deg,
             hsl(24 100% 72%) 345deg,
-            rgba(232,123,89,0.28) 360deg
+            hsl(14 70% 62% / .28) 360deg
           );
           -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
           -webkit-mask-composite: xor;
+                  mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
                   mask-composite: exclude;
-          animation: ctaRingSpin 5s linear infinite;
-          pointer-events: none;
-          z-index: -1;
+          animation: ctaRing 5s linear infinite;
         }
-        .abd-glow-wrap:hover::before { animation-duration: 3s; }
-        @keyframes ctaRingSpin { to { --cta-angle: 360deg; } }
+        @keyframes ctaRing { to { --cta-angle: 360deg; } }
+        .cta > * { position: relative; z-index: 1; }
+        .cta:hover::before { animation-duration: 3s; }
         @media (prefers-reduced-motion: reduce) {
-          .abd-glow-wrap::before { animation: none; }
+          .cta::before { animation: none; }
         }
 
         .mq {
