@@ -678,7 +678,7 @@ function Services({ lang }) {
 // margin-inline-end so the seam between group 1 and group 2 has the SAME
 // 16px gap as every other pair — translateX(0) → translateX(-50%) then loops
 // with zero visible jump.
-const TARGET_BOXES_PER_GROUP = 15;
+const TARGET_BOXES_PER_GROUP = 30;
 
 function MarqueeRow({ items, duration = 40 }) {
   const renderLogo = (it, key) => (
