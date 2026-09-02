@@ -18,6 +18,7 @@ import BlogList from './pages/Blog';
 import BlogDetail from './pages/BlogDetail';
 import LandingPage from './pages/LandingPage';
 import EcommerceLanding from './pages/EcommerceLanding';
+import Abdulaziz from './pages/Abdulaziz';
 
 // Admin
 import ProtectedAdminLayout from './components/admin/ProtectedAdminLayout';
@@ -63,6 +64,7 @@ function App() {
             {/* Public landing pages — standalone, no site layout */}
             <Route path="/p/:slug" element={<LandingPage />} />
             <Route path="/ecommerce-landing" element={<EcommerceLanding />} />
+            <Route path="/abdulaziz" element={<Abdulaziz />} />
 
             {/* Admin login — standalone, no layout */}
             <Route path="/admin/login" element={<AdminLoginPage />} />
