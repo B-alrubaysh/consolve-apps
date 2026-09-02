@@ -440,59 +440,27 @@ function MobileMenu({ open, onClose, lang }) {
 
 // ─── Hero ────────────────────────────────────────────────────────────────────
 
+// Hero background image — the actual main-site hero from consolve.sa, uploaded
+// by the owner. The giant white "consolve" wordmark is baked into the image;
+// we render it as a full-bleed background anchored bottom-center so the mark
+// sits at the bottom exactly like the reference.
+const HERO_BG_URL =
+  "https://media.base44.com/images/public/69c6e2cf0b61fa041c4eb06c/hero-background.png";
+
 function Hero({ lang }) {
-  const C = COPY[lang];
   return (
     <section
       id="top"
-      className="relative min-h-[92svh] flex flex-col justify-end overflow-hidden"
+      aria-label="Consolve"
+      className="relative min-h-[92svh] w-full overflow-hidden"
       style={{
-        // Base: deep near-black with a subtle diagonal warmth so the whole
-        // canvas isn't flat green/black like before.
-        background:
-          "linear-gradient(135deg, #0d2528 0%, #14201f 45%, #241612 100%)",
+        backgroundImage: `url(${HERO_BG_URL})`,
+        backgroundSize: "cover",
+        backgroundPosition: "center bottom",
+        backgroundRepeat: "no-repeat",
+        backgroundColor: "#0d2528",
       }}
-    >
-      {/* Deep teal bloom on the LEFT (cool side) */}
-      <div
-        className="absolute inset-0 pointer-events-none"
-        style={{
-          background:
-            "radial-gradient(ellipse 70% 80% at 10% 30%, rgba(30,90,90,0.55) 0%, rgba(30,90,90,0.25) 30%, transparent 60%)",
-        }}
-      />
-      {/* Warm terracotta/brown glow on the RIGHT — the tone that was missing */}
-      <div
-        className="absolute inset-0 pointer-events-none"
-        style={{
-          background:
-            "radial-gradient(ellipse 75% 85% at 85% 55%, rgba(180,90,60,0.55) 0%, rgba(150,70,45,0.28) 32%, transparent 65%)",
-        }}
-      />
-      {/* Soft lift near the top-center so the wordmark area isn't crushed */}
-      <div
-        className="absolute inset-0 pointer-events-none"
-        style={{
-          background:
-            "radial-gradient(ellipse 60% 45% at 50% 15%, rgba(255,255,255,0.06) 0%, transparent 70%)",
-        }}
-      />
-      <div className="relative pb-2 sm:pb-4">
-        {/* Giant wordmark spanning the viewport width. leading-[0.75] pulls the
-            baseline up so it sits flush with the bottom of the hero, matching
-            the reference. */}
-        <h1
-          className="text-white font-black tracking-tight text-center px-2 select-none"
-          style={{
-            fontSize: "clamp(88px, 22vw, 320px)",
-            lineHeight: 0.78,
-            letterSpacing: "-0.04em",
-          }}
-        >
-          {C.hero_wordmark}
-        </h1>
-      </div>
-    </section>
+    />
   );
 }
 
@@ -717,8 +685,10 @@ function MarqueeRow({ items, duration = 40, reverse = false }) {
       const vpW = vp.clientWidth;
       const setW = measure.scrollWidth;
       if (!vpW || !setW) return;
-      // Each half must be wider than the viewport; minimum 2 repeats.
-      const needed = Math.max(2, Math.ceil(vpW / setW) + 1);
+      // Each half must be wider than the viewport. Minimum 3 repeats so that
+      // even on the narrowest mobile (≤375px) with a partial set width the
+      // boxes never appear empty during the loop.
+      const needed = Math.max(3, Math.ceil(vpW / setW) + 1);
       setRepeats((prev) => (prev !== needed ? needed : prev));
     };
 
@@ -974,24 +944,41 @@ function WhatsAppFloat({ lang, isAr }) {
     }, visible ? 6000 : 9000);
     return () => clearInterval(t);
   }, []);
+  // Button is fixed to the viewport corner (24px margin) and NEVER moves.
+  // The message bubble is absolutely positioned beside the button, so it
+  // fades in/out without shifting the button by a single pixel.
   return (
     <div
-      className={`fixed bottom-5 z-40 flex items-center gap-3 ${isAr ? "left-5 flex-row-reverse" : "right-5"}`}
+      className="fixed z-40"
+      style={{
+        bottom: "24px",
+        left: isAr ? "24px" : "auto",
+        right: isAr ? "auto" : "24px",
+      }}
     >
-      {bubble && (
-        <span className="bg-white text-secondary text-xs sm:text-sm font-medium px-4 py-2 rounded-full shadow-lg border border-border animate-in fade-in slide-in-from-bottom-1 duration-300">
-          {C.wa_bubble}
-        </span>
-      )}
       <a
         href={WHATSAPP_URL}
         target="_blank"
         rel="noopener noreferrer"
         aria-label="WhatsApp"
-        className="w-14 h-14 rounded-full bg-[#25D366] text-white flex items-center justify-center shadow-[0_10px_30px_-6px_rgba(37,211,102,0.55)] hover:-translate-y-0.5 active:scale-95 transition-transform"
+        className="relative block w-14 h-14 rounded-full bg-[#25D366] text-white flex items-center justify-center shadow-[0_10px_30px_-6px_rgba(37,211,102,0.55)] hover:-translate-y-0.5 active:scale-95 transition-transform"
       >
         <WhatsAppIconSvg className="w-7 h-7" />
       </a>
+      <span
+        aria-hidden={!bubble}
+        className={`absolute top-1/2 -translate-y-1/2 whitespace-nowrap bg-white text-secondary text-xs sm:text-sm font-medium px-4 py-2 rounded-full shadow-lg border border-border transition-opacity duration-300 pointer-events-none ${
+          bubble ? "opacity-100" : "opacity-0"
+        }`}
+        style={{
+          // Sit on the INNER side of the button (opposite the screen edge)
+          // so the bubble grows toward the viewport center.
+          right: isAr ? "auto" : "calc(100% + 12px)",
+          left: isAr ? "calc(100% + 12px)" : "auto",
+        }}
+      >
+        {C.wa_bubble}
+      </span>
     </div>
   );
 }
