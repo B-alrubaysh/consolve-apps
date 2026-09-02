@@ -684,7 +684,7 @@ function MarqueeRow({ items, duration = 40 }) {
   const renderLogo = (it, key) => (
     <div
       key={key}
-      className="shrink-0 w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-white border border-gray-200 flex items-center justify-center mx-2 sm:mx-3 shadow-sm p-2"
+      className="shrink-0 w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-white border border-gray-200 flex items-center justify-center shadow-sm p-2"
       title={it.name}
     >
       <img
@@ -703,10 +703,10 @@ function MarqueeRow({ items, duration = 40 }) {
   }
 
   return (
-    <div className="marquee-viewport">
-      <div className="marquee-track" style={{ animationDuration: `${duration}s` }}>
-        <div className="marquee-group">{group}</div>
-        <div className="marquee-group" aria-hidden="true">{group}</div>
+    <div className="mq">
+      <div className="mq__track" style={{ animationDuration: `${duration}s` }}>
+        <div className="mq__group">{group}</div>
+        <div className="mq__group" aria-hidden="true">{group}</div>
       </div>
     </div>
   );
@@ -733,10 +733,11 @@ function LogosBlock({ label, heading, subtitle, items }) {
           </p>
         </Reveal>
         <Reveal delay={140}>
-          <div className="bg-card border border-border rounded-3xl p-4 sm:p-6 marquee-mask">
+          <div className="bg-card border border-border rounded-3xl p-4 sm:p-6">
             <div className="flex flex-col gap-4">
               <MarqueeRow items={items.filter((_, i) => i % 2 === 0)} duration={42} />
               <MarqueeRow items={items.filter((_, i) => i % 2 === 1)} duration={54} />
+              {/* Row 1 = 42s, Row 2 = 54s per spec. */}
             </div>
           </div>
         </Reveal>
@@ -1027,33 +1028,28 @@ export default function Abdulaziz() {
           .abd-glow-wrap::before { animation: none; }
         }
 
-        .marquee-mask {
-          -webkit-mask-image: linear-gradient(to right, transparent, #000 8%, #000 92%, transparent);
-          mask-image: linear-gradient(to right, transparent, #000 8%, #000 92%, transparent);
-        }
-        .marquee-viewport {
-          position: relative;
+        .mq {
           overflow: hidden;
-          width: 100%;
+          -webkit-mask-image: linear-gradient(to right, transparent, #000 8%, #000 92%, transparent);
+                  mask-image: linear-gradient(to right, transparent, #000 8%, #000 92%, transparent);
         }
-        .marquee-track {
+        .mq__track {
           display: flex;
           width: max-content;
-          animation-name: abdMarquee;
-          animation-timing-function: linear;
-          animation-iteration-count: infinite;
+          animation: mqScroll 42s linear infinite;
         }
-        .marquee-group {
+        .mq__track:hover { animation-play-state: paused; }
+        .mq__group {
           display: flex;
-          flex-shrink: 0;
+          gap: 16px;
+          padding-left: 16px;
         }
-        .marquee-viewport:hover .marquee-track { animation-play-state: paused; }
-        @keyframes abdMarquee {
+        @keyframes mqScroll {
           from { transform: translateX(0); }
           to   { transform: translateX(-50%); }
         }
         @media (prefers-reduced-motion: reduce) {
-          .marquee-track { animation: none; }
+          .mq__track { animation: none; }
         }
       `}</style>
 
