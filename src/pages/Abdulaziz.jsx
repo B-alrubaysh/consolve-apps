@@ -1119,7 +1119,8 @@ export default function Abdulaziz() {
           label="tools"
           heading={C.tools_h}
           subtitle={C.tools_p}
-          items={TOOL_LOGOS}
+          itemsTop={TOOL_LOGOS_TOP}
+          itemsBottom={TOOL_LOGOS_BOTTOM}
         />
       </div>
       <div id="companies">
@@ -1127,7 +1128,8 @@ export default function Abdulaziz() {
           label="companies"
           heading={C.companies_h}
           subtitle={C.companies_p}
-          items={COMPANY_LOGOS}
+          itemsTop={COMPANY_LOGOS_TOP}
+          itemsBottom={COMPANY_LOGOS_BOTTOM}
         />
       </div>
 
