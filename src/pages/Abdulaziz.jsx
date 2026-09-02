@@ -58,7 +58,6 @@ const TOOL_LOGOS_TOP = [
   TOOL_LOGO_ASSETS.salla,
   TOOL_LOGO_ASSETS.shopify,
   TOOL_LOGO_ASSETS.github,
-  TOOL_LOGO_ASSETS.vscode,
   TOOL_LOGO_ASSETS.hotjar,
   TOOL_LOGO_ASSETS.powerbi,
 ];
