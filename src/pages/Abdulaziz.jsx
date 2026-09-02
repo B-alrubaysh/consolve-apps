@@ -862,7 +862,7 @@ function FinalCTA({ lang }) {
               <ArrowUpRight className="w-4 h-4" />
             </GlowButton>
             <GlowButton href={WHATSAPP_URL} variant="outline_white">
-              <MessageCircle className="w-4 h-4" />
+              <WhatsAppIconSvg className="w-4 h-4" />
               {C.final_wa}
             </GlowButton>
           </div>
