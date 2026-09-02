@@ -50,11 +50,17 @@ const TOOL_LOGOS = [
   { name: "Power BI", src: "https://media.base44.com/images/public/69c6e2cf0b61fa041c4eb06c/8c8e2631d_Microsoft-Power-BI-Symbol.png" },
 ];
 
-// Company logos — placeholders. User will upload the real crest set.
-const COMPANY_LOGOS = Array.from({ length: 12 }, (_, i) => ({
-  name: `Company ${i + 1}`,
-  src: LOGO_URL,
-}));
+const COMPANY_LOGOS = [
+  { name: "Tela Home", src: "https://media.base44.com/images/public/69c6e2cf0b61fa041c4eb06c/b71e36cb0_1755129578_telahome.png" },
+  { name: "Mega Group", src: "https://media.base44.com/images/public/69c6e2cf0b61fa041c4eb06c/69641090f_mega_consult_logo.jpeg" },
+  { name: "Sleep High", src: "https://media.base44.com/images/public/69c6e2cf0b61fa041c4eb06c/3b2a92e05_MTcyMTcxMzg3ODY2OWY0NGQ2MzYwMjA.png" },
+  { name: "Option B", src: "https://media.base44.com/images/public/69c6e2cf0b61fa041c4eb06c/3e5bac055_Option-B-Promo-Code-logo-png.png" },
+  { name: "Unicode", src: "https://media.base44.com/images/public/69c6e2cf0b61fa041c4eb06c/413c02dbc_unicode_sa_logo.jpeg" },
+  { name: "Zeer", src: "https://media.base44.com/images/public/69c6e2cf0b61fa041c4eb06c/8e8b513f4_zeer.webp" },
+  { name: "SIDC", src: "https://media.base44.com/images/public/69c6e2cf0b61fa041c4eb06c/4991d7e67_.jpeg" },
+  { name: "Nice One", src: "https://media.base44.com/images/public/69c6e2cf0b61fa041c4eb06c/6c9584de8_.png" },
+  { name: "Neyam Group", src: "https://media.base44.com/images/public/69c6e2cf0b61fa041c4eb06c/6fa13f21e_.jpeg" },
+];
 
 // ─── Localized copy ──────────────────────────────────────────────────────────
 // Kept inside this page (not in the shared translations.js) because none of
