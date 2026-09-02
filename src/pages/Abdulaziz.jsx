@@ -697,12 +697,72 @@ function Services({ lang }) {
 // ─── Marquee ─────────────────────────────────────────────────────────────────
 
 // A single infinite horizontal marquee row. duration in seconds; higher = slower.
-// Direction is fixed left→right visually via a negative translate on the track;
-// the row content is duplicated so the loop is seamless.
+//
+// Seamless loop requirement: the track must contain TWO identical halves, and
+// each half must be wider than the viewport. Otherwise translating by -50%
+// exposes an empty gap. We measure the viewport and one "set" of logos, then
+// repeat that set enough times so one half is >= viewport width, and put two
+// halves back-to-back on the track.
 function MarqueeRow({ items, duration = 40, reverse = false }) {
-  const set = [...items, ...items];
+  const viewportRef = useRef(null);
+  const measureRef = useRef(null);
+  const [repeats, setRepeats] = useState(2);
+
+  useEffect(() => {
+    const vp = viewportRef.current;
+    const measure = measureRef.current;
+    if (!vp || !measure) return;
+
+    const recompute = () => {
+      const vpW = vp.clientWidth;
+      const setW = measure.scrollWidth;
+      if (!vpW || !setW) return;
+      // Each half must be wider than the viewport; minimum 2 repeats.
+      const needed = Math.max(2, Math.ceil(vpW / setW) + 1);
+      setRepeats((prev) => (prev !== needed ? needed : prev));
+    };
+
+    recompute();
+    const ro = new ResizeObserver(recompute);
+    ro.observe(vp);
+    ro.observe(measure);
+    return () => ro.disconnect();
+  }, [items]);
+
+  const renderLogo = (it, key) => (
+    <div
+      key={key}
+      className="shrink-0 w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-white border border-gray-200 flex items-center justify-center mx-2 sm:mx-3 shadow-sm p-2"
+      title={it.name}
+    >
+      <img
+        src={it.src}
+        alt={it.name}
+        className="object-contain"
+        style={{ maxHeight: "60%", maxWidth: "85%" }}
+        loading="lazy"
+      />
+    </div>
+  );
+
+  // One "half" = the original items repeated `repeats` times so it's wider
+  // than the viewport. Track = half + half (identical), enabling a seamless
+  // translateX(-50%) loop with no gap.
+  const half = [];
+  for (let r = 0; r < repeats; r++) {
+    items.forEach((it, i) => half.push(renderLogo(it, `${r}-${i}`)));
+  }
+
   return (
-    <div className="marquee-viewport">
+    <div ref={viewportRef} className="marquee-viewport">
+      {/* Hidden measurement node: a single set of items used to compute set width. */}
+      <div
+        ref={measureRef}
+        aria-hidden="true"
+        style={{ position: "absolute", visibility: "hidden", pointerEvents: "none", display: "flex", whiteSpace: "nowrap" }}
+      >
+        {items.map((it, i) => renderLogo(it, `m-${i}`))}
+      </div>
       <div
         className="marquee-track"
         style={{
@@ -710,21 +770,8 @@ function MarqueeRow({ items, duration = 40, reverse = false }) {
           animationDirection: reverse ? "reverse" : "normal",
         }}
       >
-        {set.map((it, i) => (
-          <div
-            key={i}
-            className="shrink-0 w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-white border border-gray-200 flex items-center justify-center mx-2 sm:mx-3 shadow-sm p-2"
-            title={it.name}
-          >
-            <img
-              src={it.src}
-              alt={it.name}
-              className="object-contain"
-              style={{ maxHeight: "60%", maxWidth: "85%" }}
-              loading="lazy"
-            />
-          </div>
-        ))}
+        <div className="marquee-half">{half}</div>
+        <div className="marquee-half" aria-hidden="true">{half}</div>
       </div>
     </div>
   );
@@ -1025,10 +1072,11 @@ export default function Abdulaziz() {
         }
 
         .marquee-mask {
-          -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 8%, #000 92%, transparent 100%);
-          mask-image: linear-gradient(90deg, transparent 0, #000 8%, #000 92%, transparent 100%);
+          -webkit-mask-image: linear-gradient(to right, transparent, #000 8%, #000 92%, transparent);
+          mask-image: linear-gradient(to right, transparent, #000 8%, #000 92%, transparent);
         }
         .marquee-viewport {
+          position: relative;
           overflow: hidden;
           width: 100%;
         }
@@ -1038,6 +1086,10 @@ export default function Abdulaziz() {
           animation-name: abdMarquee;
           animation-timing-function: linear;
           animation-iteration-count: infinite;
+        }
+        .marquee-half {
+          display: flex;
+          flex-shrink: 0;
         }
         .marquee-viewport:hover .marquee-track { animation-play-state: paused; }
         @keyframes abdMarquee {
