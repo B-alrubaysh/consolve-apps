@@ -757,7 +757,7 @@ function About({ lang }) {
         <div className="grid grid-cols-1 md:grid-cols-5 gap-8 md:gap-12 items-center">
           <Reveal className="md:col-span-2 flex justify-center md:justify-start">
             <div
-              className="w-full max-w-[220px] sm:max-w-[240px] md:w-[38%] md:max-w-[260px] mx-auto md:mx-0 rounded-3xl border border-border bg-card overflow-hidden shadow-sm"
+              className="w-full max-w-[170px] sm:max-w-[190px] md:w-[30%] md:max-w-[210px] mx-auto md:mx-0 rounded-3xl border border-border bg-card overflow-hidden shadow-sm"
               style={{ aspectRatio: "4 / 5" }}
             >
               <img
