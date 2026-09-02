@@ -281,7 +281,7 @@ const COPY = {
     footer_copy: "© 2026 Consolve. All rights reserved.",
     footer_privacy: "Privacy",
     footer_terms: "Terms",
-    wa_bubble: "We're here to help on WhatsApp",
+    wa_bubble: "We're here for you on WhatsApp",
   },
 };
 
