@@ -688,7 +688,7 @@ function Services({ lang }) {
     <section id="services" className="py-16 sm:py-24 bg-background">
       <div className="max-w-6xl mx-auto px-5">
         <Reveal>
-          <p className="text-primary text-xs font-bold uppercase tracking-[0.2em] text-center mb-3">
+          <p className="text-primary text-sm font-semibold text-center mb-3">
             {C.services_label}
           </p>
         </Reveal>
