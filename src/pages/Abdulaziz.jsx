@@ -33,21 +33,15 @@ const LOGO_URL =
 // logo assets on upload. Kept small and recognizable so the layout is right
 // even before final assets arrive.
 const TOOL_LOGOS = [
-  { name: "Google Analytics", src: "https://cdn.simpleicons.org/googleanalytics/E37400" },
-  { name: "Microsoft Clarity", src: "https://cdn.simpleicons.org/microsoft/0D2528" },
-  { name: "Meta Ads", src: "https://cdn.simpleicons.org/meta/0668E1" },
-  { name: "Snapchat Business", src: "https://media.base44.com/images/public/69c6e2cf0b61fa041c4eb06c/b2039b721_og_image.png" },
-  { name: "Salla", src: "https://cdn.simpleicons.org/salla/BA9878" },
-  { name: "Zid", src: "https://cdn.simpleicons.org/zebpay/0D2528" },
-  { name: "Shopify", src: "https://cdn.simpleicons.org/shopify/7AB55C" },
-  { name: "SAP", src: "https://cdn.simpleicons.org/sap/0FAAFF" },
-  { name: "GitHub", src: "https://media.base44.com/images/public/69c6e2cf0b61fa041c4eb06c/defa2f387_githubnew.webp" },
-  { name: "Python", src: "https://media.base44.com/images/public/69c6e2cf0b61fa041c4eb06c/102e4b9c6_pynew2.jpeg" },
-  { name: "VS Code", src: "https://media.base44.com/images/public/69c6e2cf0b61fa041c4eb06c/39e9c6cca_vs22.webp" },
-  { name: "Google Trends", src: "https://media.base44.com/images/public/69c6e2cf0b61fa041c4eb06c/d15230f55_Google-Trends-Logo-Square-Insight-Platforms.webp" },
-  { name: "Hotjar", src: "https://media.base44.com/images/public/69c6e2cf0b61fa041c4eb06c/5f19474a5_hotjar_logo.png" },
-  { name: "MS Dynamics 365", src: "https://media.base44.com/images/public/69c6e2cf0b61fa041c4eb06c/50420d6d2_Microsoft_Dynamics_365_Logo_2021presentsvg.webp" },
-  { name: "Power BI", src: "https://media.base44.com/images/public/69c6e2cf0b61fa041c4eb06c/8c8e2631d_Microsoft-Power-BI-Symbol.png" },
+  { name: "VS Code", src: "https://media.base44.com/images/public/69c6e2cf0b61fa041c4eb06c/5d7b487d7_vs22.webp" },
+  { name: "Python", src: "https://media.base44.com/images/public/69c6e2cf0b61fa041c4eb06c/98f99422e_pynew2.jpeg" },
+  { name: "GitHub", src: "https://media.base44.com/images/public/69c6e2cf0b61fa041c4eb06c/3be8aca30_bslogo.jpg" },
+  { name: "Google Trends", src: "https://media.base44.com/images/public/69c6e2cf0b61fa041c4eb06c/2ad6b8328_Google-Trends-Logo-Square-Insight-Platforms.webp" },
+  { name: "Hotjar", src: "https://media.base44.com/images/public/69c6e2cf0b61fa041c4eb06c/6c525637f_hotjar_logo.png" },
+  { name: "MS Dynamics 365", src: "https://media.base44.com/images/public/69c6e2cf0b61fa041c4eb06c/e69a47813_Microsoft_Dynamics_365_Logo_2021presentsvg.webp" },
+  { name: "Power BI", src: "https://media.base44.com/images/public/69c6e2cf0b61fa041c4eb06c/d711ff515_Microsoft-Power-BI-Symbol.png" },
+  { name: "Snapchat Business", src: "https://media.base44.com/images/public/69c6e2cf0b61fa041c4eb06c/5cad6c9c9_og_image.png" },
+  { name: "HubSpot", src: "https://media.base44.com/images/public/69c6e2cf0b61fa041c4eb06c/236f1f14b_2111432.png" },
 ];
 
 const COMPANY_LOGOS = [
