@@ -672,19 +672,19 @@ function Services({ lang }) {
 
 // A single infinite horizontal marquee row.
 //
-// Seamless loop rule: the track contains EXACTLY TWO children (.marquee-group),
-// byte-for-byte identical. Each group repeats the item list a fixed number of
-// times so one group is wider than any viewport. Animating translateX(0) →
-// translateX(-50%) then makes the loop perfectly seamless — the second group's
-// start aligns exactly with the first group's start on wrap. Total logo count
-// on the track is 2 × REPEATS × items.length, always even.
-const REPEATS = 8;
+// Seamless loop rule: the track contains EXACTLY TWO children (.mq__group),
+// byte-for-byte identical. Each group is sized to be just wider than the
+// widest expected screen (~15 boxes ≈ 1500px). Spacing lives on each box as
+// margin-inline-end so the seam between group 1 and group 2 has the SAME
+// 16px gap as every other pair — translateX(0) → translateX(-50%) then loops
+// with zero visible jump.
+const TARGET_BOXES_PER_GROUP = 15;
 
 function MarqueeRow({ items, duration = 40 }) {
   const renderLogo = (it, key) => (
     <div
       key={key}
-      className="shrink-0 w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-white border border-gray-200 shadow-sm overflow-hidden"
+      className="logo-box shrink-0 w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-white border border-gray-200 shadow-sm overflow-hidden"
       title={it.name}
     >
       <img
@@ -697,7 +697,9 @@ function MarqueeRow({ items, duration = 40 }) {
   );
 
   const group = [];
-  for (let r = 0; r < REPEATS; r++) {
+  const n = Math.max(1, items.length);
+  const repeats = Math.max(1, Math.ceil(TARGET_BOXES_PER_GROUP / n));
+  for (let r = 0; r < repeats; r++) {
     items.forEach((it, i) => group.push(renderLogo(it, `${r}-${i}`)));
   }
 
@@ -1043,8 +1045,9 @@ export default function Abdulaziz() {
         .mq__track:hover { animation-play-state: paused; }
         .mq__group {
           display: flex;
-          gap: 16px;
-          padding-left: 16px;
+        }
+        .logo-box {
+          margin-inline-end: 16px;
         }
         @keyframes mqScroll {
           from { transform: translateX(0); }
