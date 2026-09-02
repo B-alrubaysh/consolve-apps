@@ -33,9 +33,7 @@ const LOGO_URL =
 // logo assets on upload. Kept small and recognizable so the layout is right
 // even before final assets arrive.
 const TOOL_LOGOS = [
-  { name: "Google Analytics", src: "https://cdn.simpleicons.org/googleanalytics/E37400" },
   { name: "Microsoft Clarity", src: "https://media.base44.com/images/public/69c6e2cf0b61fa041c4eb06c/6e6928612_logo-microsoft-clarity.jpg" },
-  { name: "Meta Ads", src: "https://cdn.simpleicons.org/meta/0668E1" },
   { name: "Snapchat Ads", src: "https://media.base44.com/images/public/69c6e2cf0b61fa041c4eb06c/5cad6c9c9_og_image.png" },
   { name: "Salla", src: "https://media.base44.com/images/public/69c6e2cf0b61fa041c4eb06c/fac35738b_salla.jpg" },
   { name: "Zid", src: "https://media.base44.com/images/public/69c6e2cf0b61fa041c4eb06c/58e2be714_images1.jpeg" },
@@ -678,7 +676,7 @@ function Services({ lang }) {
 // margin-inline-end so the seam between group 1 and group 2 has the SAME
 // 16px gap as every other pair — translateX(0) → translateX(-50%) then loops
 // with zero visible jump.
-const TARGET_BOXES_PER_GROUP = 30;
+const TARGET_BOXES_PER_GROUP = 15;
 
 function MarqueeRow({ items, duration = 40 }) {
   const renderLogo = (it, key) => (
@@ -691,7 +689,8 @@ function MarqueeRow({ items, duration = 40 }) {
         src={it.src}
         alt={it.name}
         className="w-full h-full object-contain p-2.5 block"
-        loading="lazy"
+        loading="eager"
+        decoding="async"
       />
     </div>
   );
