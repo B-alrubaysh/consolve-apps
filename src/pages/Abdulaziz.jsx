@@ -446,7 +446,7 @@ function MobileMenu({ open, onClose, lang }) {
 // (object-cover / anchored bottom-center) so the wordmark sits at the bottom
 // exactly like the reference.
 const HERO_BG_URL =
-  "https://media.base44.com/images/public/69c6e2cf0b61fa041c4eb06c/hero-background.png";
+  "https://media.base44.com/images/public/69c6e2cf0b61fa041c4eb06c/df2296388_Cover1.png";
 
 function Hero() {
   return (
