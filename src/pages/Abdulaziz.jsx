@@ -684,14 +684,13 @@ function MarqueeRow({ items, duration = 40 }) {
   const renderLogo = (it, key) => (
     <div
       key={key}
-      className="shrink-0 w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-white border border-gray-200 flex items-center justify-center shadow-sm p-2"
+      className="shrink-0 w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-white border border-gray-200 shadow-sm overflow-hidden"
       title={it.name}
     >
       <img
         src={it.src}
         alt={it.name}
-        className="object-contain"
-        style={{ maxHeight: "60%", maxWidth: "85%" }}
+        className="w-full h-full object-contain p-2.5 block"
         loading="lazy"
       />
     </div>
