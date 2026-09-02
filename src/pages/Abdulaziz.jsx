@@ -780,12 +780,16 @@ function About({ lang }) {
     <section id="about" className="py-16 sm:py-24 bg-background">
       <div className="max-w-6xl mx-auto px-5">
         <div className="grid grid-cols-1 md:grid-cols-5 gap-8 md:gap-12 items-center">
-          <Reveal className="md:col-span-2">
-            <div className="bg-card border border-border rounded-3xl p-4 shadow-sm">
+          <Reveal className="md:col-span-2 flex justify-center md:justify-start">
+            <div
+              className="w-full max-w-[300px] sm:max-w-[340px] md:w-[38%] md:max-w-[420px] mx-auto md:mx-0 rounded-3xl border border-border bg-card overflow-hidden shadow-sm"
+              style={{ aspectRatio: "4 / 5" }}
+            >
               <img
                 src={PORTRAIT_URL}
                 alt={C.intro_name}
-                className="w-full aspect-[4/5] object-cover rounded-2xl bg-muted"
+                className="w-full h-full"
+                style={{ objectFit: "cover", objectPosition: "top" }}
               />
             </div>
           </Reveal>
