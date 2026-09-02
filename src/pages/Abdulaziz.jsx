@@ -46,6 +46,7 @@ const TOOL_LOGOS = [
   { name: "Microsoft Clarity", src: "https://media.base44.com/images/public/69c6e2cf0b61fa041c4eb06c/6e6928612_logo-microsoft-clarity.jpg" },
   { name: "SAP", src: "https://media.base44.com/images/public/69c6e2cf0b61fa041c4eb06c/334edf673_SAP.webp" },
   { name: "Shopify", src: "https://media.base44.com/images/public/69c6e2cf0b61fa041c4eb06c/eb9a37276_shopyfy.jpg" },
+  { name: "Zid", src: "https://media.base44.com/images/public/69c6e2cf0b61fa041c4eb06c/58e2be714_images1.jpeg" },
 ];
 
 const COMPANY_LOGOS = [
