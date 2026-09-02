@@ -1001,6 +1001,7 @@ export default function Abdulaziz() {
           position: relative;
           isolation: isolate;
           border-radius: 9999px;
+          padding: 2px;
         }
         .cta::before {
           content: "";
