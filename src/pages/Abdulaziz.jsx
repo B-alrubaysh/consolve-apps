@@ -736,9 +736,10 @@ function LogosBlock({ label, heading, subtitle, items }) {
         <Reveal delay={140}>
           <div className="bg-card border border-border rounded-3xl p-4 sm:p-6">
             <div className="flex flex-col gap-4">
-              <MarqueeRow items={items.filter((_, i) => i % 2 === 0)} duration={42} />
-              <MarqueeRow items={items.filter((_, i) => i % 2 === 1)} duration={54} />
-              {/* Row 1 = 42s, Row 2 = 54s per spec. */}
+              <MarqueeRow items={items} duration={60} />
+              <MarqueeRow items={[...items].reverse()} duration={75} />
+              {/* Both rows get the full logo set so the marquee stays continuously
+                  full; second row uses a reversed order for visual variety. */}
             </div>
           </div>
         </Reveal>
