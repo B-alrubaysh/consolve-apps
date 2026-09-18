@@ -92,15 +92,16 @@ const COPY = {
     ],
   },
   en: {
-    banner: "Start your free company diagnosis and uncover the root causes of the challenges you face.",
+    banner: "Start Your Company Diagnosis and Identify the Likely Causes of the Challenges Affecting Its Performance",
     h2_plain: "The problem you see...",
     h2_accent: "is not always the real problem.",
-    intro: "Diagnose your company through a set of questions built around your business nature and the challenges you face. At the end of the diagnosis, you will receive a preliminary report that helps you understand the current situation, analyze the root causes, and identify the right consulting services.",
+    intro: "Begin with a preliminary diagnosis based on questions tailored to your business and the challenge you are facing. At the end, you will receive a report that helps you understand the current situation, identify likely causes, and determine the most relevant consulting services.",
     cta: "Start Diagnosis",
-    preview_title: "What you'll see when you finish",
+    cta_note: "This AI-supported diagnosis provides a preliminary assessment and does not replace a detailed consulting review.",
+    preview_title: "What Your Diagnosis Report Includes",
     maturity: "Maturity Stage", maturity_v: "Medium",
     risk: "Risk Level", risk_v: "High",
-    axes: "Axes Evaluation",
+    axes: "Assessment of Areas Related to the Challenge",
     summary: "Current Situation Summary",
     problems: "Problems & Root Causes",
     services: "Recommended Consulting Services",
@@ -111,7 +112,7 @@ const COPY = {
       { t: "Tailored Diagnosis", d: "Questions are not fixed; they are built around your company's nature and the challenge you face." },
       { t: "Root-Cause Analysis", d: "Goes beyond symptoms to help uncover the likely causes behind the problem." },
       { t: "A Broader View", d: "Presents an integrated picture of your company across managerial and operational aspects." },
-      { t: "Preliminary Report", d: "Get a report that helps you understand the problem in depth before starting any development project." },
+      { t: "Preliminary Report", d: "Receive a preliminary report that helps you understand the challenge before deciding which development initiative to pursue." },
     ],
     how_title: "How does it work?",
     how: [
@@ -146,7 +147,7 @@ const COPY = {
       "The most suitable consulting services.",
       "Suggested focus areas per service.",
     ],
-    after_title: "What you'll see when you finish",
+    after_title: "What Your Diagnosis Report Includes",
     after: [
       "Evaluation of problem-related axes.",
       "Company maturity stage.",
@@ -521,6 +522,11 @@ export default function DiagnosisSection() {
                 {c.cta} <Arrow className="w-4 h-4" />
               </Button>
             </div>
+            {c.cta_note && (
+              <p className="text-xs text-muted-foreground leading-relaxed mt-4 max-w-md mx-auto lg:mx-0 text-center lg:text-start">
+                {c.cta_note}
+              </p>
+            )}
           </AnimatedSection>
           <AnimatedSection delay={150}>
             <ReportPreviewCard c={c} />

@@ -17,7 +17,7 @@ export default function Contact() {
   const tx = t[lang];
 
   usePageMetadata({
-    title: tx.contact_h1,
+    title: isAr ? tx.contact_h1 : "Contact",
     description: tx.contact_sub,
   });
 
@@ -116,8 +116,8 @@ export default function Contact() {
               <AnimatedSection delay={200}>
                 <div className="space-y-8">
                   {[
-                    { icon: Mail, label: tx.contact_email_label, val: <span dir="ltr">{email}</span> },
-                    { icon: Phone, label: tx.contact_phone_label, val: <span dir="ltr">{phone}</span> },
+                    { icon: Mail, label: tx.contact_email_label, val: <a href={`mailto:${email}`} dir="ltr" className="hover:text-primary transition-colors">{email}</a> },
+                    { icon: Phone, label: tx.contact_phone_label, val: <a href={`tel:${(phone || "").replace(/[^\d+]/g, "")}`} dir="ltr" className="hover:text-primary transition-colors">{phone}</a> },
                     { icon: MapPin, label: tx.contact_office_label, val: pick("contact_office", tx.contact_office_val) },
                   ].map((item, i) => (
                     <div key={i} className="flex gap-4">

@@ -39,15 +39,15 @@ export default function BlogList() {
             transition={{ duration: 0.75, ease: [0.16, 1, 0.3, 1] }}
           >
             <p className="text-xs font-semibold uppercase tracking-[0.2em] text-primary mb-4">
-              {isAr ? "المرئيات" : "Insights"}
+              {isAr ? "المرئيات" : "Consolve Insights"}
             </p>
             <h1 className="text-4xl md:text-6xl font-black text-secondary-foreground leading-tight mb-5">
-              {isAr ? "أحدث المقالات" : "Latest Articles"}
+              {isAr ? "أحدث المقالات" : "Management Articles and Insights"}
             </h1>
             <p className="text-secondary-foreground/60 text-lg max-w-xl leading-relaxed">
               {isAr
                 ? "الاستراتيجية، العمليات، الحوكمة، والنمو — مباشرةً من فريقنا."
-                : "Strategy, operations, governance, and growth — straight from our team."}
+                : "Practical content on strategy, operations, governance, and growth that helps organizations diagnose challenges and improve decisions and performance."}
             </p>
           </motion.div>
         </div>

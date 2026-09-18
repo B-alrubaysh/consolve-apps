@@ -52,9 +52,9 @@ export default function HeroStatement() {
 
   const headlineEN = (
     <h2 className="text-5xl md:text-6xl lg:text-7xl font-black text-foreground leading-[1.0] tracking-tight">
-      <span className="text-primary">Empowering</span>
-      {" organizations to achieve more efficient, sustainable "}
-      <span className="text-primary">performance</span>
+      <span className="text-primary">We Build</span>
+      {" Management and Operational Systems That Improve Efficiency and Support Sustainable "}
+      <span className="text-primary">Growth</span>
     </h2>
   );
 
@@ -99,12 +99,12 @@ export default function HeroStatement() {
             transition={{ duration: 0.75, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
           >
             <p className="text-sm md:text-base font-semibold uppercase tracking-[0.2em] text-primary mb-5">
-              {isAr ? "ماذا نقدم؟" : "What we do?"}
+              {isAr ? "ماذا نقدم؟" : "How We Help Organizations"}
             </p>
             <p className="text-muted-foreground text-lg md:text-xl leading-[1.8]">
               {isAr
                 ? "نساعد الشركات على تطوير أدائها من خلال تشخيص التحديات الإدارية والتشغيلية، وتحليل الفجوات، وتصميم حلول عملية قابلة للتنفيذ. تشمل خدماتنا الحوكمة، وتحسين العمليات، والبحث والتطوير، والاستراتيجية، وبناء السياسات والإجراءات، بما يساعد المؤسسات على رفع الكفاءة، وتحسين جودة القرارات، ودعم النمو المستدام."
-                : "We help companies improve their performance by diagnosing administrative and operational challenges, analyzing gaps, and designing practical, actionable solutions. Our services include governance, process improvement, R&D, strategy, and policy and procedure development — helping organizations increase efficiency, improve decision quality, and support sustainable growth."}
+                : "We help organizations diagnose administrative and operational challenges, analyze performance gaps, and design practical, actionable solutions. Our services include governance, process improvement, strategy, R&D, and policy and procedure development, supporting operational efficiency, better decision-making, and readiness for growth."}
             </p>
           </motion.div>
         </div>

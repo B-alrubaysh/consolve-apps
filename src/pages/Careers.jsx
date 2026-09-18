@@ -20,7 +20,7 @@ function getEmploymentLabel(value, isAr) {
 }
 
 const WORK_TYPE_AR = { onsite: "من المقر", hybrid: "هجين", remote: "عن بُعد" };
-const WORK_TYPE_EN = { onsite: "Onsite", hybrid: "Hybrid", remote: "Remote" };
+const WORK_TYPE_EN = { onsite: "Onsite at Consolve’s Office", hybrid: "Hybrid", remote: "Remote" };
 
 function getWorkTypeLabel(value, isAr) {
   if (!value) return "";
@@ -68,7 +68,7 @@ function JobCard({ job, isAr, onOpen }) {
       <span className={`mt-6 text-sm font-semibold ${closed ? "text-muted-foreground" : "text-primary"}`}>
         {closed
           ? (isAr ? 'أُغلق التقديم' : 'Applications closed')
-          : (isAr ? 'عرض التفاصيل ←' : 'View details →')}
+          : (isAr ? 'عرض التفاصيل ←' : 'View Role Details →')}
       </span>
     </div>
   );
@@ -301,7 +301,7 @@ function ApplicationForm({ job, isAr, dir, lang, onClose, onSuccess }) {
             </div>
             <div>
               <label className="block text-xs font-semibold text-muted-foreground mb-1.5">
-                {isAr ? "السيرة الذاتية (PDF أو Word — بحد أقصى 10MB)" : "Resume / CV (PDF or Word — max 10MB)"}
+                {isAr ? "السيرة الذاتية (PDF أو Word — بحد أقصى 10MB)" : "Resume / CV (PDF or Word, Maximum File Size: 10 MB)"}
               </label>
               <label className={`flex items-center gap-3 px-4 py-3 rounded-xl border-2 border-dashed border-border hover:border-primary/50 bg-background cursor-pointer transition-colors ${isAr ? 'flex-row-reverse' : ''}`}>
                 <Briefcase className="w-4 h-4 text-muted-foreground shrink-0" />
@@ -327,7 +327,7 @@ function ApplicationForm({ job, isAr, dir, lang, onClose, onSuccess }) {
               <span className="text-xs text-muted-foreground leading-relaxed">
                 {isAr
                   ? "أوافق على معالجة كونسولف لمعلوماتي لأغراض التوظيف"
-                  : "I consent to Consolve processing my information for recruitment purposes"}
+                  : "I consent to Consolve processing my personal data for recruitment purposes in accordance with the Privacy Policy."}
               </span>
             </label>
             <button
@@ -335,7 +335,7 @@ function ApplicationForm({ job, isAr, dir, lang, onClose, onSuccess }) {
               disabled={loading || !consent}
               className="mt-1 bg-primary text-primary-foreground text-sm font-semibold px-6 py-3 rounded-full hover:opacity-90 transition-opacity disabled:opacity-60 disabled:cursor-not-allowed"
             >
-              {loading ? (isAr ? "جارٍ الإرسال..." : "Submitting...") : (isAr ? "إرسال الطلب" : "Submit Application")}
+              {loading ? (isAr ? "جارٍ الإرسال..." : "Submitting...") : (isAr ? "إرسال الطلب" : "Submit Your Application")}
             </button>
           </form>
         )}
@@ -451,7 +451,7 @@ function GeneralForm({ isAr, dir, lang }) {
       </div>
       <div>
         <label className={`block text-xs font-semibold text-muted-foreground mb-1.5 ${isAr ? 'text-right' : ''}`}>
-          {isAr ? 'السيرة الذاتية (PDF أو Word — بحد أقصى 10MB)' : 'Resume / CV (PDF or Word — max 10MB)'}
+          {isAr ? 'السيرة الذاتية (PDF أو Word — بحد أقصى 10MB)' : 'Resume / CV (PDF or Word, Maximum File Size: 10 MB)'}
         </label>
         <label className={`flex items-center gap-3 px-4 py-3 rounded-xl border-2 border-dashed border-border hover:border-primary/50 bg-background cursor-pointer transition-colors ${isAr ? 'flex-row-reverse' : ''}`}>
           <Briefcase className="w-4 h-4 text-muted-foreground shrink-0" />
@@ -477,7 +477,7 @@ function GeneralForm({ isAr, dir, lang }) {
         <span className="text-xs text-muted-foreground leading-relaxed">
           {isAr
             ? "أوافق على معالجة كونسولف لمعلوماتي لأغراض التوظيف"
-            : "I consent to Consolve processing my information for recruitment purposes"}
+            : "I consent to Consolve processing my personal data for recruitment purposes in accordance with the Privacy Policy."}
         </span>
       </label>
       <button
@@ -485,7 +485,7 @@ function GeneralForm({ isAr, dir, lang }) {
         disabled={loading || !consent}
         className="mt-2 bg-secondary text-secondary-foreground text-sm font-bold px-6 py-3 rounded-full hover:opacity-90 transition-opacity disabled:opacity-60 disabled:cursor-not-allowed uppercase tracking-wide"
       >
-        {loading ? (isAr ? 'جارٍ الإرسال...' : 'Submitting...') : (isAr ? 'إرسال الطلب' : 'Submit Application')}
+        {loading ? (isAr ? 'جارٍ الإرسال...' : 'Submitting...') : (isAr ? 'إرسال الطلب' : 'Submit Your Application')}
       </button>
     </form>
   );
@@ -536,12 +536,12 @@ export default function Careers() {
               {isAr ? "الوظائف" : "Careers"}
             </p>
             <h1 className="text-4xl md:text-6xl font-black text-secondary-foreground leading-tight mb-5">
-              {isAr ? "انضم إلى فريقنا" : "Join Our Team"}
+              {isAr ? "انضم إلى فريقنا" : "Join the Consolve Team"}
             </h1>
             <p className="text-secondary-foreground/60 text-lg max-w-xl leading-relaxed">
               {isAr
                 ? "نبحث عن مواهب استثنائية تشاركنا شغفنا بتحويل المنظمات وخلق أثر حقيقي."
-                : "We're looking for exceptional talent who share our passion for transforming organizations and creating real impact."}
+                : "We are looking for professionals who share our commitment to improving organizational performance and building practical management solutions."}
             </p>
           </motion.div>
         </div>
@@ -588,7 +588,7 @@ export default function Careers() {
             transition={{ duration: 0.6 }}
           >
             <p className="text-xs font-semibold uppercase tracking-[0.2em] text-primary mb-3">
-              {isAr ? 'لم تجد وظيفتك المناسبة؟' : "Didn't find the right role?"}
+              {isAr ? 'لم تجد وظيفتك المناسبة؟' : "Didn't Find the Right Opportunity?"}
             </p>
             <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-2">
               {isAr ? 'تقدم بطلب عام' : 'Submit a General Application'}
@@ -596,7 +596,7 @@ export default function Careers() {
             <p className="text-muted-foreground text-sm mb-8 leading-relaxed">
               {isAr
                 ? 'أرسل ملفك الشخصي وسنتواصل معك عند توفر فرصة تناسب مؤهلاتك.'
-                : "Send us your profile and we'll reach out when a matching opportunity arises."}
+                : "Send us your CV, and we will contact you when an opportunity matching your experience and qualifications becomes available."}
             </p>
             <GeneralForm isAr={isAr} dir={dir} lang={lang} />
           </motion.div>

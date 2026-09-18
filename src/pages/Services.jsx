@@ -27,7 +27,7 @@ export default function Services() {
   const tx = t[lang];
 
   usePageMetadata({
-    title: tx.services_h1,
+    title: isAr ? tx.services_h1 : "Services",
     description: tx.services_sub,
   });
 
@@ -96,7 +96,7 @@ export default function Services() {
               <p className="text-muted-foreground leading-relaxed max-w-3xl">
                 {isAr
                   ? "تُوظَّف هذه المحاور التسعة معًا أو منفصلة، وتُبنى بما يتناسب مع طبيعة الكيان ومستوى نضجه الإداري، من تشخيص الواقع إلى تمكين الفريق من تشغيل الأنظمة بنفسه."
-                  : "These nine pillars can be deployed together or separately, built to match each organization's nature and level of managerial maturity — from diagnosing the current reality to empowering the team to run the systems on its own."}
+                  : "These consulting areas can be delivered independently or as part of an integrated system that begins with diagnosing the current situation and ends with enabling the client’s team to operate and improve the solutions."}
               </p>
             </div>
           </AnimatedSection>

@@ -49,7 +49,7 @@ export default function ClientLogoCarousel() {
   const title = isAr ? "عملاؤنا" : "Our Clients";
   const subtitle = isAr
     ? "ثقة عملائنا بنا من منظمات في قطاعات متعددة"
-    : "Trusted by organizations across multiple sectors";
+    : "Supporting Organizations Across Multiple Sectors";
 
   // Duplicate the array for a seamless infinite marquee.
   const looped = [...clients, ...clients];

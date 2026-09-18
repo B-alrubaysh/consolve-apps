@@ -241,8 +241,8 @@ export function Footer() {
                   without flipping the block's alignment. No dir="ltr" wrapper —
                   the span inherits the footer's direction and sits on the same
                   side as the rest of the column. */}
-              <span className="text-start"><bdi>{email}</bdi></span>
-              <span className="text-start"><bdi>{phone}</bdi></span>
+              <a href={`mailto:${email}`} className="text-start hover:text-primary transition-colors"><bdi>{email}</bdi></a>
+              <a href={`tel:${(phone || "").replace(/[^\d+]/g, "")}`} className="text-start hover:text-primary transition-colors"><bdi>{phone}</bdi></a>
               {socials.length > 0 &&
               <div className="flex items-center gap-3 mt-1">
                   {socials.map(({ url, Icon, label }) =>

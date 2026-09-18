@@ -2,7 +2,7 @@ import { useEffect } from "react";
 
 // Shared brand — never override; this is what shows as the small header line
 // above the title in WhatsApp / LinkedIn / Slack link previews.
-const SITE_NAME = "Consolve Management Solutions";
+const SITE_NAME = "Consolve Management Consulting";
 const DEFAULT_IMAGE =
   "https://base44.app/api/apps/69c6e2cf0b61fa041c4eb06c/files/mp/public/69c6e2cf0b61fa041c4eb06c/8df118fe6_Logo3.png";
 

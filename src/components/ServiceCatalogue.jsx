@@ -63,12 +63,12 @@ export default function ServiceCatalogue() {
                 {isAr ? "خدماتنا" : "Services"}
               </p>
               <h2 className="text-3xl md:text-5xl font-bold text-foreground tracking-tight mb-4 leading-tight">
-                {isAr ? "حلول استشارية تدعم نمو أعمالك" : "Consulting Solutions That Drive Your Growth"}
+                {isAr ? "حلول استشارية تدعم نمو أعمالك" : "Integrated Consulting Solutions for Organizational Performance"}
               </h2>
               <p className="text-muted-foreground text-base md:text-lg">
                 {isAr
                   ? "اختر المجال الاستشاري لاستعراض الخدمات والحلول التي تساعد على تحسين الأداء، ورفع الكفاءة، ودعم النمو المؤسسي."
-                  : "Choose a consulting area to explore the services and solutions that help improve performance, increase efficiency, and support organizational growth."}
+                  : "Explore our consulting areas and select the service connected to your organization’s challenge, from process improvement and governance to strategy and organizational development."}
               </p>
             </div>
 

@@ -13,13 +13,13 @@ export const INDUSTRIES_FALLBACK = [
   { name_en: "Education",                name_ar: "التعليم",                            display_order: 80,  is_active: true },
   { name_en: "Logistics",                name_ar: "الخدمات اللوجستية",                  display_order: 90,  is_active: true },
   { name_en: "Professional Services",    name_ar: "الخدمات المهنية",                    display_order: 100, is_active: true },
-  { name_en: "Government",               name_ar: "الحكومة",                            display_order: 110, is_active: true },
+  { name_en: "Government Sector",        name_ar: "الحكومة",                            display_order: 110, is_active: true },
   { name_en: "Hospitality",              name_ar: "الضيافة",                            display_order: 120, is_active: true },
 ];
 
 export const TESTIMONIALS_FALLBACK = [
   {
-    quote_en: "Consolve's assessment identified operational bottlenecks we'd been struggling with for years. Their recommendations transformed our supply chain efficiency by 35%.",
+    quote_en: "Consolve's assessment identified operational bottlenecks we'd been struggling with for years. Their recommendations helped improve our supply chain efficiency by 35%.",
     quote_ar: "كشف تقييم كونسولف عن عوائق تشغيلية كنا نعاني منها لسنوات. حوّلت توصياتهم كفاءة سلسلة التوريد لدينا بنسبة ٣٥٪.",
     author_en: "Chief Operations Officer",
     author_ar: "مدير العمليات",
@@ -29,7 +29,7 @@ export const TESTIMONIALS_FALLBACK = [
     is_active: true,
   },
   {
-    quote_en: "The governance framework they built for us was instrumental in our successful IPO preparation. Clear, thorough, and impactful.",
+    quote_en: "The governance framework developed by the team played a central role in our IPO readiness. Clear, thorough, and impactful.",
     quote_ar: "كان الإطار الحوكمي الذي بنوه لنا أداةً محورية في تحضيرنا الناجح للطرح العام. واضح وشامل ومؤثر.",
     author_en: "Board Chairman",
     author_ar: "رئيس مجلس الإدارة",
@@ -39,7 +39,7 @@ export const TESTIMONIALS_FALLBACK = [
     is_active: true,
   },
   {
-    quote_en: "Their AI-powered diagnostic tool gave us insights that traditional consulting firms took months to deliver. Consolve did it in days.",
+    quote_en: "The AI-supported diagnostic tool helped us develop an initial view of our challenges within a short period.",
     quote_ar: "أعطتنا أداة التشخيص المدعومة بالذكاء الاصطناعي رؤى استغرقت شركات استشارية تقليدية أشهراً لتقديمها. أنجزت كونسولف ذلك في أيام.",
     author_en: "CEO",
     author_ar: "الرئيس التنفيذي",
@@ -66,11 +66,11 @@ export const CASE_STUDIES_FALLBACK = [
   {
     industry_en: "Financial Services",
     industry_ar: "الخدمات المالية",
-    challenge_en: "Non-compliant governance structure posing regulatory risk.",
+    challenge_en: "A governance structure that did not fully align with regulatory requirements, increasing organizational risk.",
     challenge_ar: "هيكل حوكمة غير ملتزم يشكّل خطراً تنظيمياً.",
     solution_en: "Complete governance overhaul with board advisory and compliance frameworks.",
     solution_ar: "مراجعة شاملة للحوكمة مع استشارات مجلس الإدارة وأطر الامتثال.",
-    result_en: "100% regulatory compliance achieved. Board effectiveness score increased by 60%.",
+    result_en: "Improved alignment with the regulatory requirements defined within the project scope. Board effectiveness score increased by 60%.",
     result_ar: "تحقيق الامتثال التنظيمي الكامل. ارتفع مؤشر فعالية مجلس الإدارة بنسبة ٦٠٪.",
     display_order: 20,
     is_active: true,
@@ -82,7 +82,7 @@ export const CASE_STUDIES_FALLBACK = [
     challenge_ar: "نمو سريع دون هيكل تنظيمي قابل للتوسع.",
     solution_en: "Designed scalable org chart, defined roles, and implemented reporting systems.",
     solution_ar: "تصميم هيكل تنظيمي قابل للتوسع وتحديد الأدوار وتطبيق أنظمة التقارير.",
-    result_en: "Headcount grew 3x without operational friction. Employee satisfaction up 45%.",
+    result_en: "The workforce grew threefold without significant disruption to operations. Employee satisfaction up 45%.",
     result_ar: "نمو القوى العاملة ٣ أضعاف دون احتكاك تشغيلي. رضا الموظفين ارتفع بنسبة ٤٥٪.",
     display_order: 30,
     is_active: true,

@@ -27,7 +27,7 @@ export default function RecentBlogs() {
     <section className="py-24 md:py-36 bg-card border-b border-border">
       <div className="max-w-7xl mx-auto px-6 text-center">
         <p className="text-xs font-semibold uppercase tracking-[0.2em] text-primary mb-4">
-          {isAr ? "المرئيات" : "Insights"}
+          {isAr ? "المرئيات" : "Consolve Insights"}
         </p>
         <h2 className="text-3xl md:text-5xl font-bold text-foreground tracking-tight mb-4 leading-tight">
           {isAr ? "أحدث المقالات" : "Recently Published"}
@@ -35,7 +35,7 @@ export default function RecentBlogs() {
         <p className="text-base md:text-lg text-muted-foreground max-w-2xl mx-auto">
           {isAr
             ? "اطلع على أحدث أفكارنا حول الاستراتيجية، العمليات، الحوكمة، والنمو."
-            : "Explore our latest thinking on strategy, operations, governance, and growth."}
+            : "Explore our latest articles on strategy, operations, governance, and organizational growth."}
         </p>
       </div>
 
