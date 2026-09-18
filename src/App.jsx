@@ -51,7 +51,9 @@ function App() {
               <Route path="/" element={<Home />} />
               <Route path="/about" element={<About />} />
               <Route path="/services" element={<Services />} />
-              <Route path="/clients" element={<Clients />} />
+              {/* Clients page temporarily hidden — code kept in src/pages/Clients.jsx.
+                  Restore by swapping this back to element={<Clients />}. */}
+              <Route path="/clients" element={<Navigate to="/" replace />} />
               <Route path="/contact" element={<Contact />} />
               <Route path="/assessment" element={<Assessment />} />
               <Route path="/careers" element={<Careers />} />
