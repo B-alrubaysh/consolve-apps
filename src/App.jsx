@@ -51,9 +51,8 @@ function App() {
               <Route path="/" element={<Home />} />
               <Route path="/about" element={<About />} />
               <Route path="/services" element={<Services />} />
-              {/* Clients page temporarily hidden — code kept in src/pages/Clients.jsx.
-                  Restore by swapping this back to element={<Clients />}. */}
-              <Route path="/clients" element={<Navigate to="/" replace />} />
+              {/* Reachable by direct URL; hidden from header/footer navigation. */}
+              <Route path="/clients" element={<Clients />} />
               <Route path="/contact" element={<Contact />} />
               <Route path="/assessment" element={<Assessment />} />
               <Route path="/careers" element={<Careers />} />
