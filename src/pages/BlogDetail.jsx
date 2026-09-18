@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from "react";
 import { useParams, Link } from "react-router-dom";
-import { format } from "date-fns";
 import { Loader2 } from "lucide-react";
 import { base44 } from "@/api/base44Client";
 import { useLanguage } from "../lib/useLanguage";
@@ -8,13 +7,7 @@ import PageNotFound from "../lib/PageNotFound";
 import BlogCard from "../components/blog/BlogCard";
 import EmailGateModal from "../components/blog/EmailGateModal";
 import { heroImageFor } from "../lib/blogUtils";
-
-function fmt(d) {
-  if (!d) return "";
-  const dt = new Date(d);
-  if (isNaN(dt.getTime())) return "";
-  return format(dt, "MMM d, yyyy");
-}
+import { formatArticleDate } from "../lib/formatDate";
 
 function setMeta(name, content, attr = "name") {
   if (!content) return null;
@@ -100,7 +93,7 @@ export default function BlogDetail() {
     const canonical = post.canonical_url || "";
 
     const prevTitle = document.title;
-    document.title = title;
+    document.title = isAr ? `${title} | كونسولف للاستشارات الإدارية` : title;
 
     const cleanups = [
       setMeta("description", desc),
@@ -199,7 +192,7 @@ export default function BlogDetail() {
         </h1>
         <p className="text-sm text-muted-foreground mb-8">
           {displayAuthor}
-          {post.publish_date && <> · {fmt(post.publish_date)}</>}
+          {post.publish_date && <> · {formatArticleDate(post.publish_date, isAr)}</>}
         </p>
 
         <hr className="border-border mb-8" />

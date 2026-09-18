@@ -3,6 +3,7 @@ import { useEffect } from "react";
 // Shared brand — never override; this is what shows as the small header line
 // above the title in WhatsApp / LinkedIn / Slack link previews.
 const SITE_NAME = "Consolve Management Consulting";
+const SITE_NAME_AR = "كونسولف للاستشارات الإدارية";
 const DEFAULT_IMAGE =
   "https://base44.app/api/apps/69c6e2cf0b61fa041c4eb06c/files/mp/public/69c6e2cf0b61fa041c4eb06c/8df118fe6_Logo3.png";
 
@@ -43,7 +44,8 @@ export function usePageMetadata({ title, description, image, type = "website" } 
     // brand suffix here (title | site) but NOT in og:title, because previews
     // already show og:site_name as a separate line — repeating it looks noisy.
     const prevTitle = document.title;
-    if (title) document.title = `${title} | ${SITE_NAME}`;
+    const isAr = (typeof localStorage !== "undefined" && localStorage.getItem("consolve_lang")) === "ar";
+    if (title) document.title = `${title} | ${isAr ? SITE_NAME_AR : SITE_NAME}`;
 
     const url = typeof window !== "undefined" ? window.location.href : undefined;
     const finalImage = image || DEFAULT_IMAGE;

@@ -1,13 +1,6 @@
 import { Link } from "react-router-dom";
-import { format } from "date-fns";
 import { heroImageFor } from "../../lib/blogUtils";
-
-function fmt(d) {
-  if (!d) return "";
-  const dt = new Date(d);
-  if (isNaN(dt.getTime())) return "";
-  return format(dt, "MMM d, yyyy");
-}
+import { formatArticleDate } from "../../lib/formatDate";
 
 export default function BlogCard({ post, isAr }) {
   const title = isAr ? (post.title_ar || post.title_en) : (post.title_en || post.title_ar);
@@ -34,7 +27,7 @@ export default function BlogCard({ post, isAr }) {
           {title || "Untitled"}
         </h3>
         {post.publish_date && (
-          <p className="text-xs text-muted-foreground mb-3">{fmt(post.publish_date)}</p>
+          <p className="text-xs text-muted-foreground mb-3">{formatArticleDate(post.publish_date, isAr)}</p>
         )}
         {excerpt && (
           <p className="text-sm text-muted-foreground leading-relaxed line-clamp-2 mb-4">

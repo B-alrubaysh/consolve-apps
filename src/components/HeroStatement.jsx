@@ -60,9 +60,9 @@ export default function HeroStatement() {
 
   const headlineAR = (
     <h2 className="ar-display-heading text-4xl md:text-5xl lg:text-6xl font-black text-foreground tracking-tight" dir="rtl">
-      <span className="text-primary">نمكّن</span>
-      {" المؤسسات من تحقيق أداء أكثر كفاءة "}
-      <span className="text-primary">واستدامة</span>
+      <span className="text-primary">نبني</span>
+      {" أنظمة إدارية وتشغيلية تساعد المؤسسات على رفع الكفاءة وتحقيق نمو "}
+      <span className="text-primary">مستدام</span>
     </h2>
   );
 
@@ -99,11 +99,11 @@ export default function HeroStatement() {
             transition={{ duration: 0.75, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
           >
             <p className="text-sm md:text-base font-semibold uppercase tracking-[0.2em] text-primary mb-5">
-              {isAr ? "ماذا نقدم؟" : "How We Help Organizations"}
+              {isAr ? "كيف نساعد المؤسسات؟" : "How We Help Organizations"}
             </p>
             <p className="text-muted-foreground text-lg md:text-xl leading-[1.8]">
               {isAr
-                ? "نساعد الشركات على تطوير أدائها من خلال تشخيص التحديات الإدارية والتشغيلية، وتحليل الفجوات، وتصميم حلول عملية قابلة للتنفيذ. تشمل خدماتنا الحوكمة، وتحسين العمليات، والبحث والتطوير، والاستراتيجية، وبناء السياسات والإجراءات، بما يساعد المؤسسات على رفع الكفاءة، وتحسين جودة القرارات، ودعم النمو المستدام."
+                ? "نساعد المؤسسات على تشخيص التحديات الإدارية والتشغيلية، وتحليل فجوات الأداء، وتصميم حلول عملية قابلة للتنفيذ. وتشمل خدماتنا الحوكمة وتحسين العمليات والاستراتيجية والبحث والتطوير وبناء السياسات والإجراءات، بما يدعم كفاءة التشغيل وجودة القرارات والاستعداد للنمو."
                 : "We help organizations diagnose administrative and operational challenges, analyze performance gaps, and design practical, actionable solutions. Our services include governance, process improvement, strategy, R&D, and policy and procedure development, supporting operational efficiency, better decision-making, and readiness for growth."}
             </p>
           </motion.div>

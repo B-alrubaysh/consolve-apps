@@ -48,7 +48,9 @@ export default function About() {
       <section className="pt-32 pb-20 md:pt-44 md:pb-28">
         <div className="max-w-7xl mx-auto px-6">
           <AnimatedSection>
-            <p className="text-primary font-semibold text-xs uppercase tracking-[0.2em] mb-4">{pick("about_label", tx.about_label)}</p>
+            {!isAr && (
+              <p className="text-primary font-semibold text-xs uppercase tracking-[0.2em] mb-4">{pick("about_label", tx.about_label)}</p>
+            )}
             <h1 className="text-4xl md:text-6xl font-bold text-foreground tracking-tight mb-8 max-w-3xl">{pick("about_h1", tx.about_h1)}</h1>
           </AnimatedSection>
           <AnimatedSection delay={100}>

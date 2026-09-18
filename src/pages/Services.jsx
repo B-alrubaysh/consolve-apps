@@ -95,7 +95,7 @@ export default function Services() {
               <h3 className="text-lg font-bold text-foreground mb-3">{isAr ? "منظومة متكاملة" : "An Integrated System"}</h3>
               <p className="text-muted-foreground leading-relaxed max-w-3xl">
                 {isAr
-                  ? "تُوظَّف هذه المحاور التسعة معًا أو منفصلة، وتُبنى بما يتناسب مع طبيعة الكيان ومستوى نضجه الإداري، من تشخيص الواقع إلى تمكين الفريق من تشغيل الأنظمة بنفسه."
+                  ? "يمكن توظيف هذه المجالات بصورة مستقلة أو ضمن منظومة متكاملة تبدأ بتشخيص الوضع الحالي وتنتهي بتمكين فريق العميل من تشغيل الحلول وتطويرها."
                   : "These consulting areas can be delivered independently or as part of an integrated system that begins with diagnosing the current situation and ends with enabling the client’s team to operate and improve the solutions."}
               </p>
             </div>
