@@ -77,7 +77,7 @@ const COPY = {
     ],
     after_title: "ماذا يتضمن تقرير التشخيص؟",
     after: [
-      "تقييم المحاور المرتبطة بالمشكلة.",
+      "تقييم الجوانب المرتبطة بالتحدي.",
       "مرحلة نضج الشركة.",
       "مستوى المخاطر.",
       "ملخص عن الوضع الحالي.",
@@ -150,7 +150,7 @@ const COPY = {
     ],
     after_title: "What Your Diagnosis Report Includes",
     after: [
-      "Evaluation of problem-related axes.",
+      "Assessment of areas related to the challenge.",
       "Company maturity stage.",
       "Risk level.",
       "Current situation summary.",

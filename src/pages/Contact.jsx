@@ -17,7 +17,7 @@ export default function Contact() {
   const tx = t[lang];
 
   usePageMetadata({
-    title: isAr ? tx.contact_h1 : "Contact",
+    title: isAr ? "تواصل معنا" : "Contact",
     description: tx.contact_sub,
   });
 

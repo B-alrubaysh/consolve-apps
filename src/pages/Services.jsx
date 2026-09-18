@@ -27,7 +27,7 @@ export default function Services() {
   const tx = t[lang];
 
   usePageMetadata({
-    title: isAr ? tx.services_h1 : "Services",
+    title: isAr ? "خدماتنا" : "Services",
     description: tx.services_sub,
   });
 

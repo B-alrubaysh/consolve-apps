@@ -14,7 +14,7 @@ export default function Clients() {
   const isAr = lang === "ar";
 
   usePageMetadata({
-    title: isAr ? tx.clients_h1 : "Clients",
+    title: isAr ? "عملاؤنا" : "Clients",
     description: tx.clients_sub,
   });
 
