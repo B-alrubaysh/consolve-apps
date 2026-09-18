@@ -200,3 +200,12 @@
 .ar-display-heading {
   line-height: 1.55;
 }
+
+/* Arabic is a connected script — any letter-spacing breaks the joins between
+   letters, and uppercase has no meaning. Neutralize both in the Arabic
+   version only. English keeps its tracking exactly as authored. */
+html[dir="rtl"] *,
+html[lang="ar"] * {
+  letter-spacing: 0 !important;
+  text-transform: none !important;
+}
