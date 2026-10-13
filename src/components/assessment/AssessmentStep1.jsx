@@ -6,7 +6,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import AnimatedSection from "../AnimatedSection";
 import t from "../../lib/translations";
 
-export const INDUSTRIES_EN = ["Technology", "Healthcare", "Financial Services", "Manufacturing", "Retail & E-commerce", "Energy", "Real Estate", "Education", "Logistics", "Professional Services", "Government", "Hospitality", "Other"];
+export const INDUSTRIES_EN = ["Technology", "Healthcare", "Financial Services", "Manufacturing", "Retail & E-commerce", "Energy", "Real Estate", "Education", "Logistics", "Professional Services", "Government Sector", "Hospitality", "Other"];
 export const INDUSTRIES_AR = ["التكنولوجيا", "الرعاية الصحية", "الخدمات المالية", "التصنيع", "التجزئة والتجارة الإلكترونية", "الطاقة", "العقارات", "التعليم", "الخدمات اللوجستية", "الخدمات المهنية", "القطاع الحكومي", "الضيافة", "أخرى"];
 export const SIZES = ["1-10", "11-50", "51-200", "201-500", "500+"];
 

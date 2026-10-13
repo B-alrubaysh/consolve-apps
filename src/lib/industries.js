@@ -10,7 +10,7 @@ export const INDUSTRIES_EN = [
   "Education",
   "Logistics",
   "Professional Services",
-  "Government",
+  "Government Sector",
   "Hospitality",
   "Other",
 ];
