@@ -59,7 +59,7 @@ export default function HeroStatement() {
   );
 
   const headlineAR = (
-    <h2 className="ar-display-heading text-4xl md:text-5xl lg:text-6xl font-black text-foreground tracking-tight" dir="rtl">
+    <h2 className="ar-display-heading text-4xl md:text-5xl lg:text-6xl !leading-[1.75] font-black text-foreground tracking-tight" dir="rtl">
       <span className="text-primary">نبني</span>
       {" أنظمة إدارية وتشغيلية تساعد المؤسسات على رفع الكفاءة وتحقيق نمو "}
       <span className="text-primary">مستدام</span>
