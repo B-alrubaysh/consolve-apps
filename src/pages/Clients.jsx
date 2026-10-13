@@ -85,7 +85,8 @@ export default function Clients() {
       </section>
       )}
 
-      {TESTIMONIALS.length > 0 && (
+      {/* Testimonials hidden until verified, approved testimonials are available. */}
+      {false && TESTIMONIALS.length > 0 && (
       <section className="py-20 md:py-28 bg-secondary">
         <div className="max-w-7xl mx-auto px-6">
           <AnimatedSection>
