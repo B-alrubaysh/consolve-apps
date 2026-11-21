@@ -41,6 +41,7 @@ import AdminBlogPage from './pages/admin/AdminBlogPage';
 import AdminBlogEditorPage from './pages/admin/AdminBlogEditorPage';
 import AdminBlogTemplatesPage from './pages/admin/AdminBlogTemplatesPage';
 import AdminDashboardPage from './pages/admin/AdminDashboardPage';
+import AdminLeadsPage from './pages/admin/AdminLeadsPage';
 import AdminSettingsPage from './pages/admin/AdminSettingsPage';
 import AdminPlaceholder from './pages/admin/AdminPlaceholder';
 
@@ -80,6 +81,7 @@ function App() {
             <Route path="/admin" element={<ProtectedAdminLayout />}>
               <Route index element={<Navigate to="/admin/dashboard" replace />} />
               <Route path="dashboard" element={<AdminDashboardPage />} />
+              <Route path="leads" element={<AdminLeadsPage />} />
               <Route path="assessments" element={<AssessmentsList />} />
               <Route path="diagnosis-leads" element={<AdminDiagnosisLeadsPage />} />
               <Route path="service-leads" element={<AdminServiceLeadsPage />} />

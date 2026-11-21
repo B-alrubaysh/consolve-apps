@@ -85,6 +85,34 @@
         "green"
       ],
       "default": "New"
+    },
+    "is_read": {
+      "type": "boolean",
+      "title": "Read",
+      "default": false
+    },
+    "lead_status": {
+      "type": "string",
+      "title": "Lead Status",
+      "enum": [
+        "new",
+        "contacted",
+        "interested",
+        "not_interested",
+        "converted"
+      ],
+      "enumColors": [
+        "blue",
+        "yellow",
+        "purple",
+        "red",
+        "green"
+      ],
+      "default": "new"
+    },
+    "internal_notes": {
+      "type": "string",
+      "title": "Internal Notes"
     }
   },
   "required": [

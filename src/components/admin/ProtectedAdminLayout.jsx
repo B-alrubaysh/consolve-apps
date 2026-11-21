@@ -5,8 +5,10 @@ import { base44 } from "@/api/base44Admin";
 import { getAdminUser } from "@/lib/getAdminUser";
 import { useLanguage } from "../../lib/useLanguage";
 import { ALL_ADMIN_ROLES, canSeeNavItem } from "../../lib/rbac";
+import useLeadCounts from "./leads/useLeadCounts";
 
 const NAV = [
+  { key: "leads", to: "/admin/leads", label: "Leads", labelAr: "طلبات العملاء", icon: Inbox, badge: true },
   { key: "dashboard", to: "/admin/dashboard", label: "Dashboard", icon: LayoutDashboard },
   { key: "blog", to: "/admin/blog", label: "Blog", icon: BookOpen },
   { key: "templates", to: "/admin/blog/templates", label: "Templates", icon: FilePlus2 },
@@ -52,7 +54,9 @@ function StatusScreen({ title, message }) {
 
 function AdminSidebar({ user, onLogout }) {
   const location = useLocation();
+  const { isAr } = useLanguage();
   const visibleItems = NAV.filter((item) => canSeeNavItem(user.role, item.key));
+  const leadCounts = useLeadCounts(canSeeNavItem(user.role, "leads"));
 
   return (
     <aside className="w-64 shrink-0 border-r border-white/10 bg-secondary text-white min-h-screen flex flex-col">
@@ -73,10 +77,15 @@ function AdminSidebar({ user, onLogout }) {
               to={item.to}
               className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm transition-colors ${
                 active ? "bg-white/10 text-white" : "text-white/60 hover:bg-white/5 hover:text-white"
-              }`}
+              } ${item.badge ? "border border-primary/30 mb-2 font-semibold text-white" : ""}`}
             >
-              <Icon className="w-4 h-4" />
-              {item.label}
+              <Icon className={`w-4 h-4 ${item.badge ? "text-primary" : ""}`} />
+              <span className="flex-1">{isAr && item.labelAr ? item.labelAr : item.label}</span>
+              {item.badge && leadCounts.total > 0 && (
+                <span className="min-w-[22px] text-center rounded-full bg-primary px-1.5 text-xs font-semibold text-white">
+                  {leadCounts.total}
+                </span>
+              )}
             </Link>
           );
         })}

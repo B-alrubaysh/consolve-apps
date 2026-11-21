@@ -8,6 +8,7 @@ import { base44 } from "@/api/base44Admin";
 import { useAdminUser } from "../../components/admin/ProtectedAdminLayout";
 import { requireRole, ROLES } from "../../lib/rbac";
 import AccessDenied from "../../components/admin/AccessDenied";
+import LeadsSummaryCard from "../../components/admin/leads/LeadsSummaryCard";
 
 const ROLE_LABEL = {
   [ROLES.OWNER]: "Owner",
@@ -163,6 +164,8 @@ export default function AdminDashboardPage() {
               <MetricCard key={c.key} icon={c.icon} label={c.label} value={c.value} to={c.to} />
             ))}
       </div>
+
+      {isOwnerAdmin && <LeadsSummaryCard />}
 
       {isOwnerAdmin && (
         <div className="mt-8 bg-white/5 border border-white/10 rounded-xl p-6">
