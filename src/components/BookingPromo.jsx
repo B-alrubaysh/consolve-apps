@@ -70,7 +70,7 @@ export function BookingPopup() {
               <CalendarCheck className="w-7 h-7 text-primary" />
             </div>
             <p className="text-primary font-semibold text-xs uppercase tracking-[0.2em] mb-2">{c.label}</p>
-            <h3 className="text-2xl font-bold text-foreground mb-3">{c.title}</h3>
+            <h3 className={`text-2xl font-bold text-foreground mb-3 ${isAr ? "!leading-[1.6]" : ""}`}>{c.title}</h3>
             <p className="text-sm text-muted-foreground leading-relaxed mb-7">{c.text}</p>
 
             <a
@@ -106,7 +106,7 @@ export function BookingBand() {
             <CalendarCheck className="w-6 h-6 text-white" />
           </div>
           <div>
-            <h2 className="text-2xl md:text-3xl font-bold text-white tracking-tight mb-1">{c.title}</h2>
+            <h2 className={`text-2xl md:text-3xl font-bold text-white tracking-tight mb-1 ${isAr ? "!leading-[1.6]" : ""}`}>{c.title}</h2>
             <p className="text-white/80 text-sm md:text-base">{c.text}</p>
           </div>
         </div>

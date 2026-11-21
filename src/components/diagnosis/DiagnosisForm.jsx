@@ -128,7 +128,7 @@ export default function DiagnosisForm({ c, lang, onNext, onProgress }) {
 
   return (
     <div className="rounded-2xl border border-border bg-card p-6 md:p-8 shadow-sm">
-      <h2 className="text-2xl font-bold text-foreground mb-1">{c.form_title}</h2>
+      <h2 className={`text-2xl font-bold text-foreground mb-1 ${isAr ? "!leading-[1.6]" : ""}`}>{c.form_title}</h2>
       <p className="text-sm text-muted-foreground mb-6">{c.form_sub}</p>
 
       {/* Progress */}

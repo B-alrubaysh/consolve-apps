@@ -1,14 +1,17 @@
 import { SlidersHorizontal, Search, PieChart, ClipboardCheck } from "lucide-react";
 import AnimatedSection from "../AnimatedSection";
+import { useLanguage } from "@/lib/useLanguage";
 
 const WHY_ICONS = [SlidersHorizontal, Search, PieChart, ClipboardCheck];
 
 // "Why this diagnosis" cards followed by the "How does it work?" steps.
 export default function DiagnosisWhyHow({ c }) {
+  const { isAr } = useLanguage();
+  const titleClass = `text-2xl md:text-3xl font-bold text-foreground text-center mb-10 ${isAr ? "!leading-[1.6]" : ""}`;
   return (
     <>
       <AnimatedSection>
-        <h3 className="text-2xl md:text-3xl font-bold text-foreground text-center mb-10">{c.why_title}</h3>
+        <h3 className={titleClass}>{c.why_title}</h3>
       </AnimatedSection>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-20">
         {c.why.map((w, i) => {
@@ -28,7 +31,7 @@ export default function DiagnosisWhyHow({ c }) {
       </div>
 
       <AnimatedSection>
-        <h3 className="text-2xl md:text-3xl font-bold text-foreground text-center mb-10">{c.how_title}</h3>
+        <h3 className={titleClass}>{c.how_title}</h3>
       </AnimatedSection>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-20 max-w-5xl mx-auto">
         {c.how.map((h, i) => (
