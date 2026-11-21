@@ -12,9 +12,10 @@ export default function BlogList() {
   const [loading, setLoading] = useState(true);
 
   usePageMetadata({
-    title: isAr ? "المدونة" : "Blog",
+    rawTitle: isAr,
+    title: isAr ? "المدونة | رؤى كونسولف" : "Blog",
     description: isAr
-      ? "مقالات وأفكار عملية من كونسولف في الاستشارات الإدارية والتشغيلية."
+      ? "مقالات ورؤى عملية من كونسولف في الإدارة والحوكمة والعمليات والاستراتيجية تساعد القادة على اتخاذ قرارات أوضح."
       : "Practical articles and insights from Consolve on management and operations consulting.",
   });
 

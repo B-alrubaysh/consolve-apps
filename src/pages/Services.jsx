@@ -27,8 +27,11 @@ export default function Services() {
   const tx = t[lang];
 
   usePageMetadata({
-    title: isAr ? "خدماتنا" : "Services",
-    description: tx.services_sub,
+    title: isAr ? "خدماتنا | كونسولف للاستشارات الإدارية" : "Services",
+    description: isAr
+      ? "خدمات استشارية متكاملة في الحوكمة والتطوير التنظيمي وتحسين العمليات والاستراتيجية والبحث والتطوير وبناء السياسات والإجراءات."
+      : tx.services_sub,
+    rawTitle: isAr,
   });
 
   const [catalogue, setCatalogue] = useState(() => normalize(SERVICES_FALLBACK));

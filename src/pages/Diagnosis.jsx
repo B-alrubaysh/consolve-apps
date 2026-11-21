@@ -7,7 +7,7 @@ import { DIAGNOSIS_COPY } from "../components/diagnosis/diagnosisCopy";
 import { useLanguage, setGlobalLang } from "../lib/useLanguage";
 import { usePageMetadata } from "../lib/usePageMetadata";
 
-const OG_IMAGE = "https://media.base44.com/images/public/69c6e2cf0b61fa041c4eb06c/aedd7f7c9_generated_image.png";
+const OG_IMAGE = "https://base44.app/api/apps/69c6e2cf0b61fa041c4eb06c/files/mp/public/69c6e2cf0b61fa041c4eb06c/180ad3950_consolve-diagnosis-share-1200x630.png";
 
 const scrollToForm = () =>
   document.getElementById("diagnosis-form")?.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -30,8 +30,13 @@ export default function Diagnosis() {
 
   usePageMetadata({
     title: lang === "ar" ? "تشخيص شركتك | كونسولف" : "Business Diagnosis | Consolve",
-    description: c.page_desc,
+    description: lang === "ar"
+      ? "ابدأ تشخيصًا أوليًا لشركتك بأسئلة مخصصة لطبيعة عملك، واحصل على تقرير يوضح الوضع الحالي والأسباب المحتملة والخدمات الأنسب."
+      : c.page_desc,
     image: OG_IMAGE,
+    imageWidth: 1200,
+    imageHeight: 630,
+    imageAlt: lang === "ar" ? "ابدأ تشخيص شركتك — كونسولف" : "Start your business diagnosis — Consolve",
     rawTitle: true,
   });
 

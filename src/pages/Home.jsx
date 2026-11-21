@@ -21,8 +21,11 @@ export default function Home() {
   // ("Consolve Management Solutions") in the small line above it — the small
   // line is set once in index.html and re-asserted by the hook.
   usePageMetadata({
-    title: isAr ? "الرئيسية" : "Home",
-    description: tx.home_sub,
+    title: isAr ? "كونسولف للاستشارات الإدارية | أنظمة إدارية وتشغيلية ترفع كفاءة مؤسستك" : "Home",
+    description: isAr
+      ? "نساعد المؤسسات على تشخيص التحديات الإدارية والتشغيلية وتصميم حلول عملية في الحوكمة والعمليات والاستراتيجية ترفع الكفاءة وتدعم النمو المستدام."
+      : tx.home_sub,
+    rawTitle: isAr,
   });
 
   const WHY_ITEMS = [

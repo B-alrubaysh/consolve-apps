@@ -7,6 +7,14 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Switch } from "@/components/ui/switch";
 import { Slider } from "@/components/ui/slider";
 import { Loader2, Upload } from "lucide-react";
+import { cropToOgFile } from "@/lib/ogImage";
+
+// When a hero is uploaded and no share image is set yet, derive a 1200×630 one.
+async function ogFromHero(url) {
+  const file = await cropToOgFile(url);
+  const { file_url } = await base44.integrations.Core.UploadFile({ file });
+  return file_url;
+}
 
 function CopyShareLinkButton({ label, url, disabled }) {
   const [copied, setCopied] = useState(false);
@@ -32,14 +40,16 @@ function CopyShareLinkButton({ label, url, disabled }) {
   );
 }
 
-function ImageUploader({ value, onChange, label }) {
+function ImageUploader({ value, onChange, label, ogCrop = false }) {
   const inputRef = useRef(null);
   const [uploading, setUploading] = useState(false);
 
   const handleFile = async (e) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
+    const picked = e.target.files?.[0];
+    if (!picked) return;
     setUploading(true);
+    // Share images are stored as a 1200×630 center crop for link previews.
+    const file = ogCrop ? await cropToOgFile(picked) : picked;
     const { file_url } = await base44.integrations.Core.UploadFile({ file });
     setUploading(false);
     onChange(file_url);
@@ -153,7 +163,10 @@ export default function BlogEditorSidebar({ form, setField, users, errors }) {
           <ImageUploader
             label="Hero Image (English)"
             value={form.hero_image_url}
-            onChange={(v) => setField("hero_image_url", v)}
+            onChange={async (v) => {
+              setField("hero_image_url", v);
+              if (v && !form.og_image_url) setField("og_image_url", await ogFromHero(v));
+            }}
           />
           {errors?.hero_image_url && <p className="text-xs text-destructive">{errors.hero_image_url}</p>}
 
@@ -174,7 +187,8 @@ export default function BlogEditorSidebar({ form, setField, users, errors }) {
           )}
 
           <ImageUploader
-            label="Open Graph Image"
+            label="Open Graph Image (auto-cropped to 1200×630)"
+            ogCrop
             value={form.og_image_url}
             onChange={(v) => setField("og_image_url", v)}
           />

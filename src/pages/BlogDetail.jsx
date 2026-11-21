@@ -1,5 +1,7 @@
 import { useEffect, useRef, useState } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Navigate } from "react-router-dom";
+import { usePageMetadata } from "../lib/usePageMetadata";
+import { blogPostMeta, BLOG_SLUG_REDIRECTS } from "../lib/blogMeta";
 import { Loader2 } from "lucide-react";
 import { base44 } from "@/api/base44Client";
 import { useLanguage } from "../lib/useLanguage";
@@ -8,21 +10,6 @@ import BlogCard from "../components/blog/BlogCard";
 import EmailGateModal from "../components/blog/EmailGateModal";
 import { heroImageFor } from "../lib/blogUtils";
 import { formatArticleDate } from "../lib/formatDate";
-
-function setMeta(name, content, attr = "name") {
-  if (!content) return null;
-  let el = document.querySelector(`meta[${attr}="${name}"]`);
-  let created = false;
-  if (!el) {
-    el = document.createElement("meta");
-    el.setAttribute(attr, name);
-    document.head.appendChild(el);
-    created = true;
-  }
-  const prev = el.getAttribute("content");
-  el.setAttribute("content", content);
-  return { el, prev, created };
-}
 
 function setCanonical(href) {
   if (!href) return null;
@@ -84,47 +71,18 @@ export default function BlogDetail() {
     return () => { cancelled = true; };
   }, [slug]);
 
-  // SEO meta
+  // Link-preview / SEO meta (title, description, og:*, twitter:*)
+  usePageMetadata(blogPostMeta(post, isAr));
+
+  // Canonical URL (optional, per post)
   useEffect(() => {
-    if (!post) return;
-    const title = (isAr ? post.seo_title_ar : post.seo_title_en) || (isAr ? post.title_ar : post.title_en) || "Consolve Management Solutions";
-    const desc = (isAr ? post.seo_description_ar : post.seo_description_en) || (isAr ? post.excerpt_ar : post.excerpt_en) || "";
-    const ogImg = post.og_image_url || heroImageFor(post, isAr) || "";
-    const canonical = post.canonical_url || "";
-
-    const prevTitle = document.title;
-    document.title = isAr ? `${title} | كونسولف للاستشارات الإدارية` : title;
-
-    const cleanups = [
-      setMeta("description", desc),
-      setMeta("og:title", title, "property"),
-      setMeta("twitter:title", title),
-      setMeta("og:description", desc, "property"),
-      setMeta("twitter:description", desc),
-      setMeta("og:image", ogImg, "property"),
-      setMeta("twitter:image", ogImg),
-      setMeta("og:type", "article", "property"),
-      // og:site_name stays constant across the whole site. Re-asserted here so
-      // the small line above the title in WhatsApp / LinkedIn previews always
-      // reads "Consolve Management Solutions".
-      setMeta("og:site_name", "Consolve Management Solutions", "property"),
-      setCanonical(canonical),
-    ].filter(Boolean);
-
+    const c = setCanonical(post?.canonical_url || "");
+    if (!c) return;
     return () => {
-      document.title = prevTitle;
-      cleanups.forEach((c) => {
-        if (!c) return;
-        if (c.created) {
-          c.el.parentNode?.removeChild(c.el);
-        } else if (c.prev != null) {
-          // restore prev
-          if (c.el.tagName === "META") c.el.setAttribute("content", c.prev);
-          else if (c.el.tagName === "LINK") c.el.setAttribute("href", c.prev);
-        }
-      });
+      if (c.created) c.el.parentNode?.removeChild(c.el);
+      else if (c.prev != null) c.el.setAttribute("href", c.prev);
     };
-  }, [post, isAr]);
+  }, [post]);
 
   // Email gate scroll listener
   useEffect(() => {
@@ -152,6 +110,9 @@ export default function BlogDetail() {
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, [post, gateDismissed]);
+
+  const redirectTo = BLOG_SLUG_REDIRECTS[slug];
+  if (redirectTo) return <Navigate to={`/blog/${redirectTo}${window.location.search}`} replace />;
 
   if (loading) {
     return (

@@ -15,8 +15,11 @@ export default function About() {
   const [rec, setRec] = useState(null);
 
   usePageMetadata({
-    title: isAr ? "من نحن" : "About",
-    description: tx.about_p1,
+    title: isAr ? "من نحن | كونسولف للاستشارات الإدارية" : "About",
+    description: isAr
+      ? "كونسولف شركة استشارات إدارية سعودية تساعد المؤسسات على بناء أنظمة إدارية وتشغيلية واضحة ترفع الكفاءة وتحسّن جودة القرار."
+      : tx.about_p1,
+    rawTitle: isAr,
   });
 
   // Read the single PageContent record anonymously — same pattern Footer uses for SiteSettings.

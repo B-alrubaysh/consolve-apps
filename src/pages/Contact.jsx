@@ -17,8 +17,11 @@ export default function Contact() {
   const tx = t[lang];
 
   usePageMetadata({
-    title: isAr ? "تواصل معنا" : "Contact",
-    description: tx.contact_sub,
+    title: isAr ? "تواصل معنا | كونسولف" : "Contact",
+    description: isAr
+      ? "تواصل مع فريق كونسولف للاستشارات الإدارية لمناقشة تحديات مؤسستك والبدء بجلسة استشارية أولية."
+      : tx.contact_sub,
+    rawTitle: isAr,
   });
 
   // PageContent → editable bilingual hero / office / aside text.

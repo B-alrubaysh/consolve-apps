@@ -502,9 +502,10 @@ export default function Careers() {
   const [loadingJobs, setLoadingJobs] = useState(true);
 
   usePageMetadata({
-    title: isAr ? "الوظائف" : "Careers",
+    rawTitle: isAr,
+    title: isAr ? "الوظائف | كونسولف" : "Careers",
     description: isAr
-      ? "انضم إلى فريق كونسولف — فرص عمل في الاستشارات الإدارية والتشغيلية."
+      ? "انضم إلى فريق كونسولف واستكشف فرص العمل المتاحة في الاستشارات الإدارية والتشغيلية، أو أرسل سيرتك الذاتية للفرص القادمة."
       : "Join the Consolve team — open roles in management and operations consulting.",
   });
 
