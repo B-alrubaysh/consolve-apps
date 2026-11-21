@@ -17,7 +17,7 @@ import AuditFAQ from "@/components/audit/AuditFAQ";
 import AuditFormSection from "@/components/audit/AuditFormSection";
 
 // Dedicated 1200×630 share image (headline + Consolve logo).
-const SHARE_IMAGE = "https://media.base44.com/images/public/69c6e2cf0b61fa041c4eb06c/515ce58b1_Icon2.png";
+const SHARE_IMAGE = "https://base44.app/api/apps/69c6e2cf0b61fa041c4eb06c/files/mp/public/69c6e2cf0b61fa041c4eb06c/834a7193a_management-audit-share-1200x630.png";
 
 const META = {
   ar: {
