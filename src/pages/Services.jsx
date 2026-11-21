@@ -12,6 +12,7 @@ const ICONS = { Target, Users, Scale, Settings, Megaphone, DollarSign, Gavel, Ro
 
 function normalize(rows) {
   return (rows || []).map((r) => ({
+    id: r.service_id || r.id || "",
     icon: ICONS[r.icon] || Target,
     nameEn: r.name_en || "",
     nameAr: r.name_ar || "",
@@ -85,6 +86,12 @@ export default function Services() {
                             </div>
                           ))}
                         </div>
+                        {service.id === "governance_orgdev" && (
+                          <Link to="/management-audit" className="inline-flex items-center gap-2 mt-6 text-sm font-semibold text-primary hover:underline">
+                            {isAr ? "اعرف المزيد عن Management Audit" : "Learn more about Management Audit"}
+                            <ArrowRight className={`w-4 h-4 ${isAr ? "rotate-180" : ""}`} />
+                          </Link>
+                        )}
                       </div>
                     </div>
                   </div>

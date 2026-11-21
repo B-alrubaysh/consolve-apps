@@ -1,0 +1,140 @@
+{
+  "name": "ServiceLead",
+  "type": "object",
+  "properties": {
+    "service": {
+      "type": "string",
+      "title": "Service"
+    },
+    "full_name": {
+      "type": "string",
+      "title": "Name"
+    },
+    "company_name": {
+      "type": "string",
+      "title": "Company Name"
+    },
+    "email": {
+      "type": "string",
+      "title": "Email"
+    },
+    "phone": {
+      "type": "string",
+      "title": "Phone (+966)"
+    },
+    "message": {
+      "type": "string",
+      "title": "Challenge / Goal"
+    },
+    "consent_given": {
+      "type": "boolean",
+      "title": "Consent Given",
+      "default": false
+    },
+    "language": {
+      "type": "string",
+      "title": "Language",
+      "enum": [
+        "ar",
+        "en"
+      ]
+    },
+    "source_page": {
+      "type": "string",
+      "title": "Source Page"
+    },
+    "utm_source": {
+      "type": "string",
+      "title": "UTM Source"
+    },
+    "utm_medium": {
+      "type": "string",
+      "title": "UTM Medium"
+    },
+    "utm_campaign": {
+      "type": "string",
+      "title": "UTM Campaign"
+    },
+    "utm_content": {
+      "type": "string",
+      "title": "UTM Content"
+    },
+    "utm_term": {
+      "type": "string",
+      "title": "UTM Term"
+    },
+    "referrer": {
+      "type": "string",
+      "title": "Referrer"
+    },
+    "landing_page": {
+      "type": "string",
+      "title": "First Landing Page"
+    },
+    "status": {
+      "type": "string",
+      "title": "Status",
+      "enum": [
+        "New",
+        "Contacted",
+        "Closed"
+      ],
+      "enumColors": [
+        "blue",
+        "yellow",
+        "green"
+      ],
+      "default": "New"
+    }
+  },
+  "required": [
+    "service",
+    "full_name",
+    "email"
+  ],
+  "rls": {
+    "create": false,
+    "read": {
+      "$or": [
+        {
+          "user_condition": {
+            "role": "owner"
+          }
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "update": {
+      "$or": [
+        {
+          "user_condition": {
+            "role": "owner"
+          }
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "delete": {
+      "$or": [
+        {
+          "user_condition": {
+            "role": "owner"
+          }
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    }
+  }
+}

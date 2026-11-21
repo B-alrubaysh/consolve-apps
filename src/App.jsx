@@ -18,6 +18,8 @@ import BlogList from './pages/Blog';
 import BlogDetail from './pages/BlogDetail';
 import LandingPage from './pages/LandingPage';
 import EcommerceLanding from './pages/EcommerceLanding';
+import ManagementAudit from './pages/ManagementAudit';
+import AdminServiceLeadsPage from './pages/admin/AdminServiceLeadsPage';
 import Abdulaziz from './pages/Abdulaziz';
 import Diagnosis from './pages/Diagnosis';
 import AdminDiagnosisLeadsPage from './pages/admin/AdminDiagnosisLeadsPage';
@@ -68,6 +70,7 @@ function App() {
             {/* Public landing pages — standalone, no site layout */}
             <Route path="/p/:slug" element={<LandingPage />} />
             <Route path="/ecommerce-landing" element={<EcommerceLanding />} />
+            <Route path="/management-audit" element={<ManagementAudit />} />
             <Route path="/abdulaziz" element={<Abdulaziz />} />
 
             {/* Admin login — standalone, no layout */}
@@ -79,6 +82,7 @@ function App() {
               <Route path="dashboard" element={<AdminDashboardPage />} />
               <Route path="assessments" element={<AssessmentsList />} />
               <Route path="diagnosis-leads" element={<AdminDiagnosisLeadsPage />} />
+              <Route path="service-leads" element={<AdminServiceLeadsPage />} />
               <Route path="clients" element={<AdminClientsPage />} />
               <Route path="services" element={<AdminServicesPage />} />
               <Route path="landing" element={<AdminLandingPagesPage />} />
