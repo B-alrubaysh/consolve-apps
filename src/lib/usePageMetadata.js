@@ -1,11 +1,23 @@
 import { useEffect } from "react";
+import { getStoredLang } from "./useLanguage";
 
-// Shared brand — never override; this is what shows as the small header line
-// above the title in WhatsApp / LinkedIn / Slack link previews.
+// Shared brand — this is what shows as the small header line above the title
+// in WhatsApp / LinkedIn / Slack link previews.
 const SITE_NAME = "Consolve Management Consulting";
 const SITE_NAME_AR = "كونسولف للاستشارات الإدارية";
-const DEFAULT_IMAGE =
-  "https://base44.app/api/apps/69c6e2cf0b61fa041c4eb06c/files/mp/public/69c6e2cf0b61fa041c4eb06c/8df118fe6_Logo3.png";
+
+// 1200×630 brand share image used by every page that has no image of its own.
+export const DEFAULT_SHARE_IMAGE =
+  "https://base44.app/api/apps/69c6e2cf0b61fa041c4eb06c/files/mp/public/69c6e2cf0b61fa041c4eb06c/94fba1ad5_consolve-share-1200x630.png";
+
+// Previews are single-line: collapse whitespace/newlines and cap the length.
+export function cleanMetaText(text, max = 150) {
+  const s = String(text || "").replace(/\s+/g, " ").trim();
+  if (s.length <= max) return s;
+  const cut = s.slice(0, max);
+  const lastSpace = cut.lastIndexOf(" ");
+  return (lastSpace > max * 0.6 ? cut.slice(0, lastSpace) : cut).trim() + "…";
+}
 
 // Upsert a <meta> tag by name/property and return an undo record so we can
 // restore the previous value (or remove the element) on unmount.
@@ -19,65 +31,72 @@ function upsertMeta(key, attr, content) {
     document.head.appendChild(el);
   }
   const prev = el.getAttribute("content");
-  el.setAttribute("content", content);
+  el.setAttribute("content", String(content));
   return { el, prev, created };
 }
 
 /**
- * usePageMetadata — sets <title>, og:title, twitter:title, og:description,
- * og:image, og:url, og:type and twitter:description on mount, and restores
- * the previous values on unmount. Every public page uses this so social
- * previews carry that page's real title with the Consolve brand as
- * og:site_name (defined once in index.html, never overridden here).
+ * usePageMetadata — sets <title>, description, og:* and twitter:* for the page
+ * and restores the previous values on unmount. Base44 prerenders pages for
+ * link-preview crawlers by running this code, so these tags are what
+ * WhatsApp / iMessage / Telegram / Slack show.
  *
- * @param {object} opts
- * @param {string} opts.title       — the page-specific title (also becomes og/twitter title)
- * @param {string} [opts.description] — page description (og + twitter)
- * @param {string} [opts.image]     — absolute URL to the preview image
- * @param {string} [opts.type]      — og:type; defaults to "website"
+ * @param {string}  opts.title       page title (og/twitter title)
+ * @param {string}  [opts.description]
+ * @param {string}  [opts.image]     absolute URL; defaults to the 1200×630 brand image
+ * @param {number}  [opts.imageWidth]  only for a custom image of known size
+ * @param {number}  [opts.imageHeight]
+ * @param {string}  [opts.imageAlt]
+ * @param {string}  [opts.type]      og:type; defaults to "website"
+ * @param {boolean} [opts.rawTitle]  use `title` as-is for the tab (no brand suffix)
  */
-// `rawTitle: true` uses `title` as-is for the browser tab (no brand suffix).
-export function usePageMetadata({ title, description, image, type = "website", rawTitle = false } = {}) {
+export function usePageMetadata({
+  title, description, image, imageWidth, imageHeight, imageAlt,
+  type = "website", rawTitle = false,
+} = {}) {
   useEffect(() => {
     if (typeof document === "undefined") return;
 
-    // <title> — for the browser tab and non-OG-aware crawlers. We include the
-    // brand suffix here (title | site) but NOT in og:title, because previews
-    // already show og:site_name as a separate line — repeating it looks noisy.
     const prevTitle = document.title;
-    const isAr = (typeof localStorage !== "undefined" && localStorage.getItem("consolve_lang")) === "ar";
+    const isAr = getStoredLang() === "ar";
     if (title) document.title = rawTitle ? title : `${title} | ${isAr ? SITE_NAME_AR : SITE_NAME}`;
 
-    const url = typeof window !== "undefined" ? window.location.href : undefined;
-    const finalImage = image || DEFAULT_IMAGE;
-    const ogTitle = title || SITE_NAME;
+    const url = window.location.origin + window.location.pathname;
+    const usingDefault = !image;
+    const finalImage = image || DEFAULT_SHARE_IMAGE;
+    const w = usingDefault ? 1200 : imageWidth;
+    const h = usingDefault ? 630 : imageHeight;
+    const ogTitle = title || (isAr ? SITE_NAME_AR : SITE_NAME);
+    const desc = description ? cleanMetaText(description) : undefined;
+    const alt = imageAlt || ogTitle;
 
     const undo = [
       upsertMeta("og:title", "property", ogTitle),
       upsertMeta("twitter:title", "name", ogTitle),
-      upsertMeta("og:description", "property", description),
-      upsertMeta("twitter:description", "name", description),
-      upsertMeta("description", "name", description),
+      upsertMeta("og:description", "property", desc),
+      upsertMeta("twitter:description", "name", desc),
+      upsertMeta("description", "name", desc),
       upsertMeta("og:image", "property", finalImage),
+      upsertMeta("og:image:width", "property", w),
+      upsertMeta("og:image:height", "property", h),
+      upsertMeta("og:image:alt", "property", alt),
       upsertMeta("twitter:image", "name", finalImage),
+      upsertMeta("twitter:image:alt", "name", alt),
       upsertMeta("og:url", "property", url),
       upsertMeta("og:type", "property", type),
-      // og:site_name is set in index.html and stays constant across every page;
-      // we re-assert it here defensively so a stale override never leaks.
-      upsertMeta("og:site_name", "property", SITE_NAME),
+      upsertMeta("og:locale", "property", isAr ? "ar_SA" : "en_US"),
+      upsertMeta("og:locale:alternate", "property", isAr ? "en_US" : "ar_SA"),
+      upsertMeta("og:site_name", "property", isAr ? SITE_NAME_AR : SITE_NAME),
     ].filter(Boolean);
 
     return () => {
       document.title = prevTitle;
       undo.forEach(({ el, prev, created }) => {
-        if (created) {
-          el.parentNode?.removeChild(el);
-        } else if (prev != null) {
-          el.setAttribute("content", prev);
-        }
+        if (created) el.parentNode?.removeChild(el);
+        else if (prev != null) el.setAttribute("content", prev);
       });
     };
-  }, [title, description, image, type, rawTitle]);
+  }, [title, description, image, imageWidth, imageHeight, imageAlt, type, rawTitle]);
 }
 
 export default usePageMetadata;
