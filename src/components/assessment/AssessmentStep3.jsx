@@ -9,7 +9,7 @@ import t from "../../lib/translations";
 const RISK_LABELS_AR = { Low: "منخفض", Medium: "متوسط", High: "مرتفع" };
 const MATURITY_LABELS_AR = { "Early Stage": "مرحلة مبكرة", Growing: "في نمو", Structured: "منظّم", Advanced: "متقدم" };
 
-export default function AssessmentStep3({ clientInfo, answers, onBack, lang }) {
+export default function AssessmentStep3({ clientInfo, answers, onBack, lang, onDiagnosis }) {
   const tx = t[lang];
   const [diagnosis, setDiagnosis] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -64,6 +64,7 @@ Provide a thorough, specific, and actionable diagnosis.`;
     });
 
     setDiagnosis(result);
+    onDiagnosis?.(result);
     setEditedSnapshot(result.business_snapshot || "");
     setEditedProblems(result.identified_problems || "");
     setLoading(false);

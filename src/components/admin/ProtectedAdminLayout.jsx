@@ -17,6 +17,7 @@ const NAV = [
   { key: "submissions", to: "/admin/submissions", label: "Submissions", icon: Inbox },
   { key: "inquiries", to: "/admin/inquiries", label: "Inquiries", icon: Mail },
   { key: "assessments", to: "/admin/assessments", label: "Assessments", icon: FileText },
+  { key: "diagnosis", to: "/admin/diagnosis-leads", label: "Diagnosis Leads", icon: FileText },
   { key: "users", to: "/admin/users", label: "Users", icon: Users },
   { key: "settings", to: "/admin/settings", label: "Settings", icon: Settings },
 ];

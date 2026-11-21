@@ -36,7 +36,8 @@ function upsertMeta(key, attr, content) {
  * @param {string} [opts.image]     — absolute URL to the preview image
  * @param {string} [opts.type]      — og:type; defaults to "website"
  */
-export function usePageMetadata({ title, description, image, type = "website" } = {}) {
+// `rawTitle: true` uses `title` as-is for the browser tab (no brand suffix).
+export function usePageMetadata({ title, description, image, type = "website", rawTitle = false } = {}) {
   useEffect(() => {
     if (typeof document === "undefined") return;
 
@@ -45,7 +46,7 @@ export function usePageMetadata({ title, description, image, type = "website" } 
     // already show og:site_name as a separate line — repeating it looks noisy.
     const prevTitle = document.title;
     const isAr = (typeof localStorage !== "undefined" && localStorage.getItem("consolve_lang")) === "ar";
-    if (title) document.title = `${title} | ${isAr ? SITE_NAME_AR : SITE_NAME}`;
+    if (title) document.title = rawTitle ? title : `${title} | ${isAr ? SITE_NAME_AR : SITE_NAME}`;
 
     const url = typeof window !== "undefined" ? window.location.href : undefined;
     const finalImage = image || DEFAULT_IMAGE;
@@ -76,7 +77,7 @@ export function usePageMetadata({ title, description, image, type = "website" } 
         }
       });
     };
-  }, [title, description, image, type]);
+  }, [title, description, image, type, rawTitle]);
 }
 
 export default usePageMetadata;

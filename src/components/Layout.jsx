@@ -8,6 +8,7 @@ import WhatsAppFloat from "./WhatsAppFloat";
 import { BookingPopup, BookingBand } from "./BookingPromo";
 import { useLanguage } from "../lib/useLanguage";
 import t from "../lib/translations";
+import { captureAttribution } from "../lib/attribution";
 
 function Navbar() {
   const [scrolled, setScrolled] = useState(false);
@@ -20,6 +21,7 @@ function Navbar() {
   { to: "/", label: tx.nav_home },
   { to: "/about", label: tx.nav_about },
   { to: "/services", label: tx.nav_services },
+  { to: "/diagnosis", label: lang === "ar" ? "تشخيص شركتك" : "Business Diagnosis", highlight: true },
   { to: "/blog", label: lang === "ar" ? "المدونة" : "Blog" },
   { to: "/contact", label: tx.nav_contact }];
 
@@ -64,6 +66,13 @@ function Navbar() {
           <nav className="flex items-center gap-6" dir={dir}>
             {NAV_LINKS.map((link) =>
             <motion.div key={link.to} whileHover={{ y: -1 }} whileTap={{ scale: 0.97 }}>
+                {link.highlight ?
+                <Link
+                  to={link.to}
+                  className={`inline-flex items-center text-sm font-semibold whitespace-nowrap bg-primary text-primary-foreground px-4 py-1.5 rounded-full hover:opacity-90 transition-opacity ${
+                  location.pathname === link.to ? "ring-2 ring-white/40" : ""}`}>
+                    {link.label}
+                  </Link> :
                 <Link
                 to={link.to}
                 className={`text-sm font-medium transition-colors hover:text-primary whitespace-nowrap relative group ${
@@ -74,7 +83,7 @@ function Navbar() {
                   <span className={`absolute -bottom-0.5 left-0 h-px bg-primary transition-all duration-300 ${
                 location.pathname === link.to ? "w-full" : "w-0 group-hover:w-full"}`
                 } />
-                </Link>
+                </Link>}
               </motion.div>
             )}
           </nav>
@@ -116,7 +125,9 @@ function Navbar() {
           <Link
             key={link.to}
             to={link.to}
-            className={`text-sm font-medium ${
+            className={link.highlight ?
+            "self-start text-sm font-semibold bg-primary text-primary-foreground px-4 py-1.5 rounded-full" :
+            `text-sm font-medium ${
             location.pathname === link.to ? "text-primary" : "text-white/70"}`
             }>
             
@@ -161,6 +172,7 @@ export function Footer() {
   { to: "/", label: tx.nav_home, external: false },
   { to: "/about", label: tx.nav_about, external: false },
   { to: "/services", label: tx.nav_services, external: false },
+  { to: "/diagnosis", label: lang === "ar" ? "تشخيص شركتك" : "Business Diagnosis", external: false },
   { to: "/contact", label: tx.nav_contact, external: false },
   { to: "/careers", label: lang === "ar" ? "الوظائف" : "Careers", external: false },
   { to: "/blog", label: lang === "ar" ? "المدونة" : "Blog", external: false }];
@@ -284,6 +296,9 @@ export default function Layout() {
     document.documentElement.dir = isAr ? "rtl" : "ltr";
     document.documentElement.lang = lang;
   }, [lang, isAr]);
+
+  // Remember campaign UTMs/referrer from whichever page the visitor lands on.
+  useEffect(() => { captureAttribution(); }, [location.search]);
 
   return (
     <div className="min-h-screen bg-background font-inter">

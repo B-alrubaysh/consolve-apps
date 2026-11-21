@@ -1,0 +1,167 @@
+{
+  "name": "DiagnosisLead",
+  "type": "object",
+  "properties": {
+    "full_name": {
+      "type": "string",
+      "title": "Full Name"
+    },
+    "job_title": {
+      "type": "string",
+      "title": "Job Title"
+    },
+    "company_name": {
+      "type": "string",
+      "title": "Company Name"
+    },
+    "sector": {
+      "type": "string",
+      "title": "Sector"
+    },
+    "company_size": {
+      "type": "string",
+      "title": "Company Size"
+    },
+    "city": {
+      "type": "string",
+      "title": "City"
+    },
+    "main_activity": {
+      "type": "string",
+      "title": "Main Activity"
+    },
+    "key_challenges": {
+      "type": "string",
+      "title": "Key Challenge"
+    },
+    "email": {
+      "type": "string",
+      "title": "Email"
+    },
+    "phone": {
+      "type": "string",
+      "title": "Phone (+966)"
+    },
+    "language": {
+      "type": "string",
+      "title": "Language",
+      "enum": [
+        "ar",
+        "en"
+      ]
+    },
+    "consent_given": {
+      "type": "boolean",
+      "title": "Consent Given",
+      "default": false
+    },
+    "questionnaire_answers": {
+      "type": "string",
+      "title": "Diagnosis Questions & Answers (JSON)"
+    },
+    "maturity_level": {
+      "type": "string",
+      "title": "Maturity Stage"
+    },
+    "risk_level": {
+      "type": "string",
+      "title": "Risk Level"
+    },
+    "suggested_services": {
+      "type": "string",
+      "title": "Recommended Services"
+    },
+    "diagnosis": {
+      "type": "string",
+      "title": "Full Generated Report (JSON)"
+    },
+    "utm_source": {
+      "type": "string",
+      "title": "UTM Source"
+    },
+    "utm_medium": {
+      "type": "string",
+      "title": "UTM Medium"
+    },
+    "utm_campaign": {
+      "type": "string",
+      "title": "UTM Campaign"
+    },
+    "utm_content": {
+      "type": "string",
+      "title": "UTM Content"
+    },
+    "utm_term": {
+      "type": "string",
+      "title": "UTM Term"
+    },
+    "referrer": {
+      "type": "string",
+      "title": "Referrer"
+    },
+    "landing_page": {
+      "type": "string",
+      "title": "First Landing Page"
+    },
+    "last_step_reached": {
+      "type": "number",
+      "title": "Last Step Reached",
+      "default": 0
+    },
+    "completed": {
+      "type": "boolean",
+      "title": "Completed",
+      "default": false
+    },
+    "edit_token": {
+      "type": "string",
+      "title": "Edit Token (internal)"
+    }
+  },
+  "required": [],
+  "rls": {
+    "create": false,
+    "read": {
+      "$or": [
+        {
+          "user_condition": {
+            "role": "owner"
+          }
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "update": {
+      "$or": [
+        {
+          "user_condition": {
+            "role": "owner"
+          }
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "delete": {
+      "$or": [
+        {
+          "user_condition": {
+            "role": "owner"
+          }
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    }
+  }
+}
