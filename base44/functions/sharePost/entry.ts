@@ -62,7 +62,7 @@ function renderHtml(opts: {
 </head>
 <body>
 <p><a href="${url}">${continueLabel}</a></p>
-<script>window.location.replace(${JSON.stringify(opts.url)});</script>
+<script>window.location.replace(${JSON.stringify(opts.url).replace(/</g, '\\u003c').replace(/>/g, '\\u003e').replace(/&/g, '\\u0026')});</script>
 </body>
 </html>`;
 }
@@ -123,7 +123,7 @@ Deno.serve(async (req) => {
       }
     }
 
-    const canonical = `${SITE_ORIGIN}/blog/${post.slug}`;
+    const canonical = `${SITE_ORIGIN}/blog/${encodeURIComponent(String(post.slug))}`;
 
     return htmlResponse(
       renderHtml({

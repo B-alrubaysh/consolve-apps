@@ -10,6 +10,7 @@ import BlogCard from "../components/blog/BlogCard";
 import EmailGateModal from "../components/blog/EmailGateModal";
 import { heroImageFor } from "../lib/blogUtils";
 import { formatArticleDate } from "../lib/formatDate";
+import { sanitizeHtml } from "@/lib/sanitizeHtml";
 
 function setCanonical(href) {
   if (!href) return null;
@@ -160,7 +161,7 @@ export default function BlogDetail() {
 
         <div
           className="blog-content prose prose-slate max-w-none"
-          dangerouslySetInnerHTML={{ __html: content }}
+          dangerouslySetInnerHTML={{ __html: sanitizeHtml(content) }}
         />
       </article>
 

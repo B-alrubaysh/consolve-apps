@@ -1,4 +1,5 @@
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { sanitizeHtml } from "@/lib/sanitizeHtml";
 
 export default function BlogTemplatePreviewDialog({ open, onOpenChange, template }) {
   if (!template) return null;
@@ -12,7 +13,7 @@ export default function BlogTemplatePreviewDialog({ open, onOpenChange, template
         <div className="bg-white text-foreground rounded-lg p-6">
           <article
             className="blog-content prose prose-slate max-w-none"
-            dangerouslySetInnerHTML={{ __html: template.content_structure_en || "<p>No content structure defined.</p>" }}
+            dangerouslySetInnerHTML={{ __html: sanitizeHtml(template.content_structure_en) || "<p>No content structure defined.</p>" }}
           />
         </div>
       </DialogContent>

@@ -69,6 +69,13 @@ Deno.serve(async (req) => {
   try {
     const base44 = createClientFromRequest(req);
 
+    // Only the scheduled workflow (runs as an admin) or an admin may trigger this.
+    const caller = await base44.auth.me().catch(() => null);
+    if (!caller) return Response.json({ error: 'Unauthorized' }, { status: 401 });
+    if (!['admin', 'owner'].includes(caller.role)) {
+      return Response.json({ error: 'Forbidden' }, { status: 403 });
+    }
+
     // Fetch the pending-invite email set ONCE per run.
     const invites = await base44.asServiceRole.entities.AdminInvite
       .filter({ status: 'pending' })
@@ -121,7 +128,6 @@ Deno.serve(async (req) => {
       kept,
       deleted,
       errored,
-      results,
     });
   } catch (error) {
     console.error('[enforceInviteOnlySignup] FATAL', error?.message, error?.stack);

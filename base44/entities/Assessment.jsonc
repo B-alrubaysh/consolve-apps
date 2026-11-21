@@ -116,6 +116,11 @@
     "internal_notes": {
       "type": "string",
       "title": "Internal Admin Notes"
+    },
+    "confirmation_sent": {
+      "type": "boolean",
+      "title": "Confirmation Email Sent",
+      "default": false
     }
   },
   "required": [

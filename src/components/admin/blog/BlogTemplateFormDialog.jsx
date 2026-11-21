@@ -39,7 +39,7 @@ const Field = ({ label, children, full }) => (
   </div>
 );
 
-export default function BlogTemplateFormDialog({ open, onOpenChange, initialTemplate, currentUserEmail, onSaved }) {
+export default function BlogTemplateFormDialog({ open, onOpenChange, initialTemplate, currentUserName, onSaved }) {
   const [form, setForm] = useState(EMPTY);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
@@ -68,7 +68,7 @@ export default function BlogTemplateFormDialog({ open, onOpenChange, initialTemp
     if (initialTemplate?.id) {
       await base44.entities.BlogTemplate.update(initialTemplate.id, payload);
     } else {
-      payload.created_by = currentUserEmail || "";
+      payload.owner_name = currentUserName || "";
       await base44.entities.BlogTemplate.create(payload);
     }
     setSaving(false);

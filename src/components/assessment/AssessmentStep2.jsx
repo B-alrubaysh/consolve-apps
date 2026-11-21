@@ -21,52 +21,8 @@ export default function AssessmentStep2({ clientInfo, onNext, onBack, lang }) {
 
   const generateQuestions = async () => {
     setLoading(true);
-    const langInstruction = lang === "ar"
-      ? "IMPORTANT: Generate ALL questions, options, and category names in Arabic language only."
-      : "Generate all questions in English.";
-
-    const prompt = `You are an expert business consultant conducting a diagnostic assessment.
-
-${langInstruction}
-
-Company Info:
-- Name: ${clientInfo.company_name}
-- Industry: ${clientInfo.industry}
-- Size: ${clientInfo.company_size} employees
-- Main Activity: ${clientInfo.main_activity || "Not specified"}
-- Key Challenges: ${clientInfo.key_challenges || "Not specified"}
-
-Generate exactly 10 progressive diagnostic questions covering:
-- Operations & processes (Q1-2)
-- Management & organizational structure (Q3-4)
-- Governance & compliance (Q5-6)
-- Financial health (Q7-8)
-- Marketing & growth (Q9-10)
-
-Tailor questions to the company's industry and size. Return ONLY valid JSON.`;
-
-    const result = await base44.integrations.Core.InvokeLLM({
-      prompt,
-      response_json_schema: {
-        type: "object",
-        properties: {
-          questions: {
-            type: "array",
-            items: {
-              type: "object",
-              properties: {
-                question: { type: "string" },
-                type: { type: "string", enum: ["multiple_choice", "yes_no", "text"] },
-                options: { type: "array", items: { type: "string" } },
-                category: { type: "string" }
-              }
-            }
-          }
-        }
-      }
-    });
-
-    setQuestions(result.questions || []);
+    const res = await base44.functions.invoke("generateAssessmentQuestions", { client_info: clientInfo, lang });
+    setQuestions(res.data?.questions || []);
     setLoading(false);
   };
 

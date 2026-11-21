@@ -19,7 +19,7 @@ export const FIELD_LABELS = {
 // Shown elsewhere in the sheet, or internal.
 export const HIDDEN_FIELDS = new Set([
   "id", "edit_token", "is_read", "lead_status", "internal_notes", "status", "questionnaire_answers",
-  "diagnosis", "raw_data", "updated_date", "created_by", "created_by_id", "is_sample", "app_id", "entity_name",
+  "diagnosis", "raw_data", "updated_date", "created_by_id", "is_sample", "app_id", "entity_name",
 ]);
 
 export const fieldLabel = (key, lang) => (FIELD_LABELS[key] || [key, key])[lang === "ar" ? 0 : 1];

@@ -24,44 +24,8 @@ export default function AssessmentStep3({ clientInfo, answers, onBack, lang, onD
 
   const generateDiagnosis = async () => {
     setLoading(true);
-    const langInstruction = lang === "ar"
-      ? "IMPORTANT: Write ALL text fields (business_snapshot, identified_problems, risk_assessment, root_causes, focus_areas, suggested_services) in Arabic language only."
-      : "Write all text fields in English.";
-
-    const prompt = `You are an expert business consultant. Analyze this company and provide a comprehensive diagnosis.
-
-${langInstruction}
-
-Company: ${clientInfo.company_name}
-Industry: ${clientInfo.industry}
-Size: ${clientInfo.company_size} employees
-Activity: ${clientInfo.main_activity || "N/A"}
-Challenges: ${clientInfo.key_challenges || "N/A"}
-
-Assessment Q&A:
-${answers.map((a, i) => `Q${i + 1} [${a.category}]: ${a.question}\nA: ${a.answer}`).join("\n\n")}
-
-Provide a thorough, specific, and actionable diagnosis.`;
-
-    const result = await base44.integrations.Core.InvokeLLM({
-      prompt,
-      response_json_schema: {
-        type: "object",
-        properties: {
-          business_snapshot: { type: "string" },
-          identified_problems: { type: "string" },
-          risk_assessment: { type: "string" },
-          risk_level: { type: "string", enum: ["Low", "Medium", "High"] },
-          maturity_level: { type: "string", enum: ["Early Stage", "Growing", "Structured", "Advanced"] },
-          suggested_services: { type: "array", items: { type: "string" } },
-          operational_score: { type: "number" },
-          financial_score: { type: "number" },
-          marketing_score: { type: "number" },
-          root_causes: { type: "array", items: { type: "string" } },
-          focus_areas: { type: "array", items: { type: "string" } }
-        }
-      }
-    });
+    const res = await base44.functions.invoke("generateAssessmentDiagnosis", { client_info: clientInfo, answers, lang });
+    const result = res.data?.diagnosis || {};
 
     setDiagnosis(result);
     onDiagnosis?.(result);
@@ -74,39 +38,20 @@ Provide a thorough, specific, and actionable diagnosis.`;
     setSaving(true);
     setSubmitError("");
     try {
-      await base44.entities.Assessment.create({
-        ...clientInfo,
-        questionnaire_answers: JSON.stringify(answers),
-        diagnosis: JSON.stringify(diagnosis),
+      await base44.functions.invoke("submitAssessment", {
+        client_info: clientInfo,
+        answers,
+        diagnosis,
         business_snapshot: editMode ? editedSnapshot : diagnosis.business_snapshot,
         identified_problems: editMode ? editedProblems : diagnosis.identified_problems,
-        risk_level: diagnosis.risk_level,
-        maturity_level: diagnosis.maturity_level,
-        suggested_services: (diagnosis.suggested_services || []).join(", "),
-        operational_score: diagnosis.operational_score,
-        financial_score: diagnosis.financial_score,
-        marketing_score: diagnosis.marketing_score,
-        status: "New",
-        language: lang,
+        lang,
       });
-
-      // Best-effort confirmation email — never block submit on email failure.
-      try {
-        await base44.functions.invoke("sendAssessmentConfirmation", {
-          to: clientInfo.contact_email,
-          contact_name: clientInfo.contact_name,
-          company_name: clientInfo.company_name,
-          lang,
-        });
-      } catch (e) {
-        console.warn("Confirmation email failed:", e);
-      }
 
       setSaved(true);
     } catch (err) {
       console.error("Assessment submit failed:", err);
       setSubmitError(
-        err?.response?.data?.message ||
+        err?.response?.data?.error ||
           err?.message ||
           (lang === "ar" ? "تعذّر إرسال التقييم. حاول مرة أخرى." : "Could not submit your assessment. Please try again.")
       );

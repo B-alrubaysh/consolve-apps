@@ -63,9 +63,9 @@
       "title": "Active",
       "default": true
     },
-    "created_by": {
+    "owner_name": {
       "type": "string",
-      "title": "Created By"
+      "title": "Created By (Name)"
     }
   },
   "required": [

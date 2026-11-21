@@ -7,6 +7,15 @@ import { usePageMetadata } from "../lib/usePageMetadata";
 
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
+const SUBMIT_ERRORS = {
+  job_closed: ["هذه الوظيفة لم تعد تستقبل طلبات", "This role is no longer accepting applications"],
+  already_applied: ["لقد قدّمت على هذه الوظيفة مسبقاً", "You have already applied for this role"],
+};
+function submitErrorMessage(err, isAr) {
+  const pair = SUBMIT_ERRORS[err?.response?.data?.error] || ["تعذّر إرسال الطلب، حاول مرة أخرى", "Could not send your application. Please try again."];
+  return pair[isAr ? 0 : 1];
+}
+
 const EMPLOYMENT_TYPE_AR = {
   "full-time": "دوام كامل",
   "part-time": "دوام جزئي",
@@ -199,25 +208,24 @@ function ApplicationForm({ job, isAr, dir, lang, onClose, onSuccess }) {
     }
 
     setLoading(true);
-    const { file_url } = await base44.integrations.Core.UploadFile({ file });
-
-    await base44.entities.JobApplication.create({
-      submission_type: "job_application",
-      job_post_id: job.id,
-      full_name: form.name,
-      email: form.email,
-      phone: form.phone,
-      linkedin_url: form.linkedin,
-      portfolio_url: form.portfolio,
-      cv_url: file_url,
-      cover_message: form.message,
-      consent_given: true,
-      language: lang,
-      source_page: "/careers",
-      status: "new",
-    });
-
-    await base44.functions.invoke("incrementJobApplicationCount", { job_post_id: job.id });
+    try {
+      const { file_uri } = await base44.integrations.Core.UploadPrivateFile({ file });
+      await base44.functions.invoke("submitJobApplication", {
+        job_post_id: job.id,
+        full_name: form.name,
+        email: form.email,
+        phone: form.phone,
+        linkedin_url: form.linkedin,
+        portfolio_url: form.portfolio,
+        cv_file_uri: file_uri,
+        cover_message: form.message,
+        language: lang,
+      });
+    } catch (err) {
+      setLoading(false);
+      setFileError(submitErrorMessage(err, isAr));
+      return;
+    }
 
     setLoading(false);
     setSubmitted(true);
@@ -378,24 +386,25 @@ function GeneralForm({ isAr, dir, lang }) {
     }
 
     setLoading(true);
-    let cv_url = null;
-    if (file) {
-      const res = await base44.integrations.Core.UploadFile({ file });
-      cv_url = res.file_url;
+    try {
+      let cv_file_uri = null;
+      if (file) {
+        const res = await base44.integrations.Core.UploadPrivateFile({ file });
+        cv_file_uri = res.file_uri;
+      }
+      await base44.functions.invoke("submitJobApplication", {
+        full_name: form.name,
+        email: form.email,
+        phone: form.phone,
+        cv_file_uri,
+        cover_message: form.message,
+        language: lang,
+      });
+    } catch (err) {
+      setLoading(false);
+      setFileError(submitErrorMessage(err, isAr));
+      return;
     }
-    await base44.entities.JobApplication.create({
-      submission_type: "general_submission",
-      job_post_id: null,
-      full_name: form.name,
-      email: form.email,
-      phone: form.phone,
-      cv_url,
-      cover_message: form.message,
-      consent_given: true,
-      language: lang,
-      source_page: "/careers",
-      status: "new",
-    });
     setLoading(false);
     setSubmitted(true);
   };

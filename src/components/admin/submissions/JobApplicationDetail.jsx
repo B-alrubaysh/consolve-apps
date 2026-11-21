@@ -41,6 +41,13 @@ export default function JobApplicationDetail({ application, jobMap, onClose, onU
 
   if (!application) return null;
 
+  // CVs are private files — fetch a short-lived link on demand.
+  const openCv = async () => {
+    const win = window.open("", "_blank");
+    const res = await base44.functions.invoke("getApplicationCvUrl", { application_id: application.id });
+    if (win) win.location.href = res.data.url;
+  };
+
   const handleStatusChange = async (newStatus) => {
     await base44.entities.JobApplication.update(application.id, { status: newStatus });
     onUpdate?.({ ...application, status: newStatus });
@@ -95,14 +102,13 @@ export default function JobApplicationDetail({ application, jobMap, onClose, onU
 
         <Section title="Documents">
           {application.cv_url ? (
-            <a
-              href={application.cv_url}
-              target="_blank"
-              rel="noopener noreferrer"
+            <button
+              type="button"
+              onClick={openCv}
               className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-primary text-primary-foreground text-sm font-semibold hover:opacity-90 transition-opacity"
             >
               <Download className="w-4 h-4" /> Open CV
-            </a>
+            </button>
           ) : (
             <p className="text-white/40 text-sm">No CV uploaded</p>
           )}

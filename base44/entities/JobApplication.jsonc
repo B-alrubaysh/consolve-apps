@@ -81,7 +81,25 @@
     "consent_given"
   ],
   "rls": {
-    "create": true,
+    "create": {
+      "$or": [
+        {
+          "user_condition": {
+            "role": "owner"
+          }
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        },
+        {
+          "user_condition": {
+            "role": "hr"
+          }
+        }
+      ]
+    },
     "read": {
       "$or": [
         {

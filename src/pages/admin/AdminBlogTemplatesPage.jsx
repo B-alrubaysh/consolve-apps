@@ -65,8 +65,8 @@ export default function AdminBlogTemplatesPage() {
 
   const seedDefaults = async () => {
     setSeeding(true);
-    const email = me?.email || "";
-    const rows = DEFAULT_TEMPLATES.map((d) => ({ ...d, is_active: true, created_by: email }));
+    const ownerName = me?.full_name || "";
+    const rows = DEFAULT_TEMPLATES.map((d) => ({ ...d, is_active: true, owner_name: ownerName }));
     if (typeof base44.entities.BlogTemplate.bulkCreate === "function") {
       await base44.entities.BlogTemplate.bulkCreate(rows);
     } else {
@@ -82,7 +82,9 @@ export default function AdminBlogTemplatesPage() {
     delete copy.created_date;
     delete copy.updated_date;
     copy.name_en = `${t.name_en || ""} (copy)`;
-    copy.created_by = me?.email || "";
+    delete copy.created_by;
+    delete copy.created_by_id;
+    copy.owner_name = me?.full_name || "";
     await base44.entities.BlogTemplate.create(copy);
     await load();
   };
@@ -198,7 +200,7 @@ export default function AdminBlogTemplatesPage() {
                       {t.is_active ? "Active" : "Inactive"}
                     </span>
                   </div>
-                  <div className="col-span-2 text-white/50 text-xs truncate">{t.created_by || "—"}</div>
+                  <div className="col-span-2 text-white/50 text-xs truncate">{t.owner_name || "—"}</div>
                   <div className="col-span-1 text-white/40 text-xs truncate">{fmt(t.updated_date)}</div>
                   <div className="col-span-2 flex items-center justify-end gap-0.5">
                     <button onClick={() => { setEditing(t); setFormOpen(true); }} title="Edit"
@@ -233,7 +235,7 @@ export default function AdminBlogTemplatesPage() {
         open={formOpen}
         onOpenChange={setFormOpen}
         initialTemplate={editing}
-        currentUserEmail={me?.email}
+        currentUserName={me?.full_name}
         onSaved={load}
       />
       <BlogTemplatePreviewDialog
